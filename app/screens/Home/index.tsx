@@ -87,7 +87,7 @@ const Home: React.FC = () => {
             tabBarLabel: 'Профиль',
             tabBarIcon: ({ color, size }) => (
               <Image
-                source={require('../../assets/user-4.png')} //Change your icon image here
+                source={require('../../assets/user.png')} //Change your icon image here
                 style={{ height: 25, width: 25 }}
               />
             ),

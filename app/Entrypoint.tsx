@@ -39,7 +39,7 @@ const RootNavigation: React.FC = () => {
 
 const EntryPoint: React.FC = () => {
   return (
-    <ToastProvider placement="bottom">
+    <ToastProvider placement="top">
       <Provider store={store}>
         <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
           <RootNavigation />

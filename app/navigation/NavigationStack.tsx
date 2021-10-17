@@ -2,15 +2,14 @@ import * as React from 'react';
 import { NavigationContainer, Theme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
+import { StatusBar } from 'react-native';
 
 import { navigationRef } from './NavigationService';
-
 import Login from 'app/screens/Login';
 import Home from 'app/screens/Home';
 import ForgotPassword from 'app/screens/ForgotPassword';
-
+import Registration from '../screens/Registration';
 import ThemeController from '../components/ThemeController';
-import { StatusBar } from 'react-native';
 import { ILoginState } from 'app/models/reducers/login';
 import TimerController from '../components/TimerController';
 
@@ -46,6 +45,7 @@ const AuthNavigator = () => {
         name="Login"
         component={Login}
         options={{
+          title: 'Профиль',
           // When logging out, a pop animation feels intuitive
           // You can remove this if you want the default 'push' animation
           animationTypeForReplace: isLoggedIn ? 'push' : 'pop',
@@ -56,6 +56,18 @@ const AuthNavigator = () => {
         name="ForgotPassword"
         component={ForgotPassword}
         options={{
+          // When logging out, a pop animation feels intuitive
+          // You can remove this if you want the default 'push' animation
+          animationTypeForReplace: isLoggedIn ? 'push' : 'pop',
+          headerRight: () => <ThemeController />,
+        }}
+      />
+
+      <Stack.Screen
+        name="Registration"
+        component={Registration}
+        options={{
+          title: 'Регистрация',
           // When logging out, a pop animation feels intuitive
           // You can remove this if you want the default 'push' animation
           animationTypeForReplace: isLoggedIn ? 'push' : 'pop',
