@@ -75,8 +75,11 @@ const Login: React.FC = () => {
 
   const submit = () => {
     const err = validation();
+    if (err) {
+    } else {
+      onLogin();
+    }
     console.log('user...', JSON.stringify(validObj));
-    onLogin();
   };
 
   return (
