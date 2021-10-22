@@ -5,6 +5,13 @@ import { useDispatch } from 'react-redux';
 import Modal from 'react-native-modal';
 
 import * as loginActions from 'app/store/actions/loginActions';
+import ProfileEditModal from './profileEditModal';
+import LocalizationModal from './localizationModal';
+import PasswordEditModal from './passwordEditModal';
+import AdressBookModal from './adressBookModal';
+import DraftModal from './draftModal';
+import ArchiveModal from './archiveModal';
+import styles from './styles';
 
 interface IState {
   navigation: any;
@@ -16,84 +23,50 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
 
   const goToProfile = () => {};
   const [model, setmodel] = useState(false);
+  const [modelProfileEdit, seTmodelProfileEdit] = useState(false);
+  const [modelLocalization, seTmodelLocalization] = useState(false);
+  const [modelEditPassword, seTmodelEditPassword] = useState(false);
+  const [modelAdressBook, seTmodelAdressBook] = useState(false);
+  const [modelDraft, seTmodelDraft] = useState(false);
+  const [modelArchive, seTmodelArchive] = useState(false);
+
+  const modelOpen = () => {
+    setmodel(!model);
+  };
+
   const onLogout = () => {
     setmodel(true);
   };
+
+  const modelOkPressed = (params: any) => {
+    console.log('params: ', params);
+  };
+
   const modelPressed = () => {
     setmodel(false);
     logout();
   };
 
-  console.log('navigation:', navigation);
   return (
-    <View
-      style={{
-        margin: 0,
-        flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-      }}>
-      <View
-        style={{
-          marginTop: 20,
-          flexDirection: 'row',
-          justifyContent: 'space-around',
-          alignItems: 'center',
-          width: '90%',
-        }}>
-        <Text
-          style={{
-            color: 'black',
-            fontWeight: 'bold',
-            fontSize: 28,
-          }}>
-          Профиль
-        </Text>
+    <View style={styles.container}>
+      <View style={styles.mainHeader}>
+        <Text style={styles.profileHeaderText}>Профиль</Text>
         <View>
-          <IconButton
-            style={{}}
-            icon="bell-outline"
-            size={35}
-            onPress={goToProfile}
-          />
-          <Badge
-            style={{
-              position: 'absolute',
-              top: 16,
-              right: 14,
-            }}>
-            3
-          </Badge>
+          <IconButton icon="bell-outline" size={35} onPress={goToProfile} />
+          <Badge style={styles.badgeStyle}>3</Badge>
         </View>
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginTop: 20,
-          width: '90%',
-        }}>
+      <View style={styles.profileHeaderContainer}>
         <Avatar.Image size={65} source={require('../../assets/gubin.png')} />
-        <View
-          style={{
-            marginLeft: 20,
-            flexDirection: 'column',
-          }}>
+        <View style={styles.profileNameSurname}>
           <Text>Aлександр Грачев</Text>
           <Text>Москва, Россия</Text>
         </View>
       </View>
-      <View
-        style={{
-          justifyContent: 'flex-start',
-          alignItems: 'flex-start',
-          marginTop: 20,
-          flexDirection: 'column',
-          width: '90%',
-        }}>
+      <View style={styles.buttonMenuContainer}>
         <Button
           color="#000"
-          onPress={() => console.log('Pressed')}
+          onPress={() => seTmodelProfileEdit(!modelProfileEdit)}
           uppercase={false}
           icon="chevron-right"
           contentStyle={{ flexDirection: 'row-reverse' }}>
@@ -101,16 +74,15 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
         </Button>
         <Button
           color="#000"
-          onPress={() => console.log('Pressed')}
+          onPress={() => seTmodelLocalization(!modelLocalization)}
           uppercase={false}
-          style={{}}
           icon="chevron-right"
           contentStyle={{ flexDirection: 'row-reverse' }}>
           Выбор локализации
         </Button>
         <Button
           color="#000"
-          onPress={() => console.log('Pressed')}
+          onPress={() => seTmodelEditPassword(!modelEditPassword)}
           uppercase={false}
           style={{}}
           icon="chevron-right"
@@ -119,9 +91,8 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
         </Button>
         <Button
           color="#000"
-          onPress={() => console.log('Pressed')}
+          onPress={() => seTmodelAdressBook(!modelAdressBook)}
           uppercase={false}
-          style={{}}
           icon="chevron-right"
           contentStyle={{ flexDirection: 'row-reverse' }}>
           Адресная книга
@@ -129,7 +100,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
 
         <Button
           color="#000"
-          onPress={() => console.log('Pressed')}
+          onPress={() => seTmodelDraft(!modelDraft)}
           uppercase={false}
           style={{}}
           icon="chevron-right"
@@ -138,7 +109,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
         </Button>
         <Button
           color="#000"
-          onPress={() => console.log('Pressed')}
+          onPress={() => seTmodelArchive(!modelArchive)}
           uppercase={false}
           style={{}}
           icon="chevron-right"
@@ -154,6 +125,42 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
           Выйти
         </Button>
       </View>
+      <ProfileEditModal
+        okPressed={modelOkPressed}
+        model={modelProfileEdit}
+        noPressed={() => seTmodelProfileEdit(false)}
+      />
+
+      <LocalizationModal
+        okPressed={modelOkPressed}
+        model={modelLocalization}
+        noPressed={() => seTmodelLocalization(false)}
+      />
+
+      <PasswordEditModal
+        okPressed={modelOkPressed}
+        model={modelEditPassword}
+        noPressed={() => seTmodelEditPassword(false)}
+      />
+
+      <AdressBookModal
+        okPressed={modelOkPressed}
+        model={modelAdressBook}
+        noPressed={() => seTmodelAdressBook(false)}
+      />
+
+      <DraftModal
+        okPressed={modelOkPressed}
+        model={modelDraft}
+        noPressed={() => seTmodelDraft(false)}
+      />
+
+      <ArchiveModal
+        okPressed={modelOkPressed}
+        model={modelArchive}
+        noPressed={() => seTmodelArchive(false)}
+      />
+
       <Modal isVisible={model}>
         <View
           style={{
@@ -169,7 +176,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
               justifyContent: 'flex-end',
             }}>
             <Button onPress={() => setmodel(false)}>
-              <Text style={{}}>Нет</Text>
+              <Text>Нет</Text>
             </Button>
             <Button onPress={modelPressed}>
               <Text style={{ color: 'red' }}>Да</Text>
