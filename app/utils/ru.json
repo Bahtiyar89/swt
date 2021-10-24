@@ -1,0 +1,17 @@
+{
+    "Home": "Домашная страница",
+    "choose_localization": "Выбор локализации",
+    "language":"Язык",
+    "incorrect_email":"Email недействителень!",
+    "by_default_language_russian":"По-умолчанию использовать Русский язык",
+    "by_default_language_english":"По-умолчанию использовать Английский язык",
+    "choose_default_language":"Не выбрано язык по умолчанию",
+    "track_order":"Отследить заказ",
+    "profile":"Профиль",
+    "profile_edit":"Редактировать Профиль",
+    "change_password":"Изменить пароль",
+    "adress_book":"Адресная книга",
+    "drafts":"Черновики",
+    "archive":"Архив",
+    "logout":"Выйти"
+  }

@@ -1,85 +1,96 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
-import {
-  Button,
-  Avatar,
-  IconButton,
-  Badge,
-  HelperText,
-  TextInput,
-  Checkbox,
-} from 'react-native-paper';
-import { TextInputMask } from 'react-native-masked-text';
-import { useDispatch } from 'react-redux';
+import { Button, HelperText, Checkbox } from 'react-native-paper';
 import Modal from 'react-native-modal';
+import { Dropdown } from 'sharingan-rn-modal-dropdown';
 
 import styles from './styles';
+import I18n from '../../../i18';
 
 interface IState {
   model: boolean;
-  okPressed: (params: any) => void;
+  lang: string;
+  onChangeLanguage: (params: any) => void;
+  okPressed: () => void;
   noPressed: () => void;
 }
 
 const ProfileEditModal: React.FC<IState> = ({
+  onChangeLanguage,
   okPressed,
   noPressed,
   model,
+  lang,
 }: IState) => {
-  const [language, seTlanguage] = useState('');
-
   const validationElements = {
-    email: false,
-    phone: false,
+    checkBox: false,
   };
 
   const [validObj, seTvalidObj] = useState({ ...validationElements });
 
   const validation = () => {
     let err = false;
-    if (!language.includes('@')) {
+    if (!checked) {
       err = true;
-      seTvalidObj({ ...validObj, email: true });
+      seTvalidObj({ ...validObj, checkBox: true });
       setTimeout(() => {
-        seTvalidObj({ ...validObj, email: false });
+        seTvalidObj({ ...validObj, checkBox: false });
       }, 1000);
       return err;
     }
   };
 
+  const [checked, setChecked] = React.useState(false);
+
   const onButtonPressed = () => {
     let err = validation();
     if (err) {
     } else {
-      okPressed(language);
+      okPressed();
     }
   };
 
-  const [checked, setChecked] = React.useState(false);
+  const data = [
+    {
+      value: 'ru',
+      label: 'Русский',
+      avatarSource: require('../../assets/russia.png'),
+    },
+    {
+      value: 'en',
+      label: 'English',
+      avatarSource: require('../../assets/united-kingdom.png'),
+    },
+  ];
+
+  const onChangeSS = (value: string) => {
+    onChangeLanguage(value);
+  };
 
   return (
     <>
       <Modal isVisible={model}>
         <View style={styles.modelContainer}>
-          <Text style={styles.modelHeaderText}>Выбор локализации</Text>
+          <Text>{}</Text>
+          <Text style={styles.modelHeaderText}>
+            {I18n.t('choose_localization')}
+          </Text>
           <View style={styles.modelTextAndError}>
-            <Text style={{ flex: 1 }}>Язык</Text>
-            <HelperText
-              style={styles.modelHelperText}
-              type="error"
-              visible={validObj.email}>
-              Email недействителень!
-            </HelperText>
+            <Text style={{ flex: 1 }}>{I18n.t('language')}</Text>
           </View>
-          <TextInput
-            placeholder="example@100express.com"
-            mode="outlined"
-            onChangeText={val => seTlanguage(val)}
-            value={language}
-          />
+          <View style={{ height: 80 }}>
+            <Dropdown
+              mode="outlined"
+              label=""
+              data={data}
+              enableAvatar
+              value={lang}
+              onChange={onChangeSS}
+            />
+          </View>
 
-          <HelperText type="error" visible={validObj.email}>
-            Введите номер телефона!
+          <HelperText type="error" visible={validObj.checkBox}>
+            {I18n.t('choose_default_language')}
           </HelperText>
 
           <View style={{ flexDirection: 'row', width: '100%' }}>
@@ -90,8 +101,10 @@ const ProfileEditModal: React.FC<IState> = ({
               }}
               color={'#397AF9'}
             />
-            <Text style={{ flex: 1 }}>
-              По-умолчанию использовать Русский язык
+            <Text style={{ flex: 1, marginTop: 8 }}>
+              {lang == 'ru'
+                ? I18n.t('by_default_language_russian')
+                : I18n.t('by_default_language_english')}
             </Text>
           </View>
 

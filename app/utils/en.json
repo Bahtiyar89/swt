@@ -1,0 +1,17 @@
+{
+    "Home":  "Home",
+    "choose_localization": "Choose Localization",
+    "language":"Language",
+    "incorrect_email":"Email incorrect!",
+    "by_default_language_russian":"By default use Russian language",
+    "by_default_language_english":"By default use English language",
+    "choose_default_language":"Not choosen default language",
+    "track_order":"Track order",
+    "profile":"Profile",
+    "profile_edit":"Edit Profile",
+    "change_password":"Change password",
+    "adress_book":"Adress Book",
+    "drafts":"Drafts",
+    "archive":"Archive",
+    "logout":"Logout"
+  }

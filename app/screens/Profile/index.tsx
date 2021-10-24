@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import { Button, Avatar, IconButton, Badge } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
@@ -12,6 +12,8 @@ import AdressBookModal from './adressBookModal';
 import DraftModal from './draftModal';
 import ArchiveModal from './archiveModal';
 import styles from './styles';
+import Utility from '../../utils/Utility';
+import I18n from '../../../i18';
 
 interface IState {
   navigation: any;
@@ -20,6 +22,20 @@ interface IState {
 const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
   const dispatch = useDispatch();
   const logout = () => dispatch(loginActions.logOut());
+
+  const [lang, seTlang] = useState('');
+
+  useEffect(() => {
+    Utility.getDeviceLanguageFromStorage()
+      .then(lang => {
+        I18n.locale = lang;
+        seTlang(lang);
+      })
+      .catch(_ => {
+        console.log('err ', 'lang');
+      });
+    return () => {};
+  }, []);
 
   const goToProfile = () => {};
   const [model, setmodel] = useState(false);
@@ -47,10 +63,20 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
     logout();
   };
 
+  const updateLanguageStorage = () => {
+    Utility.updateDeviceLanguageToStorage(lang);
+    I18n.locale = lang;
+    seTmodelLocalization(false);
+  };
+
+  const onChangeLanguage = (language: string) => {
+    seTlang(language);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.mainHeader}>
-        <Text style={styles.profileHeaderText}>Профиль</Text>
+        <Text style={styles.profileHeaderText}>{I18n.t('profile')}</Text>
         <View>
           <IconButton icon="bell-outline" size={35} onPress={goToProfile} />
           <Badge style={styles.badgeStyle}>3</Badge>
@@ -70,7 +96,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
           uppercase={false}
           icon="chevron-right"
           contentStyle={{ flexDirection: 'row-reverse' }}>
-          Редактировать Профиль
+          {I18n.t('profile_edit')}
         </Button>
         <Button
           color="#000"
@@ -78,16 +104,15 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
           uppercase={false}
           icon="chevron-right"
           contentStyle={{ flexDirection: 'row-reverse' }}>
-          Выбор локализации
+          {I18n.t('choose_localization')}
         </Button>
         <Button
           color="#000"
           onPress={() => seTmodelEditPassword(!modelEditPassword)}
           uppercase={false}
-          style={{}}
           icon="chevron-right"
           contentStyle={{ flexDirection: 'row-reverse' }}>
-          Изменить пароль
+          {I18n.t('change_password')}
         </Button>
         <Button
           color="#000"
@@ -95,7 +120,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
           uppercase={false}
           icon="chevron-right"
           contentStyle={{ flexDirection: 'row-reverse' }}>
-          Адресная книга
+          {I18n.t('adress_book')}
         </Button>
 
         <Button
@@ -105,7 +130,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
           style={{}}
           icon="chevron-right"
           contentStyle={{ flexDirection: 'row-reverse' }}>
-          Черновики
+          {I18n.t('drafts')}
         </Button>
         <Button
           color="#000"
@@ -114,7 +139,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
           style={{}}
           icon="chevron-right"
           contentStyle={{ flexDirection: 'row-reverse' }}>
-          Архив
+          {I18n.t('archive')}
         </Button>
         <Button
           color="#B82424"
@@ -122,7 +147,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
           uppercase={false}
           icon="chevron-right"
           contentStyle={{ flexDirection: 'row-reverse' }}>
-          Выйти
+          {I18n.t('logout')}
         </Button>
       </View>
       <ProfileEditModal
@@ -132,8 +157,10 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
       />
 
       <LocalizationModal
-        okPressed={modelOkPressed}
+        okPressed={updateLanguageStorage}
+        onChangeLanguage={onChangeLanguage}
         model={modelLocalization}
+        lang={lang}
         noPressed={() => seTmodelLocalization(false)}
       />
 
