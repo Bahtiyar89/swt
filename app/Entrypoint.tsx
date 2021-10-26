@@ -8,6 +8,7 @@ import { Provider, useSelector } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { ToastProvider } from 'react-native-toast-notifications';
+import AuthState from './context/auth/AuthState';
 
 import {
   PaperThemeDefault,
@@ -18,6 +19,7 @@ import {
 import Navigator from 'app/navigation';
 import configureStore from 'app/store';
 import { IThemeState } from 'app/models/reducers/theme';
+import Navigation from './navigation/Navigation';
 
 const { persistor, store } = configureStore();
 
@@ -32,7 +34,7 @@ const RootNavigation: React.FC = () => {
 
   return (
     <PaperProvider theme={paperTheme}>
-      <Navigator theme={combinedTheme} />
+      <Navigation theme={combinedTheme} />
     </PaperProvider>
   );
 };
@@ -41,9 +43,11 @@ const EntryPoint: React.FC = () => {
   return (
     <ToastProvider placement="top">
       <Provider store={store}>
-        <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
-          <RootNavigation />
-        </PersistGate>
+        <AuthState>
+          <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
+            <RootNavigation />
+          </PersistGate>
+        </AuthState>
       </Provider>
     </ToastProvider>
   );

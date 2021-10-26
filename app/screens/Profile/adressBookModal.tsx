@@ -1,17 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
-import {
-  Button,
-  Avatar,
-  IconButton,
-  Badge,
-  HelperText,
-  TextInput,
-  Checkbox,
-} from 'react-native-paper';
+import { View, Text, SafeAreaView, ScrollView } from 'react-native';
+import { Button, HelperText, TextInput } from 'react-native-paper';
 import { TextInputMask } from 'react-native-masked-text';
 import { useDispatch } from 'react-redux';
 import Modal from 'react-native-modal';
+import I18n from '../../../i18';
 
 import styles from './styles';
 
@@ -28,8 +21,21 @@ const AdressBookModal: React.FC<IState> = ({
 }: IState) => {
   const [language, seTlanguage] = useState('');
 
+  const elements = {
+    sender: '',
+    receiver: '',
+    adress: '',
+    contact_person: '',
+    phone: '',
+  };
+
+  const [addAdress, seTaddAdress] = useState({ ...elements });
+
   const validationElements = {
-    email: false,
+    sender: false,
+    receiver: false,
+    adress: false,
+    contact_person: false,
     phone: false,
   };
 
@@ -37,14 +43,42 @@ const AdressBookModal: React.FC<IState> = ({
 
   const validation = () => {
     let err = false;
-    if (!language.includes('@')) {
+    if (addAdress.sender.length < 3) {
       err = true;
-      seTvalidObj({ ...validObj, email: true });
+      seTvalidObj({ ...validObj, sender: true });
       setTimeout(() => {
-        seTvalidObj({ ...validObj, email: false });
+        seTvalidObj({ ...validObj, sender: false });
       }, 1000);
-      return err;
     }
+    if (addAdress.receiver.length < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, receiver: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, receiver: false });
+      }, 1000);
+    }
+    if (addAdress.adress.length < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, adress: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, adress: false });
+      }, 1000);
+    }
+    if (addAdress.contact_person.length < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, contact_person: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, contact_person: false });
+      }, 1000);
+    }
+    if (addAdress.phone.length < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, phone: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, phone: false });
+      }, 1000);
+    }
+    return err;
   };
 
   const onButtonPressed = () => {
@@ -60,59 +94,128 @@ const AdressBookModal: React.FC<IState> = ({
   return (
     <>
       <Modal isVisible={model}>
-        <View style={styles.modelContainer}>
-          <Text style={styles.modelHeaderText}>Выбор локализации</Text>
-          <View style={styles.modelTextAndError}>
-            <Text style={{ flex: 1 }}>Язык</Text>
-            <HelperText
-              style={styles.modelHelperText}
-              type="error"
-              visible={validObj.email}>
-              Email недействителень!
-            </HelperText>
-          </View>
-          <TextInput
-            placeholder="example@100express.com"
-            mode="outlined"
-            right={<TextInput.Icon name="lead-pencil" />}
-            onChangeText={val => seTlanguage(val)}
-            value={language}
-          />
+        <SafeAreaView>
+          <ScrollView contentInsetAdjustmentBehavior="automatic">
+            <View style={styles.modelContainer}>
+              <Text style={styles.modelHeaderText}>{I18n.t('add_adress')}</Text>
+              <View style={styles.modelTextAndError}>
+                <Text style={{ flex: 1 }}>{I18n.t('sender')}</Text>
+                <HelperText
+                  style={styles.modelHelperText}
+                  type="error"
+                  visible={validObj.sender}>
+                  Отправитель недействителень!
+                </HelperText>
+              </View>
+              <TextInput
+                placeholder="Александр Грачев"
+                mode="outlined"
+                right={<TextInput.Icon name="lead-pencil" />}
+                onChangeText={val =>
+                  seTaddAdress({ ...addAdress, sender: val })
+                }
+                value={addAdress.sender}
+              />
 
-          <HelperText type="error" visible={validObj.email}>
-            Введите номер телефона!
-          </HelperText>
+              <View style={styles.modelTextAndError}>
+                <Text style={{ flex: 1 }}>{I18n.t('reciver')}</Text>
+                <HelperText
+                  style={styles.modelHelperText}
+                  type="error"
+                  visible={validObj.receiver}>
+                  Отправитель недействителень!
+                </HelperText>
+              </View>
+              <TextInput
+                placeholder="Максим Егоров"
+                mode="outlined"
+                right={<TextInput.Icon name="lead-pencil" />}
+                onChangeText={val =>
+                  seTaddAdress({ ...addAdress, receiver: val })
+                }
+                value={addAdress.receiver}
+              />
 
-          <View style={{ flexDirection: 'row', width: '100%' }}>
-            <Checkbox.Android
-              status={checked ? 'checked' : 'unchecked'}
-              onPress={() => {
-                setChecked(!checked);
-              }}
-              color={'#397AF9'}
-            />
-            <Text style={{ flex: 1 }}>
-              Получать уведомления при пустых окнах
-            </Text>
-          </View>
+              <View style={styles.modelTextAndError}>
+                <Text style={{ flex: 1 }}>{I18n.t('adress')}</Text>
+                <HelperText
+                  style={styles.modelHelperText}
+                  type="error"
+                  visible={validObj.adress}>
+                  Отправитель недействителень!
+                </HelperText>
+              </View>
+              <TextInput
+                placeholder="Москва, ул. Леонова, д. 35, стр. 1"
+                mode="outlined"
+                right={<TextInput.Icon name="lead-pencil" />}
+                onChangeText={val =>
+                  seTaddAdress({ ...addAdress, adress: val })
+                }
+                value={addAdress.adress}
+              />
 
-          <Button
-            color="#000"
-            //onPress={() => setmodelAdressBook(!modelAdressBook)}
-            uppercase={false}
-            icon="plus"
-            contentStyle={{ margin: 10 }}>
-            Адресная книга
-          </Button>
-          <View style={styles.modelYesNo}>
-            <Button onPress={() => noPressed()}>
-              <Text style={styles.modelButtonNoColor}>Нет</Text>
-            </Button>
-            <Button onPress={() => onButtonPressed()}>
-              <Text style={styles.modelButtonYesColor}>Да</Text>
-            </Button>
-          </View>
-        </View>
+              <View style={styles.modelTextAndError}>
+                <Text style={{ flex: 1 }}>{I18n.t('contact_person')}</Text>
+                <HelperText
+                  style={styles.modelHelperText}
+                  type="error"
+                  visible={validObj.contact_person}>
+                  Отправитель недействителень!
+                </HelperText>
+              </View>
+              <TextInput
+                placeholder="Максим Егоров"
+                mode="outlined"
+                right={<TextInput.Icon name="lead-pencil" />}
+                onChangeText={val =>
+                  seTaddAdress({ ...addAdress, contact_person: val })
+                }
+                value={addAdress.contact_person}
+              />
+
+              <View style={styles.modelTextAndError}>
+                <Text style={{ flex: 1 }}>{I18n.t('phone')}</Text>
+                <HelperText
+                  style={styles.modelHelperText}
+                  type="error"
+                  visible={validObj.phone}>
+                  Отправитель недействителень!
+                </HelperText>
+              </View>
+              <TextInput
+                mode="outlined"
+                right={<TextInput.Icon name="lead-pencil" />}
+                render={props => (
+                  <TextInputMask
+                    type={'custom'}
+                    options={{
+                      mask: '+9 (999) 999 99 99',
+                    }}
+                    style={{
+                      flex: 1,
+                      padding: 10,
+                    }}
+                    placeholder="+ 7 (123) 123 12 34"
+                    onChangeText={val =>
+                      seTaddAdress({ ...addAdress, phone: val })
+                    }
+                    value={addAdress.phone}
+                  />
+                )}
+              />
+
+              <View style={styles.modelYesNo}>
+                <Button onPress={() => noPressed()}>
+                  <Text style={styles.modelButtonNoColor}>Нет</Text>
+                </Button>
+                <Button onPress={() => onButtonPressed()}>
+                  <Text style={styles.modelButtonYesColor}>Да</Text>
+                </Button>
+              </View>
+            </View>
+          </ScrollView>
+        </SafeAreaView>
       </Modal>
     </>
   );

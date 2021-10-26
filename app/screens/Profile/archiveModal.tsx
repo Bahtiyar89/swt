@@ -1,19 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, Image, ScrollView, SafeAreaView } from 'react-native';
-import {
-  Button,
-  Avatar,
-  IconButton,
-  Badge,
-  HelperText,
-  TextInput,
-  Card,
-  Title,
-  Paragraph,
-} from 'react-native-paper';
-import { TextInputMask } from 'react-native-masked-text';
+import { View, Text, ScrollView, SafeAreaView } from 'react-native';
+import { Button, IconButton, Card, Title, Paragraph } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import Modal from 'react-native-modal';
+import I18n from '../../../i18';
 
 import styles from './styles';
 
@@ -90,7 +80,7 @@ const ArchiveModal: React.FC<IState> = ({
         <SafeAreaView>
           <ScrollView contentInsetAdjustmentBehavior="automatic">
             <View style={styles.modelContainer}>
-              <Text style={styles.modelHeaderText}>Архив</Text>
+              <Text style={styles.modelHeaderText}>{I18n.t('archive')}</Text>
 
               <Card style={{ margin: 5 }}>
                 <Card.Content>

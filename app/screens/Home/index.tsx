@@ -15,6 +15,7 @@ import MyShipmentsScreen from '../MyShipment';
 import ChatScreen from '../Chat';
 import ProfileScreen from '../Profile';
 import styles from './styles';
+import I18n from '../../../i18';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,12 +25,17 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <Tab.Navigator>
+      <Tab.Navigator
+        tabBarOptions={{
+          tabStyle: {
+            width: 'auto',
+          },
+        }}>
         <Tab.Screen
           name="Home"
           component={MainScreen}
           options={{
-            tabBarLabel: 'Главная',
+            tabBarLabel: I18n.t('TabNav.main'),
             tabBarIcon: ({ color, size }) => (
               <Image
                 source={require('../../assets/home.png')} //Change your icon image here
@@ -42,7 +48,7 @@ const Home: React.FC = () => {
           name="Calculator"
           component={CalculatorScreen}
           options={{
-            tabBarLabel: 'Калкулятор',
+            tabBarLabel: I18n.t('TabNav.calculator'),
             tabBarIcon: ({ color, size }) => (
               <Image
                 source={require('../../assets/calculator.png')} //Change your icon image here
@@ -56,7 +62,7 @@ const Home: React.FC = () => {
           name="MyShipments"
           component={MyShipmentsScreen}
           options={{
-            tabBarLabel: 'Мои отправления',
+            tabBarLabel: I18n.t('TabNav.shipments'),
             tabBarIcon: ({ color, size }) => (
               <Image
                 source={require('../../assets/my_shipment.png')} //Change your icon image here
@@ -70,7 +76,7 @@ const Home: React.FC = () => {
           name="ChatScreen"
           component={ChatScreen}
           options={{
-            tabBarLabel: 'Чат',
+            tabBarLabel: I18n.t('TabNav.chat'),
             tabBarIcon: ({ color, size }) => (
               <Image
                 source={require('../../assets/chat.png')} //Change your icon image here
@@ -84,7 +90,7 @@ const Home: React.FC = () => {
           name="Profilecreen"
           component={ProfileScreen}
           options={{
-            tabBarLabel: 'Профиль',
+            tabBarLabel: I18n.t('TabNav.profile'),
             tabBarIcon: ({ color, size }) => (
               <Image
                 source={require('../../assets/user.png')} //Change your icon image here

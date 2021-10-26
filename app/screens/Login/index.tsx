@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, SafeAreaView, ScrollView } from 'react-native';
 import { Text, Button, TextInput, HelperText } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,21 +8,29 @@ import styles from './styles';
 import { ILoginState } from 'app/models/reducers/login';
 import NavigationService from 'app/navigation/NavigationService';
 import { IThemeState } from 'app/models/reducers/theme';
+import AuthContext from '../../context/auth/AuthContext';
 
 interface IState {
   loginReducer: ILoginState;
   themeReducer: IThemeState;
 }
 
-const Login: React.FC = () => {
-  const id = useSelector((state: IState) => state.loginReducer.id);
-  const dispatch = useDispatch();
-  const onLogin = () => dispatch(loginActions.requestLogin('test', '1234'));
+interface IProps {
+  navigation: any;
+}
+
+const Login: React.FC<IProps> = (props: IProps) => {
+  const { navigation } = props;
+  // const id = useSelector((state: IState) => state.loginReducer.id);
+  //const dispatch = useDispatch();
+  // const onLogin = () => dispatch(loginActions.requestLogin('test', '1234'));
   //const onForgot = () => NavigationService.navigate('ForgotPassword');
-  const onRegistration = () => NavigationService.navigate('Registration');
+  // const onRegistration = () => NavigationService.navigate('Registration');
+  const onRegistration = () => navigation.navigate('Registration');
 
   const isDark = useSelector((state: IState) => state.themeReducer.isDark);
-
+  const authContext = useContext(AuthContext);
+  const { signin, signOut } = authContext;
   const elements = {
     email: '',
     password: '',
@@ -60,7 +68,6 @@ const Login: React.FC = () => {
       setTimeout(() => {
         seTvalidObj({ ...validObj, email: false });
       }, 1000);
-      console.log('user...55', JSON.stringify(validObj));
       return err;
     }
     if (user.password.length < 3) {
@@ -77,9 +84,9 @@ const Login: React.FC = () => {
     const err = validation();
     if (err) {
     } else {
-      onLogin();
+      signin(user);
+      //  onLogin();
     }
-    console.log('user...', JSON.stringify(validObj));
   };
 
   return (

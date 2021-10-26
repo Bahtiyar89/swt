@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   View,
   Text,
@@ -10,15 +10,15 @@ import { Button, TextInput } from 'react-native-paper';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { useToast } from 'react-native-toast-notifications';
 
-import { useDispatch } from 'react-redux';
-import * as loginActions from 'app/store/actions/loginActions';
+import AuthContext from '../../context/auth/AuthContext';
 import styles from './styles';
+import I18n from '../../../i18';
+import Modal from 'react-native-modal';
 
-const MainScreen = () => {
+const MainScreen = props => {
   const [text, seTtext] = useState('');
-
-  const dispatch = useDispatch();
-  const onLogout = () => dispatch(loginActions.logOut());
+  const authContext = useContext(AuthContext);
+  const { isSigned, signOut, user } = authContext;
 
   const [scan, setScan] = useState(false);
   const [result, setResult] = useState();
@@ -33,83 +33,90 @@ const MainScreen = () => {
     setResult();
   };
 
+  console.log('props: ', props);
+  console.log('isSigned: ', isSigned);
   return (
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={styles.container}>
           {!scan && (
             <>
-              <Text style={styles.headerText}>Мои отправления</Text>
+              <Text style={styles.headerText}>
+                {I18n.t('TabNav.shipments')}
+              </Text>
 
-              <Text style={styles.textparagraph}>Отследить заказ</Text>
+              <Text style={styles.textparagraph}>{I18n.t('track_order')}</Text>
               <TextInput
-                label="Номер заказа"
+                label={I18n.t('order_number')}
                 mode="outlined"
                 right={<TextInput.Icon name="barcode" onPress={startScan} />}
                 style={styles.textInput}
                 value={result}
               />
               <Text style={styles.textparagraph}>
-                + Отследить по номеру телефона
+                + {I18n.t('track_by_number')}
               </Text>
-              <Text style={styles.headerLowerText}>Калкулятор</Text>
-              <Text style={styles.textparagraph}>Откуда</Text>
+              <Text style={styles.headerLowerText}>
+                {I18n.t('TabNav.calculator')}
+              </Text>
+              <Text style={styles.textparagraph}>{I18n.t('from')}</Text>
               <TextInput
-                label="Город"
+                label={I18n.t('city')}
                 mode="outlined"
                 value={text}
                 style={styles.textInput}
                 onChangeText={text => setText(text)}
               />
-              <Text style={styles.textparagraph}>Куда</Text>
+              <Text style={styles.textparagraph}>{I18n.t('to')}</Text>
               <TextInput
-                label="Город"
+                label={I18n.t('city')}
                 mode="outlined"
                 value={text}
                 style={styles.textInput}
                 onChangeText={text => setText(text)}
               />
-              <Text style={styles.textparagraph}>Вес, кг</Text>
+              <Text style={styles.textparagraph}>{I18n.t('weight_kg')}</Text>
               <TextInput
-                label="Вес"
+                label={I18n.t('weight')}
                 mode="outlined"
                 value={text}
                 style={styles.textInput}
                 onChangeText={text => setText(text)}
               />
-              <Text style={styles.textparagraph}>Обьем, m3</Text>
+              <Text style={styles.textparagraph}>{I18n.t('capacity_m3')}</Text>
               <TextInput
-                label="Обьем"
+                label={I18n.t('capacity')}
                 mode="outlined"
                 value={text}
                 style={styles.textInput}
                 onChangeText={text => setText(text)}
               />
               <Button style={styles.button}>
-                <Text style={styles.buttonText}>Рассчитать</Text>
-              </Button>
-              <Button icon="logout" mode="outlined" onPress={onLogout}>
-                Logout
+                <Text style={styles.buttonText}>{I18n.t('сalculate')}</Text>
               </Button>
             </>
           )}
           {scan && (
             <View style={styles.sectionContainer}>
               <TouchableOpacity onPress={() => setScan(false)}>
-                <Text>Закрыть сканирования</Text>
+                <Text>{I18n.t('close_scan')}</Text>
               </TouchableOpacity>
               <QRCodeScanner
                 reactivate={true}
                 showMarker={true}
                 onRead={onSuccess}
                 topContent={
-                  <Text style={styles.centerText}>Scan your QRCode!</Text>
+                  <Text style={styles.centerText}>
+                    {I18n.t('scan_your_qr_code')}
+                  </Text>
                 }
                 bottomContent={
                   <TouchableOpacity
                     style={styles.buttonTouchable}
                     onPress={() => setScan(false)}>
-                    <Text style={styles.buttonText}>Cancel Scan</Text>
+                    <Text style={styles.buttonText}>
+                      {I18n.t('cancel_scan')}
+                    </Text>
                   </TouchableOpacity>
                 }
               />

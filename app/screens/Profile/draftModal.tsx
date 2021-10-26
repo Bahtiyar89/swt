@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
-import {
-  Button,
-  Avatar,
-  IconButton,
-  Badge,
-  HelperText,
-  TextInput,
-} from 'react-native-paper';
-import { TextInputMask } from 'react-native-masked-text';
+import { Button, HelperText, TextInput } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import Modal from 'react-native-modal';
+import I18n from '../../../i18';
 
 import styles from './styles';
 
@@ -26,48 +19,33 @@ const DraftModal: React.FC<IState> = ({
   model,
 }: IState) => {
   const elements = {
-    email: '',
-    phone: '',
+    departures: '',
+    departures2: '',
   };
-  const [user, seTuser] = useState({ ...elements });
+  const [drafts, seTdrafts] = useState({ ...elements });
 
   const validationElements = {
-    email: false,
-    phone: false,
+    departures: false,
+    departures2: false,
   };
 
   const [validObj, seTvalidObj] = useState({ ...validationElements });
 
-  const handleChange = (val: string, fieldName: string) => {
-    seTuser(prev => {
-      const varPr = { ...prev };
-      switch (fieldName) {
-        case 'email':
-          varPr.email = val;
-          break;
-        case 'phone':
-          varPr.phone = val;
-          break;
-      }
-      return varPr;
-    });
-  };
-
   const validation = () => {
     let err = false;
-    if (!user.email.includes('@')) {
+
+    if (drafts.departures.length < 3) {
       err = true;
-      seTvalidObj({ ...validObj, email: true });
+      seTvalidObj({ ...validObj, departures: true });
       setTimeout(() => {
-        seTvalidObj({ ...validObj, email: false });
+        seTvalidObj({ ...validObj, departures: false });
       }, 1000);
-      return err;
     }
-    if (user.phone.length < 3) {
+    if (drafts.departures2.length < 3) {
       err = true;
-      seTvalidObj({ ...validObj, phone: true });
+      seTvalidObj({ ...validObj, departures2: true });
       setTimeout(() => {
-        seTvalidObj({ ...validObj, phone: false });
+        seTvalidObj({ ...validObj, departures2: false });
       }, 1000);
     }
     return err;
@@ -77,7 +55,7 @@ const DraftModal: React.FC<IState> = ({
     let err = validation();
     if (err) {
     } else {
-      okPressed(user);
+      okPressed(drafts);
     }
   };
 
@@ -85,31 +63,31 @@ const DraftModal: React.FC<IState> = ({
     <>
       <Modal isVisible={model}>
         <View style={styles.modelContainer}>
-          <Text style={styles.modelHeaderText}>Черновики</Text>
+          <Text style={styles.modelHeaderText}>{I18n.t('drafts')}</Text>
 
           <View style={styles.modelTextAndError}>
-            <Text style={{ flex: 1 }}>Отправления</Text>
+            <Text style={{ flex: 1 }}>{I18n.t('departures')}</Text>
             <HelperText
               style={styles.modelHelperText}
               type="error"
               visible={true}>
-              Email недействителень!
+              Отправление недействителень!
             </HelperText>
           </View>
 
           <TextInput
             placeholder="Москва, ул. Леонова, д. 35"
             mode="outlined"
-            onChangeText={val => handleChange(val, 'email')}
-            value={user.email}
+            onChangeText={val => seTdrafts({ ...drafts, departures: val })}
+            value={drafts.departures}
           />
 
           <TextInput
             style={{ marginTop: 10 }}
             placeholder="Москва, ул. Леонова, д. 35"
             mode="outlined"
-            onChangeText={val => handleChange(val, 'email')}
-            value={user.email}
+            onChangeText={val => seTdrafts({ ...drafts, departures2: val })}
+            value={drafts.departures2}
           />
 
           <View style={styles.modelYesNo}>

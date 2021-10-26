@@ -1,27 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import { Button, Avatar, IconButton, Badge } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
+//import { useDispatch } from 'react-redux';
 import Modal from 'react-native-modal';
 
-import * as loginActions from 'app/store/actions/loginActions';
+import AuthContext from '../../context/auth/AuthContext';
+import Login from '../Login';
+import styles from './styles';
+import Utility from '../../utils/Utility';
+import I18n from '../../../i18';
+
+//import * as loginActions from 'app/store/actions/loginActions';
 import ProfileEditModal from './profileEditModal';
 import LocalizationModal from './localizationModal';
 import PasswordEditModal from './passwordEditModal';
 import AdressBookModal from './adressBookModal';
 import DraftModal from './draftModal';
 import ArchiveModal from './archiveModal';
-import styles from './styles';
-import Utility from '../../utils/Utility';
-import I18n from '../../../i18';
 
 interface IState {
   navigation: any;
 }
 
 const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
-  const dispatch = useDispatch();
-  const logout = () => dispatch(loginActions.logOut());
+  //const dispatch = useDispatch();
+  //const logout = () => dispatch(loginActions.logOut());
+  const authContext = useContext(AuthContext);
+  const { signOut, user, isSigned } = authContext;
 
   const [lang, seTlang] = useState('');
 
@@ -58,9 +63,9 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
     console.log('params: ', params);
   };
 
-  const modelPressed = () => {
+  const modelLogOutPressed = () => {
     setmodel(false);
-    logout();
+    signOut();
   };
 
   const updateLanguageStorage = () => {
@@ -74,144 +79,153 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.mainHeader}>
-        <Text style={styles.profileHeaderText}>{I18n.t('profile')}</Text>
-        <View>
-          <IconButton icon="bell-outline" size={35} onPress={goToProfile} />
-          <Badge style={styles.badgeStyle}>3</Badge>
-        </View>
-      </View>
-      <View style={styles.profileHeaderContainer}>
-        <Avatar.Image size={65} source={require('../../assets/gubin.png')} />
-        <View style={styles.profileNameSurname}>
-          <Text>Aлександр Грачев</Text>
-          <Text>Москва, Россия</Text>
-        </View>
-      </View>
-      <View style={styles.buttonMenuContainer}>
-        <Button
-          color="#000"
-          onPress={() => seTmodelProfileEdit(!modelProfileEdit)}
-          uppercase={false}
-          icon="chevron-right"
-          contentStyle={{ flexDirection: 'row-reverse' }}>
-          {I18n.t('profile_edit')}
-        </Button>
-        <Button
-          color="#000"
-          onPress={() => seTmodelLocalization(!modelLocalization)}
-          uppercase={false}
-          icon="chevron-right"
-          contentStyle={{ flexDirection: 'row-reverse' }}>
-          {I18n.t('choose_localization')}
-        </Button>
-        <Button
-          color="#000"
-          onPress={() => seTmodelEditPassword(!modelEditPassword)}
-          uppercase={false}
-          icon="chevron-right"
-          contentStyle={{ flexDirection: 'row-reverse' }}>
-          {I18n.t('change_password')}
-        </Button>
-        <Button
-          color="#000"
-          onPress={() => seTmodelAdressBook(!modelAdressBook)}
-          uppercase={false}
-          icon="chevron-right"
-          contentStyle={{ flexDirection: 'row-reverse' }}>
-          {I18n.t('adress_book')}
-        </Button>
-
-        <Button
-          color="#000"
-          onPress={() => seTmodelDraft(!modelDraft)}
-          uppercase={false}
-          style={{}}
-          icon="chevron-right"
-          contentStyle={{ flexDirection: 'row-reverse' }}>
-          {I18n.t('drafts')}
-        </Button>
-        <Button
-          color="#000"
-          onPress={() => seTmodelArchive(!modelArchive)}
-          uppercase={false}
-          style={{}}
-          icon="chevron-right"
-          contentStyle={{ flexDirection: 'row-reverse' }}>
-          {I18n.t('archive')}
-        </Button>
-        <Button
-          color="#B82424"
-          onPress={onLogout}
-          uppercase={false}
-          icon="chevron-right"
-          contentStyle={{ flexDirection: 'row-reverse' }}>
-          {I18n.t('logout')}
-        </Button>
-      </View>
-      <ProfileEditModal
-        okPressed={modelOkPressed}
-        model={modelProfileEdit}
-        noPressed={() => seTmodelProfileEdit(false)}
-      />
-
-      <LocalizationModal
-        okPressed={updateLanguageStorage}
-        onChangeLanguage={onChangeLanguage}
-        model={modelLocalization}
-        lang={lang}
-        noPressed={() => seTmodelLocalization(false)}
-      />
-
-      <PasswordEditModal
-        okPressed={modelOkPressed}
-        model={modelEditPassword}
-        noPressed={() => seTmodelEditPassword(false)}
-      />
-
-      <AdressBookModal
-        okPressed={modelOkPressed}
-        model={modelAdressBook}
-        noPressed={() => seTmodelAdressBook(false)}
-      />
-
-      <DraftModal
-        okPressed={modelOkPressed}
-        model={modelDraft}
-        noPressed={() => seTmodelDraft(false)}
-      />
-
-      <ArchiveModal
-        okPressed={modelOkPressed}
-        model={modelArchive}
-        noPressed={() => seTmodelArchive(false)}
-      />
-
-      <Modal isVisible={model}>
-        <View
-          style={{
-            backgroundColor: 'white',
-            padding: 10,
-          }}>
-          <Text style={{ fontWeight: 'bold', textAlign: 'center' }}>
-            Вы действительно хотите выйти ?
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-            }}>
-            <Button onPress={() => setmodel(false)}>
-              <Text>Нет</Text>
+    <>
+      {isSigned ? (
+        <View style={styles.container}>
+          <View style={styles.mainHeader}>
+            <Text style={styles.profileHeaderText}>{I18n.t('profile')}</Text>
+            <View>
+              <IconButton icon="bell-outline" size={35} onPress={goToProfile} />
+              <Badge style={styles.badgeStyle}>3</Badge>
+            </View>
+          </View>
+          <View style={styles.profileHeaderContainer}>
+            <Avatar.Image
+              size={65}
+              source={require('../../assets/gubin.png')}
+            />
+            <View style={styles.profileNameSurname}>
+              <Text>Aлександр Грачев</Text>
+              <Text>Москва, Россия</Text>
+            </View>
+          </View>
+          <View style={styles.buttonMenuContainer}>
+            <Button
+              color="#000"
+              onPress={() => seTmodelProfileEdit(!modelProfileEdit)}
+              uppercase={false}
+              icon="chevron-right"
+              contentStyle={{ flexDirection: 'row-reverse' }}>
+              {I18n.t('profile_edit')}
             </Button>
-            <Button onPress={modelPressed}>
-              <Text style={{ color: 'red' }}>Да</Text>
+            <Button
+              color="#000"
+              onPress={() => seTmodelLocalization(!modelLocalization)}
+              uppercase={false}
+              icon="chevron-right"
+              contentStyle={{ flexDirection: 'row-reverse' }}>
+              {I18n.t('choose_localization')}
+            </Button>
+            <Button
+              color="#000"
+              onPress={() => seTmodelEditPassword(!modelEditPassword)}
+              uppercase={false}
+              icon="chevron-right"
+              contentStyle={{ flexDirection: 'row-reverse' }}>
+              {I18n.t('change_password')}
+            </Button>
+            <Button
+              color="#000"
+              onPress={() => seTmodelAdressBook(!modelAdressBook)}
+              uppercase={false}
+              icon="chevron-right"
+              contentStyle={{ flexDirection: 'row-reverse' }}>
+              {I18n.t('adress_book')}
+            </Button>
+
+            <Button
+              color="#000"
+              onPress={() => seTmodelDraft(!modelDraft)}
+              uppercase={false}
+              style={{}}
+              icon="chevron-right"
+              contentStyle={{ flexDirection: 'row-reverse' }}>
+              {I18n.t('drafts')}
+            </Button>
+            <Button
+              color="#000"
+              onPress={() => seTmodelArchive(!modelArchive)}
+              uppercase={false}
+              style={{}}
+              icon="chevron-right"
+              contentStyle={{ flexDirection: 'row-reverse' }}>
+              {I18n.t('archive')}
+            </Button>
+            <Button
+              color="#B82424"
+              onPress={onLogout}
+              uppercase={false}
+              icon="chevron-right"
+              contentStyle={{ flexDirection: 'row-reverse' }}>
+              {I18n.t('logout')}
             </Button>
           </View>
+          <ProfileEditModal
+            okPressed={modelOkPressed}
+            model={modelProfileEdit}
+            noPressed={() => seTmodelProfileEdit(false)}
+          />
+
+          <LocalizationModal
+            okPressed={updateLanguageStorage}
+            onChangeLanguage={onChangeLanguage}
+            model={modelLocalization}
+            lang={lang}
+            noPressed={() => seTmodelLocalization(false)}
+          />
+
+          <PasswordEditModal
+            okPressed={modelOkPressed}
+            model={modelEditPassword}
+            noPressed={() => seTmodelEditPassword(false)}
+          />
+
+          <AdressBookModal
+            okPressed={modelOkPressed}
+            model={modelAdressBook}
+            noPressed={() => seTmodelAdressBook(false)}
+          />
+
+          <DraftModal
+            okPressed={modelOkPressed}
+            model={modelDraft}
+            noPressed={() => seTmodelDraft(false)}
+          />
+
+          <ArchiveModal
+            okPressed={modelOkPressed}
+            model={modelArchive}
+            noPressed={() => seTmodelArchive(false)}
+          />
+
+          <Modal isVisible={model}>
+            <View
+              style={{
+                backgroundColor: 'white',
+                padding: 10,
+              }}>
+              <Text style={{ fontWeight: 'bold', textAlign: 'center' }}>
+                Вы действительно хотите выйти ?
+              </Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end',
+                }}>
+                <Button onPress={() => setmodel(false)}>
+                  <Text>Нет</Text>
+                </Button>
+                <Button onPress={modelLogOutPressed}>
+                  <Text style={{ color: 'red' }}>Да</Text>
+                </Button>
+              </View>
+            </View>
+          </Modal>
         </View>
-      </Modal>
-    </View>
+      ) : (
+        <Login navigation />
+      )}
+    </>
   );
 };
 
