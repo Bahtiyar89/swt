@@ -9,6 +9,7 @@ import { ILoginState } from 'app/models/reducers/login';
 import NavigationService from 'app/navigation/NavigationService';
 import { IThemeState } from 'app/models/reducers/theme';
 import AuthContext from '../../context/auth/AuthContext';
+import I18n from '../../../i18';
 
 interface IState {
   loginReducer: ILoginState;
@@ -113,17 +114,17 @@ const Login: React.FC<IProps> = (props: IProps) => {
             value={user.email}
           />
           <View style={{ marginTop: 20, flexDirection: 'row', width: '90%' }}>
-            <Text style={{ flex: 1 }}>Пароль</Text>
+            <Text style={{ flex: 1 }}>{I18n.t('password')}</Text>
             <HelperText
               style={{ alignItems: 'flex-end' }}
               type="error"
               visible={validObj.password}>
-              Неправельный пароль!
+              {I18n.t('password_wrong')}!
             </HelperText>
           </View>
           <TextInput
             mode="outlined"
-            placeholder="Введите пароль"
+            placeholder={I18n.t('password_enter')}
             style={styles.textInput}
             onChangeText={val => handleChange(val, 'password')}
             right={
@@ -140,14 +141,14 @@ const Login: React.FC<IProps> = (props: IProps) => {
             style={{ width: '90%', marginTop: 20, backgroundColor: '#333333' }}
             mode="contained"
             onPress={submit}>
-            <Text style={styles.buttonText}>Войти</Text>
+            <Text style={styles.buttonText}>{I18n.t('enter')}</Text>
           </Button>
           <Button
             mode="text"
             style={styles.forgot}
             labelStyle={styles.labelStyle}
             onPress={onRegistration}>
-            Зарегистрироваться
+            {I18n.t('registration')}
           </Button>
         </View>
       </ScrollView>

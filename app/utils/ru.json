@@ -2,7 +2,7 @@
   "TabNav": {
     "main": "Главная",
     "calculator": "Калкулятор",
-    "shipments": "Мои отправления",
+    "shipments": "Отправление",
     "chat": "Чат",
     "profile": "Профиль"
   },
@@ -50,5 +50,14 @@
   "adress": "Адрес",
   "contact_person": "Контактное лицо",
   "phone": "Телефон",
-  "departures": "Отправления"
+  "password": "Пароль",
+  "password_wrong": "Неправельный пароль",
+  "password_enter": "Введите пароль",
+  "enter": "Войти",
+  "registration": "Зарегистрироваться",
+  "departures": "Отправления",
+  "choose_from_adres_book": "Выбрать из адресной книги",
+  "nsl": "ФИО",
+  "inn": "ИНН",
+  "pasport": "Паспорт / ID"
 }

@@ -50,5 +50,14 @@
   "adress": "Adress",
   "contact_person": "Contact Person",
   "phone": "Phone",
-  "departures": "Departures"
+  "password": "Password",
+  "password_wrong": "Wrong password",
+  "password_enter": "Erter password",
+  "enter": "Enter",
+  "registration": "Registration",
+  "departures": "Departures",
+  "choose_from_adres_book": "Choose from adress book",
+  "nsl": "N.S.L",
+  "inn": "INN",
+  "pasport": "Pasport"
 }
