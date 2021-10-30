@@ -1,6 +1,5 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
-import { modifyLoader } from '../loader/loader_action';
 import NavigationService from 'app/navigation/NavigationService';
 import AuthContext from './AuthContext';
 import AuthReducer from './AuthReducer';
@@ -16,6 +15,7 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const FALSE_REDIRECT = 'FALSE_REDIRECT';
 export const VARIFY_OK = 'VARIFY_OK';
+export const LOADING = 'LOADING';
 
 const AuthState = props => {
   const initialState = {
@@ -31,9 +31,11 @@ const AuthState = props => {
   //logout
   const signOut = async () => {
     try {
+      dispatch({ type: LOADING, payload: true });
       dispatch({
         type: LOGOUT,
       });
+      dispatch({ type: LOADING, payload: false });
     } catch (err) {
       console.log(err);
     }
@@ -41,7 +43,6 @@ const AuthState = props => {
 
   //Login User
   const signin = async FormData => {
-    console.log('FormData:', FormData);
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -49,20 +50,20 @@ const AuthState = props => {
     };
 
     try {
-      dispatch(modifyLoader(true));
+      dispatch({ type: LOADING, payload: true });
       /* const res = await axios.post(
         `https://flexim.tk/funeral/api/v1/users/login`,
         FormData,
         config,
       );
       */
+      dispatch({ type: LOADING, payload: false });
       dispatch({
         type: LOGIN_SUCCESS,
         payload: FormData,
       });
-      dispatch(modifyLoader(false));
     } catch (err) {
-      dispatch(modifyLoader(false));
+      dispatch({ type: LOADING, payload: false });
       dispatch({
         type: LOGIN_FAIL,
         payload: err,
@@ -108,13 +109,13 @@ const AuthState = props => {
       },
     };
 
-    dispatch(modifyLoader(true));
+    dispatch({ type: LOADING, payload: true });
     const res = await axios.post(
       `https://flexim.tk/funeral/api/v1/users/register/customer`,
       FormData,
       config,
     );
-    dispatch(modifyLoader(false));
+    dispatch({ type: LOADING, payload: false });
     if (res.data.status === 'FAIL') {
       dispatch({
         type: REGISTER_FAIL,
@@ -129,7 +130,6 @@ const AuthState = props => {
   };
 
   const approveVarify = async (FormData, navigation) => {
-    console.log('FormData:', FormData);
     const id = { id: FormData };
     const config = {
       headers: {
@@ -137,14 +137,13 @@ const AuthState = props => {
       },
     };
 
-    dispatch(modifyLoader(true));
+    dispatch({ type: LOADING, payload: true });
     const res = await axios.post(
       `https://flexim.tk/funeral/api/v1/users/sendVerifyCode`,
       id,
       config,
     );
-    console.log('reddd', res.data);
-    dispatch(modifyLoader(false));
+    dispatch({ type: LOADING, payload: false });
     if (res.data.status === 'FAIL') {
       dispatch({
         type: REGISTER_FAIL,
@@ -162,8 +161,8 @@ const AuthState = props => {
         isSigned: state.isSigned,
         varifyId: state.varifyId,
         user: state.user,
-        /* token: state.token,
         loading: state.loading,
+        /* token: state.token, 
         error: state.error,
         redirectToReferrer: state.redirectToReferrer,
         user: state.user,

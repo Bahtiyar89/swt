@@ -30,7 +30,7 @@ const Home: React.FC = () => {
         style={{ width: 'auto' }}
         shifting={true}
         sceneAnimationEnabled={false}
-        initialRouteName="Calculator"
+        initialRouteName="Home"
         barStyle={{ backgroundColor: '#f9f9f9' }}>
         <Tab.Screen
           name="Home"

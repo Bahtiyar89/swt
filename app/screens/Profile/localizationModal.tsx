@@ -110,10 +110,10 @@ const ProfileEditModal: React.FC<IState> = ({
 
           <View style={styles.modelYesNo}>
             <Button onPress={() => noPressed()}>
-              <Text style={styles.modelButtonNoColor}>Нет</Text>
+              <Text style={styles.modelButtonNoColor}>{I18n.t('no')}</Text>
             </Button>
             <Button onPress={() => onButtonPressed()}>
-              <Text style={styles.modelButtonYesColor}>Да</Text>
+              <Text style={styles.modelButtonYesColor}>{I18n.t('yes')}</Text>
             </Button>
           </View>
         </View>

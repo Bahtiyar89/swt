@@ -10,10 +10,13 @@ import {
   LOGIN_FAIL,
   FALSE_REDIRECT,
   VARIFY_OK,
+  LOADING,
 } from './AuthState';
 
 export default (state, action) => {
   switch (action.type) {
+    case LOADING:
+      return { ...state, loading: action.payload };
     case VARIFY_OK:
       console.log('adddd', CommonActions.navigate({ name: 'Login' }));
       CommonActions.navigate({ name: 'Login' });

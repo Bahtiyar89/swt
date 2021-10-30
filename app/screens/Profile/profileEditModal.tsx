@@ -1,17 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
-import {
-  Button,
-  Avatar,
-  IconButton,
-  Badge,
-  HelperText,
-  TextInput,
-} from 'react-native-paper';
+import { Button, HelperText, TextInput } from 'react-native-paper';
 import { TextInputMask } from 'react-native-masked-text';
-import { useDispatch } from 'react-redux';
 import Modal from 'react-native-modal';
-
+import I18n from '../../../i18';
 import styles from './styles';
 
 interface IState {
@@ -85,14 +77,14 @@ const ProfileEditModal: React.FC<IState> = ({
     <>
       <Modal isVisible={model}>
         <View style={styles.modelContainer}>
-          <Text style={styles.modelHeaderText}>Редактирование профиля</Text>
+          <Text style={styles.modelHeaderText}>{I18n.t('profile_edit')}</Text>
           <View style={styles.modelTextAndError}>
             <Text style={{ flex: 1 }}>E-mail</Text>
             <HelperText
               style={styles.modelHelperText}
               type="error"
               visible={validObj.email}>
-              Email недействителень!
+              {I18n.t('incorrect_email')}
             </HelperText>
           </View>
           <TextInput
@@ -104,14 +96,14 @@ const ProfileEditModal: React.FC<IState> = ({
           />
 
           <View style={styles.modelTextAndError}>
-            <Text style={{ flex: 1 }}>Телефон</Text>
+            <Text style={{ flex: 1 }}>{I18n.t('phone')}</Text>
             <HelperText
               style={{
                 alignItems: 'flex-end',
               }}
               type="error"
               visible={validObj.phone}>
-              Введите номер телефона!
+              {I18n.t('enter_phone_number')}
             </HelperText>
           </View>
 
@@ -135,10 +127,10 @@ const ProfileEditModal: React.FC<IState> = ({
           />
           <View style={styles.modelYesNo}>
             <Button onPress={() => noPressed()}>
-              <Text style={styles.modelButtonNoColor}>Нет</Text>
+              <Text style={styles.modelButtonNoColor}>{I18n.t('no')}</Text>
             </Button>
             <Button onPress={() => onButtonPressed()}>
-              <Text style={styles.modelButtonYesColor}>Да</Text>
+              <Text style={styles.modelButtonYesColor}>{I18n.t('yes')}</Text>
             </Button>
           </View>
         </View>

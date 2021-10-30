@@ -205,7 +205,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                 padding: 10,
               }}>
               <Text style={{ fontWeight: 'bold', textAlign: 'center' }}>
-                Вы действительно хотите выйти ?
+                {I18n.t('want_logout')}
               </Text>
               <View
                 style={{
@@ -213,10 +213,10 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                   justifyContent: 'flex-end',
                 }}>
                 <Button onPress={() => setmodel(false)}>
-                  <Text>Нет</Text>
+                  <Text>{I18n.t('no')}</Text>
                 </Button>
                 <Button onPress={modelLogOutPressed}>
-                  <Text style={{ color: 'red' }}>Да</Text>
+                  <Text style={{ color: 'red' }}>{I18n.t('yes')}</Text>
                 </Button>
               </View>
             </View>

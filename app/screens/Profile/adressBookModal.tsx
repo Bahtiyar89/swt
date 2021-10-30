@@ -104,7 +104,7 @@ const AdressBookModal: React.FC<IState> = ({
                   style={styles.modelHelperText}
                   type="error"
                   visible={validObj.sender}>
-                  Отправитель недействителень!
+                  {I18n.t('field_not_be_empty')}
                 </HelperText>
               </View>
               <TextInput
@@ -123,7 +123,7 @@ const AdressBookModal: React.FC<IState> = ({
                   style={styles.modelHelperText}
                   type="error"
                   visible={validObj.receiver}>
-                  Отправитель недействителень!
+                  {I18n.t('field_not_be_empty')}
                 </HelperText>
               </View>
               <TextInput
@@ -142,7 +142,7 @@ const AdressBookModal: React.FC<IState> = ({
                   style={styles.modelHelperText}
                   type="error"
                   visible={validObj.adress}>
-                  Отправитель недействителень!
+                  {I18n.t('field_not_be_empty')}
                 </HelperText>
               </View>
               <TextInput
@@ -161,7 +161,7 @@ const AdressBookModal: React.FC<IState> = ({
                   style={styles.modelHelperText}
                   type="error"
                   visible={validObj.contact_person}>
-                  Отправитель недействителень!
+                  {I18n.t('field_not_be_empty')}
                 </HelperText>
               </View>
               <TextInput
@@ -180,7 +180,7 @@ const AdressBookModal: React.FC<IState> = ({
                   style={styles.modelHelperText}
                   type="error"
                   visible={validObj.phone}>
-                  Отправитель недействителень!
+                  {I18n.t('enter_phone_number')}
                 </HelperText>
               </View>
               <TextInput
@@ -207,10 +207,12 @@ const AdressBookModal: React.FC<IState> = ({
 
               <View style={styles.modelYesNo}>
                 <Button onPress={() => noPressed()}>
-                  <Text style={styles.modelButtonNoColor}>Нет</Text>
+                  <Text style={styles.modelButtonNoColor}>{I18n.t('no')}</Text>
                 </Button>
                 <Button onPress={() => onButtonPressed()}>
-                  <Text style={styles.modelButtonYesColor}>Да</Text>
+                  <Text style={styles.modelButtonYesColor}>
+                    {I18n.t('yes')}
+                  </Text>
                 </Button>
               </View>
             </View>

@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { View, SafeAreaView, ScrollView } from 'react-native';
 import { Text, Button, TextInput, HelperText } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import * as loginActions from 'app/store/actions/loginActions';
 import styles from './styles';
@@ -31,7 +32,7 @@ const Login: React.FC<IProps> = (props: IProps) => {
 
   const isDark = useSelector((state: IState) => state.themeReducer.isDark);
   const authContext = useContext(AuthContext);
-  const { signin, signOut } = authContext;
+  const { signin, signOut, loading } = authContext;
   const elements = {
     email: '',
     password: '',
@@ -89,19 +90,25 @@ const Login: React.FC<IProps> = (props: IProps) => {
       //  onLogin();
     }
   };
+  console.log('loading:', loading);
 
   return (
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={styles.container}>
-          <Text style={styles.signInText}>Авторизация</Text>
+          <Spinner
+            visible={loading}
+            textContent={'Загружается...'}
+            textStyle={{ color: '#3498db' }}
+          />
+          <Text style={styles.signInText}>{I18n.t('authorization')}</Text>
           <View style={{ flexDirection: 'row', width: '90%' }}>
             <Text style={{ flex: 1 }}>E-mail</Text>
             <HelperText
               style={{ alignItems: 'flex-end' }}
               type="error"
               visible={validObj.email}>
-              Email недействителень!
+              {I18n.t('incorrect_email')}
             </HelperText>
           </View>
 
