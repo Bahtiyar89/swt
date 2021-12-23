@@ -166,6 +166,7 @@ const CalculatorScreen = () => {
                 render={props => (
                   <TextInputMask
                     type={'custom'}
+                    style={{ color: '#333333' }}
                     options={{
                       mask: '+9 (999) 999 99 99',
                     }}
@@ -191,21 +192,12 @@ const CalculatorScreen = () => {
                   {I18n.t('field_not_be_empty')}
                 </HelperText>
               </View>
+
               <TextInput
                 mode="outlined"
-                render={props => (
-                  <TextInputMask
-                    type={'custom'}
-                    options={{
-                      mask: '9999 999999',
-                    }}
-                    onChangeText={val =>
-                      seTstate({ ...state, passportId: val })
-                    }
-                    value={state.passportId}
-                    placeholder="3220 231245"
-                  />
-                )}
+                onChangeText={val => seTstate({ ...state, passportId: val })}
+                value={state.passportId}
+                placeholder="3220 231245"
                 style={{ width: '90%' }}
               />
 
@@ -225,17 +217,9 @@ const CalculatorScreen = () => {
               </View>
               <TextInput
                 mode="outlined"
-                render={props => (
-                  <TextInputMask
-                    type={'custom'}
-                    options={{
-                      mask: '999999999999999999',
-                    }}
-                    onChangeText={val => seTstate({ ...state, INN: val })}
-                    value={state.INN}
-                    placeholder="322043253234231245"
-                  />
-                )}
+                onChangeText={val => seTstate({ ...state, INN: val })}
+                value={state.INN}
+                placeholder="322043253234231245"
                 style={{ width: '90%' }}
               />
 
@@ -363,6 +347,7 @@ const CalculatorScreen = () => {
                 render={props => (
                   <TextInputMask
                     type={'custom'}
+                    style={{ color: '#333333' }}
                     options={{
                       mask: '+9 (999) 999 99 99',
                     }}
@@ -370,11 +355,10 @@ const CalculatorScreen = () => {
                       seTstate({ ...state, receiverPhone: val })
                     }
                     value={state.receiverPhone}
-                    onChangeText={val => console.log('val')}
                     placeholder="+ 7 (123) 123 12 34"
                   />
                 )}
-                style={{ width: '90%' }}
+                style={{ width: '90%', color: 'white' }}
               />
               <View
                 style={{
@@ -392,19 +376,11 @@ const CalculatorScreen = () => {
               </View>
               <TextInput
                 mode="outlined"
-                render={props => (
-                  <TextInputMask
-                    type={'custom'}
-                    options={{
-                      mask: '9999 999999',
-                    }}
-                    onChangeText={val =>
-                      seTstate({ ...state, receiverPassportId: val })
-                    }
-                    value={state.receiverPassportId}
-                    placeholder="3220 231245"
-                  />
-                )}
+                onChangeText={val =>
+                  seTstate({ ...state, receiverPassportId: val })
+                }
+                value={state.receiverPassportId}
+                placeholder="A0123824"
                 style={{ width: '90%' }}
               />
               <View
@@ -423,20 +399,9 @@ const CalculatorScreen = () => {
               </View>
               <TextInput
                 mode="outlined"
-                render={props => (
-                  <TextInputMask
-                    type={'custom'}
-                    options={{
-                      mask: '999999999999999999',
-                    }}
-                    onChangeText={val =>
-                      seTstate({ ...state, receiverINN: val })
-                    }
-                    value={state.receiverINN}
-                    onChangeText={val => console.log('val')}
-                    placeholder="322043253234231245"
-                  />
-                )}
+                onChangeText={val => seTstate({ ...state, receiverINN: val })}
+                value={state.receiverINN}
+                placeholder="2222222222"
                 style={{ width: '90%' }}
               />
               <View
