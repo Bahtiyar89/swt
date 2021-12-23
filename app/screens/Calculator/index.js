@@ -2,15 +2,60 @@ import React, { Fragment, useContext, useState } from 'react';
 import { View, Text, Dimensions, SafeAreaView, ScrollView } from 'react-native';
 import { Button, TextInput, Checkbox, HelperText } from 'react-native-paper';
 import { TextInputMask } from 'react-native-masked-text';
+import { useFocusEffect } from '@react-navigation/native';
 
 import AuthContext from '../../context/auth/AuthContext';
 import I18n from '../../../i18';
 import Login from '../Login';
+import utility from '../../utils/Utility';
 
 const CalculatorScreen = () => {
   const authContext = useContext(AuthContext);
   const { isSigned } = authContext;
   const [checked, setChecked] = useState(false);
+  const elements = {
+    sender: '',
+    fio: '',
+    phone: '',
+    passportId: '',
+    INN: '',
+    adress1: '',
+    adress2: '',
+    receiver: '',
+    receiverFIO: '',
+    receiverPhone: '',
+    receiverPassportId: '',
+    receiverINN: '',
+    receiverAdress1: '',
+    receiverAdress2: '',
+    productDescription: '',
+    link: '',
+  };
+  const [state, seTstate] = useState({ ...elements });
+  const [arr, seTarr] = useState([]);
+
+  const fetchUser = async () => {
+    const userData = await utility.getItemObject('calculator');
+    seTarr(userData);
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // Do something when the screen is focused
+      fetchUser();
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+      };
+    }, []),
+  );
+
+  console.log('arr: ', arr);
+  const onButtonPressed = () => {
+    arr.push(state);
+    utility.setItemObject('calculator', arr);
+    console.log('pressed', arr);
+  };
 
   return (
     <Fragment>
@@ -72,6 +117,8 @@ const CalculatorScreen = () => {
                 label={'Москва, ул. Леонова, д. 35'}
                 mode="outlined"
                 style={{ width: '90%' }}
+                onChangeText={val => seTstate({ ...state, sender: val })}
+                value={state.sender}
               />
 
               <Text style={{ width: '90%', paddingTop: '2%' }}>
@@ -96,6 +143,8 @@ const CalculatorScreen = () => {
                 label={'Иванов Иван Иванович'}
                 mode="outlined"
                 style={{ width: '90%' }}
+                onChangeText={val => seTstate({ ...state, fio: val })}
+                value={state.fio}
               />
               <View
                 style={{
@@ -120,7 +169,8 @@ const CalculatorScreen = () => {
                     options={{
                       mask: '+9 (999) 999 99 99',
                     }}
-                    onChangeText={val => console.log('val')}
+                    onChangeText={val => seTstate({ ...state, phone: val })}
+                    value={state.phone}
                     placeholder="+ 7 (123) 123 12 34"
                   />
                 )}
@@ -149,7 +199,10 @@ const CalculatorScreen = () => {
                     options={{
                       mask: '9999 999999',
                     }}
-                    onChangeText={val => console.log('val')}
+                    onChangeText={val =>
+                      seTstate({ ...state, passportId: val })
+                    }
+                    value={state.passportId}
                     placeholder="3220 231245"
                   />
                 )}
@@ -178,7 +231,8 @@ const CalculatorScreen = () => {
                     options={{
                       mask: '999999999999999999',
                     }}
-                    onChangeText={val => console.log('val')}
+                    onChangeText={val => seTstate({ ...state, INN: val })}
+                    value={state.INN}
                     placeholder="322043253234231245"
                   />
                 )}
@@ -203,11 +257,15 @@ const CalculatorScreen = () => {
                 label={'Москва, ул. Леонова, д. 35'}
                 mode="outlined"
                 style={{ width: '90%' }}
+                onChangeText={val => seTstate({ ...state, adress1: val })}
+                value={state.adress1}
               />
               <TextInput
                 label={'Москва, ул. Леонова, д. 35'}
                 mode="outlined"
                 style={{ width: '90%' }}
+                onChangeText={val => seTstate({ ...state, adress2: val })}
+                value={state.adress2}
               />
               <View
                 style={{
@@ -259,6 +317,8 @@ const CalculatorScreen = () => {
                 label={'Москва, ул. Леонова, д. 35'}
                 mode="outlined"
                 style={{ width: '90%' }}
+                onChangeText={val => seTstate({ ...state, receiver: val })}
+                value={state.receiver}
               />
               <Text style={{ width: '90%', paddingTop: '2%' }}>
                 + {I18n.t('choose_from_adres_book')}
@@ -281,6 +341,8 @@ const CalculatorScreen = () => {
                 label={'Иванов Иван Иванович'}
                 mode="outlined"
                 style={{ width: '90%' }}
+                onChangeText={val => seTstate({ ...state, receiverFIO: val })}
+                value={state.receiverFIO}
               />
               <View
                 style={{
@@ -304,6 +366,10 @@ const CalculatorScreen = () => {
                     options={{
                       mask: '+9 (999) 999 99 99',
                     }}
+                    onChangeText={val =>
+                      seTstate({ ...state, receiverPhone: val })
+                    }
+                    value={state.receiverPhone}
                     onChangeText={val => console.log('val')}
                     placeholder="+ 7 (123) 123 12 34"
                   />
@@ -332,7 +398,10 @@ const CalculatorScreen = () => {
                     options={{
                       mask: '9999 999999',
                     }}
-                    onChangeText={val => console.log('val')}
+                    onChangeText={val =>
+                      seTstate({ ...state, receiverPassportId: val })
+                    }
+                    value={state.receiverPassportId}
                     placeholder="3220 231245"
                   />
                 )}
@@ -360,6 +429,10 @@ const CalculatorScreen = () => {
                     options={{
                       mask: '999999999999999999',
                     }}
+                    onChangeText={val =>
+                      seTstate({ ...state, receiverINN: val })
+                    }
+                    value={state.receiverINN}
                     onChangeText={val => console.log('val')}
                     placeholder="322043253234231245"
                   />
@@ -384,11 +457,19 @@ const CalculatorScreen = () => {
                 label={'Москва, ул. Леонова, д. 35'}
                 mode="outlined"
                 style={{ width: '90%' }}
+                onChangeText={val =>
+                  seTstate({ ...state, receiverAdress1: val })
+                }
+                value={state.receiverAdress1}
               />
               <TextInput
                 label={'Москва, ул. Леонова, д. 35'}
                 mode="outlined"
                 style={{ width: '90%' }}
+                onChangeText={val =>
+                  seTstate({ ...state, receiverAdress2: val })
+                }
+                value={state.receiverAdress2}
               />
               <View
                 style={{
@@ -439,6 +520,10 @@ const CalculatorScreen = () => {
                 placeholder={
                   'Выбрать из адресной книги рыбный текстВыбрать из адресной книги рыбный текстВыбрать из адресной книги рыбный текст'
                 }
+                onChangeText={val =>
+                  seTstate({ ...state, productDescription: val })
+                }
+                value={state.productDescription}
                 numberOfLines={3}
                 mode="outlined"
                 multiline={false}
@@ -451,6 +536,8 @@ const CalculatorScreen = () => {
                 label={'lamoda.ru/krossy'}
                 mode="outlined"
                 style={{ width: '90%' }}
+                onChangeText={val => seTstate({ ...state, link: val })}
+                value={state.link}
               />
               <View
                 style={{
@@ -470,7 +557,7 @@ const CalculatorScreen = () => {
                   backgroundColor: '#333333',
                 }}
                 mode="contained"
-                onPress={() => console.log('pressed')}>
+                onPress={() => onButtonPressed()}>
                 <Text style={{ width: '90%', color: '#f9f9f9' }}>
                   {I18n.t('checkout')}
                 </Text>

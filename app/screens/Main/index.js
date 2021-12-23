@@ -65,7 +65,7 @@ const MainScreen = props => {
                 mode="outlined"
                 value={text}
                 style={styles.textInput}
-                onChangeText={text => setText(text)}
+                onChangeText={text => seTtext(text)}
               />
               <Text style={styles.textparagraph}>{I18n.t('to')}</Text>
               <TextInput
@@ -73,7 +73,7 @@ const MainScreen = props => {
                 mode="outlined"
                 value={text}
                 style={styles.textInput}
-                onChangeText={text => setText(text)}
+                onChangeText={text => seTtext(text)}
               />
               <Text style={styles.textparagraph}>{I18n.t('weight_kg')}</Text>
               <TextInput
@@ -81,7 +81,7 @@ const MainScreen = props => {
                 mode="outlined"
                 value={text}
                 style={styles.textInput}
-                onChangeText={text => setText(text)}
+                onChangeText={text => seTtext(text)}
               />
               <Text style={styles.textparagraph}>{I18n.t('capacity_m3')}</Text>
               <TextInput
@@ -89,7 +89,7 @@ const MainScreen = props => {
                 mode="outlined"
                 value={text}
                 style={styles.textInput}
-                onChangeText={text => setText(text)}
+                onChangeText={text => seTtext(text)}
               />
               <Button style={styles.button}>
                 <Text style={styles.buttonText}>{I18n.t('сalculate')}</Text>
