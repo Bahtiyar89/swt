@@ -90,6 +90,17 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
             headerRight: () => <ThemeController />,
           }}
         />
+        <Stack.Screen
+          name="Registration"
+          component={Registration}
+          options={{
+            title: 'Регистрация',
+            // When logging out, a pop animation feels intuitive
+            // You can remove this if you want the default 'push' animation
+
+            headerRight: () => <ThemeController />,
+          }}
+        />
         {/* isSigned ? (
           <Stack.Screen name="Home" component={LoggedInNavigator} />
         ) : (

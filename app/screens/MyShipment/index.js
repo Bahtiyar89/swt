@@ -7,7 +7,8 @@ import Login from '../Login';
 import I18n from '../../../i18';
 import utility from '../../utils/Utility';
 
-const MyShipmentsScreen = () => {
+const MyShipmentsScreen = props => {
+  const { navigation } = props;
   const authContext = useContext(AuthContext);
   const { isSigned, getCheckout, calculateArray } = authContext;
   const [state, seTstate] = useState([]);
@@ -31,8 +32,7 @@ const MyShipmentsScreen = () => {
       };
     }, []),
   );
-  console.log('shipment: ', state);
-  console.log('calculateArray', calculateArray);
+
   return (
     <Fragment>
       {isSigned ? (
@@ -109,7 +109,7 @@ const MyShipmentsScreen = () => {
           </Button>
         </View>
       ) : (
-        <Login />
+        <Login navigation={navigation} />
       )}
     </Fragment>
   );

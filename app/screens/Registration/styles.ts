@@ -5,15 +5,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    width:"100%",
+    width: '100%',
   },
   login: {
     padding: 8,
   },
-  
+
   loginHeaderText: { color: 'black', fontWeight: 'bold', fontSize: 28 },
-  signInText: { color: '#768192' },
-  textInput: { width:'90%' },
+  signInText: { color: 'black', fontWeight: 'bold', fontSize: 28 },
+  textInput: { width: '90%' },
   rowDirection: { flexDirection: 'row' },
   rowButton: { backgroundColor: '#2819ae', marginLeft: 10 },
   buttonText: { color: 'white' },

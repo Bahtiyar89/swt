@@ -21,12 +21,18 @@ interface IState {
   loginReducer: ILoginState;
 }
 
-const Registration: React.FC = () => {
+interface IProps {
+  navigation: any;
+}
+
+const Registration: React.FC<IProps> = (props: IProps) => {
+  const { navigation } = props;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const id = useSelector((state: IState) => state.loginReducer.id);
   const dispatch = useDispatch();
   const onLogin = () => dispatch(loginActions.requestLogin('test', '1234'));
   const onForgot = () => NavigationService.navigate('ForgotPassword');
+  console.log('navigation  :::::', navigation);
 
   const toast = useToast();
   const elements = {
@@ -131,7 +137,7 @@ const Registration: React.FC = () => {
       toast.show('Было ошибка повторите заново');
     } else {
       toast.show('Вы успешно зарегистрированы');
-      NavigationService.navigate('Login');
+      navigation.navigate('Home');
     }
   };
 

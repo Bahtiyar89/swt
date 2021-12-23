@@ -223,7 +223,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
           </Modal>
         </View>
       ) : (
-        <Login navigation />
+        <Login navigation={navigation} />
       )}
     </>
   );

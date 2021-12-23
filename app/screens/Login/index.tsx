@@ -23,6 +23,7 @@ interface IProps {
 
 const Login: React.FC<IProps> = (props: IProps) => {
   const { navigation } = props;
+
   // const id = useSelector((state: IState) => state.loginReducer.id);
   //const dispatch = useDispatch();
   // const onLogin = () => dispatch(loginActions.requestLogin('test', '1234'));

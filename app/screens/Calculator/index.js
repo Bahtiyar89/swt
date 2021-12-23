@@ -17,6 +17,7 @@ import Login from '../Login';
 import utility from '../../utils/Utility';
 
 const CalculatorScreen = props => {
+  const { navigation } = props;
   const authContext = useContext(AuthContext);
   const {
     isSigned,
@@ -531,7 +532,7 @@ const CalculatorScreen = props => {
                   justifyContent: 'space-between',
                 }}>
                 <Text>{I18n.t('transportation_cost')}</Text>
-                <Text>{calculatedValue} Руб.</Text>
+                <Text>{calculatedValue} $.</Text>
               </View>
               <Button
                 style={{
@@ -579,7 +580,7 @@ const CalculatorScreen = props => {
           </ScrollView>
         </SafeAreaView>
       ) : (
-        <Login />
+        <Login navigation={navigation} />
       )}
     </Fragment>
   );

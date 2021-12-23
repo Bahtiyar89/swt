@@ -153,7 +153,7 @@ const MainScreen = props => {
           )}
           <Portal>
             <Dialog visible={visible} onDismiss={hideDialog}>
-              <Dialog.Title>Стоит {calculated} рубля</Dialog.Title>
+              <Dialog.Title>Стоит {calculated} $</Dialog.Title>
               <Dialog.Actions>
                 <Button onPress={hideDialog}>Еще раз</Button>
                 <Button onPress={redirectButton}>Хорошо</Button>

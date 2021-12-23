@@ -4,7 +4,8 @@ import { Button } from 'react-native-paper';
 import AuthContext from '../../context/auth/AuthContext';
 import Login from '../Login';
 
-const ChatScreen = () => {
+const ChatScreen = props => {
+  const { navigation } = props;
   const authContext = useContext(AuthContext);
   const { isSigned } = authContext;
 
@@ -13,10 +14,10 @@ const ChatScreen = () => {
       {isSigned ? (
         <View
           style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text>Chat !</Text>
+          <Text>В разработке !</Text>
         </View>
       ) : (
-        <Login />
+        <Login navigation={navigation} />
       )}
     </>
   );
