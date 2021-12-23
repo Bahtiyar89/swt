@@ -16,6 +16,9 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const FALSE_REDIRECT = 'FALSE_REDIRECT';
 export const VARIFY_OK = 'VARIFY_OK';
 export const LOADING = 'LOADING';
+export const CALCULATED = 'CALCULATED';
+export const CHECKOUT_ORDER = 'CHECKOUT_ORDER';
+export const GET_CHECKOUT_ORDER = 'GET_CHECKOUT_ORDER';
 
 const AuthState = props => {
   const initialState = {
@@ -25,6 +28,8 @@ const AuthState = props => {
     varifyId: '',
     error: [],
     user: utility.getItemObject('user'),
+    calculatedValue: 0,
+    calculateArray: [],
   };
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
@@ -154,6 +159,21 @@ const AuthState = props => {
     }
   };
 
+  const calculatingMethod = calc => {
+    dispatch({ type: CALCULATED, payload: calc });
+  };
+  const checkoutOrderMethod = obj => {
+    console.log('objjjj ', obj);
+    dispatch({ type: CHECKOUT_ORDER, payload: obj });
+  };
+  const getCheckout = async () => {
+    try {
+      dispatch({ type: GET_CHECKOUT_ORDER });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -162,6 +182,8 @@ const AuthState = props => {
         varifyId: state.varifyId,
         user: state.user,
         loading: state.loading,
+        calculatedValue: state.calculatedValue,
+        calculateArray: state.calculateArray,
         /* token: state.token, 
         error: state.error,
         redirectToReferrer: state.redirectToReferrer,
@@ -173,10 +195,13 @@ const AuthState = props => {
         signin,
         signout
         */
+        calculatingMethod,
         signin,
         signOut,
         register,
         approveVarify,
+        checkoutOrderMethod,
+        getCheckout,
       }}>
       {props.children}
     </AuthContext.Provider>

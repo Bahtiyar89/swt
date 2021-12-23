@@ -1,6 +1,13 @@
 import React, { Fragment, useContext, useState } from 'react';
 import { View, Text, Dimensions, SafeAreaView, ScrollView } from 'react-native';
-import { Button, TextInput, Checkbox, HelperText } from 'react-native-paper';
+import {
+  Button,
+  TextInput,
+  Checkbox,
+  HelperText,
+  Portal,
+  Dialog,
+} from 'react-native-paper';
 import { TextInputMask } from 'react-native-masked-text';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -9,10 +16,17 @@ import I18n from '../../../i18';
 import Login from '../Login';
 import utility from '../../utils/Utility';
 
-const CalculatorScreen = () => {
+const CalculatorScreen = props => {
   const authContext = useContext(AuthContext);
-  const { isSigned } = authContext;
+  const {
+    isSigned,
+    calculatedValue,
+    getCheckout,
+    calculateArray,
+    checkoutOrderMethod,
+  } = authContext;
   const [checked, setChecked] = useState(false);
+
   const elements = {
     sender: '',
     fio: '',
@@ -36,7 +50,9 @@ const CalculatorScreen = () => {
 
   const fetchUser = async () => {
     const userData = await utility.getItemObject('calculator');
-    seTarr(userData);
+    if (userData) {
+      seTarr(userData);
+    }
   };
 
   useFocusEffect(
@@ -49,14 +65,16 @@ const CalculatorScreen = () => {
       };
     }, []),
   );
+  const [visible, setVisible] = React.useState(false);
 
-  console.log('arr: ', arr);
+  const showDialog = () => setVisible(true);
+
   const onButtonPressed = () => {
     arr.push(state);
     utility.setItemObject('calculator', arr);
-    console.log('pressed', arr);
+    showDialog();
   };
-
+  const hideDialog = () => setVisible(false);
   return (
     <Fragment>
       {isSigned ? (
@@ -513,7 +531,7 @@ const CalculatorScreen = () => {
                   justifyContent: 'space-between',
                 }}>
                 <Text>{I18n.t('transportation_cost')}</Text>
-                <Text>1250,50 ₽</Text>
+                <Text>{calculatedValue} Руб.</Text>
               </View>
               <Button
                 style={{
@@ -550,6 +568,14 @@ const CalculatorScreen = () => {
                 {I18n.t('info_text')}
               </Text>
             </View>
+            <Portal>
+              <Dialog visible={visible} onDismiss={hideDialog}>
+                <Dialog.Title>Ваш заказ был принят</Dialog.Title>
+                <Dialog.Actions>
+                  <Button onPress={hideDialog}>Хорошо</Button>
+                </Dialog.Actions>
+              </Dialog>
+            </Portal>
           </ScrollView>
         </SafeAreaView>
       ) : (

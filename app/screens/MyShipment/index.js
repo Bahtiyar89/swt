@@ -9,18 +9,21 @@ import utility from '../../utils/Utility';
 
 const MyShipmentsScreen = () => {
   const authContext = useContext(AuthContext);
-  const { isSigned } = authContext;
+  const { isSigned, getCheckout, calculateArray } = authContext;
   const [state, seTstate] = useState([]);
 
   const fetchUser = async () => {
-    const userData = await utility.getItemObject('calculator');
-    seTstate(userData);
-    console.log('userData 33: ', userData);
+    await utility.getItemObject('calculator').then(t => {
+      if (t) {
+        seTstate(t);
+      }
+    });
   };
 
   useFocusEffect(
     React.useCallback(() => {
       // Do something when the screen is focused
+      // fetchUser();
       fetchUser();
       return () => {
         // Do something when the screen is unfocused
@@ -29,7 +32,7 @@ const MyShipmentsScreen = () => {
     }, []),
   );
   console.log('shipment: ', state);
-  console.log('utility.getItemObject', utility.getItemObject('calculator'));
+  console.log('calculateArray', calculateArray);
   return (
     <Fragment>
       {isSigned ? (

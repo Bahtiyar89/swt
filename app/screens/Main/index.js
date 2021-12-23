@@ -19,7 +19,7 @@ import { useToast } from 'react-native-toast-notifications';
 import AuthContext from '../../context/auth/AuthContext';
 import styles from './styles';
 import I18n from '../../../i18';
-import Modal from 'react-native-modal';
+import utility from '../../utils/Utility';
 
 const MainScreen = props => {
   const elements = {
@@ -31,7 +31,8 @@ const MainScreen = props => {
 
   const [state, seTstate] = useState({ ...elements });
   const authContext = useContext(AuthContext);
-  const { isSigned, signOut, user } = authContext;
+  const { calculateArray, signOut, user, calculatedValue, calculatingMethod } =
+    authContext;
 
   const [scan, setScan] = useState(false);
   const [calculated, seTcalculated] = useState(0);
@@ -57,6 +58,12 @@ const MainScreen = props => {
   const showDialog = () => setVisible(true);
 
   const hideDialog = () => setVisible(false);
+  const redirectButton = () => {
+    setVisible(false);
+    calculatingMethod(calculated);
+    props.navigation.navigate('Calculator');
+  };
+  console.log('calculateArray: ', calculateArray);
   return (
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
@@ -148,7 +155,8 @@ const MainScreen = props => {
             <Dialog visible={visible} onDismiss={hideDialog}>
               <Dialog.Title>Стоит {calculated} рубля</Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={hideDialog}>Хорошо</Button>
+                <Button onPress={hideDialog}>Еще раз</Button>
+                <Button onPress={redirectButton}>Хорошо</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
