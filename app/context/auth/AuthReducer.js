@@ -3,7 +3,6 @@ import { CommonActions } from '@react-navigation/native';
 import { CLEAR_ERRORS } from '../types';
 import {
   LOGOUT,
-  REGISTER_SUCCESS,
   REGISTER_FAIL,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -41,13 +40,6 @@ export default (state, action) => {
       CommonActions.navigate({ name: 'Login' });
       return {
         ...state,
-      };
-    case REGISTER_SUCCESS:
-      return {
-        ...state,
-        varifyId: action.payload.data.id,
-        isSigned: false,
-        loading: false,
       };
     case LOGIN_SUCCESS:
       console.log(action.payload);

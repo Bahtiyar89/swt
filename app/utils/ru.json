@@ -10,6 +10,7 @@
   "choose_localization": "Выбор локализации",
   "language": "Язык",
   "incorrect_email": "Email недействителень!",
+  "incorrect_username": "Имя пользователя недействителень!",
   "by_default_language_russian": "По-умолчанию использовать Русский язык",
   "by_default_language_english": "По-умолчанию использовать Английский язык",
   "choose_default_language": "Не выбрано язык по умолчанию",

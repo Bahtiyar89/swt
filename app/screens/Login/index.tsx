@@ -35,16 +35,21 @@ const Login: React.FC<IProps> = (props: IProps) => {
   const authContext = useContext(AuthContext);
   const { signin, signOut, loading } = authContext;
   const elements = {
-    email: '',
+    username: '',
     password: '',
   };
 
   const validationElements = {
-    email: false,
+    username: false,
     password: false,
   };
 
-  const [user, seTuser] = useState({ ...elements });
+  const [user, seTuser] = useState({
+    data: {
+      username: '',
+      password: '',
+    },
+  });
   const [validObj, seTvalidObj] = useState({ ...validationElements });
   const [passwordShow, seTpasswordShow] = useState(true);
 
@@ -52,11 +57,11 @@ const Login: React.FC<IProps> = (props: IProps) => {
     seTuser(prev => {
       const varPr = { ...prev };
       switch (fieldName) {
-        case 'email':
-          varPr.email = val;
+        case 'username':
+          varPr.data.username = val;
           break;
         case 'password':
-          varPr.password = val;
+          varPr.data.password = val;
           break;
       }
       return varPr;
@@ -65,15 +70,15 @@ const Login: React.FC<IProps> = (props: IProps) => {
 
   const validation = () => {
     let err = false;
-    if (!user.email.includes('@')) {
+    if (user.data.username.length < 3) {
       err = true;
-      seTvalidObj({ ...validObj, email: true });
+      seTvalidObj({ ...validObj, username: true });
       setTimeout(() => {
-        seTvalidObj({ ...validObj, email: false });
+        seTvalidObj({ ...validObj, username: false });
       }, 1000);
       return err;
     }
-    if (user.password.length < 3) {
+    if (user.data.password.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, password: true });
       setTimeout(() => {
@@ -85,6 +90,8 @@ const Login: React.FC<IProps> = (props: IProps) => {
 
   const submit = () => {
     const err = validation();
+    console.log(user);
+
     if (err) {
     } else {
       signin(user);
@@ -104,22 +111,22 @@ const Login: React.FC<IProps> = (props: IProps) => {
           />
           <Text style={styles.signInText}>{I18n.t('authorization')}</Text>
           <View style={{ flexDirection: 'row', width: '90%' }}>
-            <Text style={{ flex: 1 }}>E-mail</Text>
+            <Text style={{ flex: 1 }}>Имя пользователя</Text>
             <HelperText
               style={{ alignItems: 'flex-end' }}
               type="error"
-              visible={validObj.email}>
-              {I18n.t('incorrect_email')}
+              visible={validObj.username}>
+              {I18n.t('incorrect_username')}
             </HelperText>
           </View>
 
           <TextInput
-            placeholder="example@100express.com"
+            placeholder="Максим"
             mode="outlined"
             style={styles.textInput}
-            onChangeText={val => handleChange(val, 'email')}
+            onChangeText={val => handleChange(val, 'username')}
             right={<TextInput.Icon name={require('../../assets/email.png')} />}
-            value={user.email}
+            value={user.data.username}
           />
           <View style={{ marginTop: 20, flexDirection: 'row', width: '90%' }}>
             <Text style={{ flex: 1 }}>{I18n.t('password')}</Text>
@@ -142,7 +149,7 @@ const Login: React.FC<IProps> = (props: IProps) => {
               />
             }
             secureTextEntry={passwordShow}
-            value={user.password}
+            value={user.data.password}
           />
 
           <Button

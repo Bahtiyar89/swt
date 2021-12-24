@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Image, ScrollView, SafeAreaView } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { View, ScrollView, SafeAreaView } from 'react-native';
 import {
   Text,
   TextInput,
@@ -7,15 +7,16 @@ import {
   HelperText,
   Checkbox,
 } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
+//import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-native-modal';
 import { TextInputMask } from 'react-native-masked-text';
 import { useToast } from 'react-native-toast-notifications';
 
-import * as loginActions from 'app/store/actions/loginActions';
+//import * as loginActions from 'app/store/actions/loginActions';
 import styles from './styles';
 import { ILoginState } from 'app/models/reducers/login';
-import NavigationService from 'app/navigation/NavigationService';
+import AuthContext from '../../context/auth/AuthContext';
+//import NavigationService from 'app/navigation/NavigationService';
 
 interface IState {
   loginReducer: ILoginState;
@@ -27,29 +28,32 @@ interface IProps {
 
 const Registration: React.FC<IProps> = (props: IProps) => {
   const { navigation } = props;
+  const authContext = useContext(AuthContext);
+  const { register } = authContext;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const id = useSelector((state: IState) => state.loginReducer.id);
-  const dispatch = useDispatch();
-  const onLogin = () => dispatch(loginActions.requestLogin('test', '1234'));
-  const onForgot = () => NavigationService.navigate('ForgotPassword');
-  console.log('navigation  :::::', navigation);
+  //const id = useSelector((state: IState) => state.loginReducer.id);
+  //const dispatch = useDispatch();
+  //const onLogin = () => dispatch(loginActions.requestLogin('test', '1234'));
+  //const onForgot = () => NavigationService.navigate('ForgotPassword');
 
   const toast = useToast();
   const elements = {
-    name: '',
+    fio: '',
     email: '',
     password: '',
-    phone: '',
+    phone_number: '',
+    username: '',
   };
   const [user, seTuser] = useState({ ...elements });
 
   const validationElements = {
-    name: false,
+    fio: false,
     email: false,
     password: false,
     password_confirm: false,
-    phone: false,
+    phone_number: false,
     chebox: false,
+    username: false,
   };
 
   const [validObj, seTvalidObj] = useState({ ...validationElements });
@@ -64,14 +68,17 @@ const Registration: React.FC<IProps> = (props: IProps) => {
     seTuser(prev => {
       const varPr = { ...prev };
       switch (fieldName) {
-        case 'name':
-          varPr.name = val;
+        case 'fio':
+          varPr.fio = val;
+          break;
+        case 'username':
+          varPr.username = val;
           break;
         case 'email':
           varPr.email = val;
           break;
-        case 'phone':
-          varPr.phone = val;
+        case 'phone_number':
+          varPr.phone_number = val;
           break;
         case 'password':
           varPr.password = val;
@@ -83,11 +90,19 @@ const Registration: React.FC<IProps> = (props: IProps) => {
 
   const validation = () => {
     let err = false;
-    if (user.name.length < 3) {
+    if (user.fio.length < 3) {
       err = true;
-      seTvalidObj({ ...validObj, name: true });
+      seTvalidObj({ ...validObj, fio: true });
       setTimeout(() => {
-        seTvalidObj({ ...validObj, name: false });
+        seTvalidObj({ ...validObj, fio: false });
+      }, 1000);
+      return err;
+    }
+    if (user.username.length < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, username: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, username: false });
       }, 1000);
       return err;
     }
@@ -100,11 +115,11 @@ const Registration: React.FC<IProps> = (props: IProps) => {
       return err;
     }
 
-    if (user.phone.length < 3) {
+    if (user.phone_number.length < 3) {
       err = true;
-      seTvalidObj({ ...validObj, phone: true });
+      seTvalidObj({ ...validObj, phone_number: true });
       setTimeout(() => {
-        seTvalidObj({ ...validObj, phone: false });
+        seTvalidObj({ ...validObj, phone_number: false });
       }, 1000);
       return err;
     }
@@ -133,11 +148,11 @@ const Registration: React.FC<IProps> = (props: IProps) => {
     const err = validation();
     console.log('err...', JSON.stringify(err));
     console.log('user...', JSON.stringify(validObj));
+    console.log('user...', user);
     if (err) {
       toast.show('Было ошибка повторите заново');
     } else {
-      toast.show('Вы успешно зарегистрированы');
-      navigation.navigate('Home');
+      register(user, navigation);
     }
   };
 
@@ -151,7 +166,7 @@ const Registration: React.FC<IProps> = (props: IProps) => {
             <HelperText
               style={{ alignItems: 'flex-end' }}
               type="error"
-              visible={validObj.name}>
+              visible={validObj.fio}>
               Введите И.Ф.О
             </HelperText>
           </View>
@@ -160,8 +175,26 @@ const Registration: React.FC<IProps> = (props: IProps) => {
             placeholder="Иванов Иван Иванович"
             mode="outlined"
             style={styles.textInput}
-            onChangeText={val => handleChange(val, 'name')}
-            value={user.name}
+            onChangeText={val => handleChange(val, 'fio')}
+            value={user.fio}
+          />
+
+          <View style={{ marginTop: 10, flexDirection: 'row', width: '90%' }}>
+            <Text style={{ flex: 1 }}>Имя пользователя</Text>
+            <HelperText
+              style={{ alignItems: 'flex-end' }}
+              type="error"
+              visible={validObj.username}>
+              Имя пользователя
+            </HelperText>
+          </View>
+
+          <TextInput
+            placeholder="maksim"
+            mode="outlined"
+            style={styles.textInput}
+            onChangeText={val => handleChange(val, 'username')}
+            value={user.username}
           />
 
           <View style={{ marginTop: 10, flexDirection: 'row', width: '90%' }}>
@@ -188,7 +221,7 @@ const Registration: React.FC<IProps> = (props: IProps) => {
             <HelperText
               style={{ alignItems: 'flex-end' }}
               type="error"
-              visible={validObj.phone}>
+              visible={validObj.phone_number}>
               Введите номер телефона!
             </HelperText>
           </View>
@@ -201,9 +234,9 @@ const Registration: React.FC<IProps> = (props: IProps) => {
                 options={{
                   mask: '+9 (999) 999 99 99',
                 }}
-                onChangeText={val => handleChange(val, 'phone')}
+                onChangeText={val => handleChange(val, 'phone_number')}
                 placeholder="+ 7 (123) 123 12 34"
-                value={user.phone}
+                value={user.phone_number}
               />
             )}
             style={styles.textInput}
@@ -294,7 +327,12 @@ const Registration: React.FC<IProps> = (props: IProps) => {
             Соглашение должно быть нажато!
           </HelperText>
           <Button
-            style={{ width: '90%', marginTop: 20, backgroundColor: '#333333' }}
+            style={{
+              width: '90%',
+              marginTop: 20,
+              marginBottom: 30,
+              backgroundColor: '#333333',
+            }}
             mode="contained"
             onPress={submit}>
             <Text style={styles.buttonText}>Зарегистрироваться</Text>

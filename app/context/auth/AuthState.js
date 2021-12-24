@@ -1,13 +1,12 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
-import NavigationService from 'app/navigation/NavigationService';
 import AuthContext from './AuthContext';
 import AuthReducer from './AuthReducer';
 import { CLEAR_ERRORS } from '../types';
-import { CommonActions } from '@react-navigation/native';
+import { doGet, doPost } from '../../utils/apiActions';
+import { useToast } from 'react-native-toast-notifications';
 
 import utility from '../../utils/Utility';
-export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const LOGOUT = 'LOGOUT';
 export const REGISTER_FAIL = 'REGISTER_FAIL';
 export const AUTH_ERROR = 'AUTH_ERROR';
@@ -21,6 +20,7 @@ export const CHECKOUT_ORDER = 'CHECKOUT_ORDER';
 export const GET_CHECKOUT_ORDER = 'GET_CHECKOUT_ORDER';
 
 const AuthState = props => {
+  const toast = useToast();
   const initialState = {
     token: utility.getItem('token'),
     loading: false,
@@ -48,6 +48,7 @@ const AuthState = props => {
 
   //Login User
   const signin = async FormData => {
+    console.log('FormData: ', FormData);
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -107,31 +108,21 @@ const AuthState = props => {
   const reverseRedirect = () => dispatch({ type: FALSE_REDIRECT });
 */
   //Register user
-  const register = async FormData => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
+  const register = async (FormData, navigation) => {
     dispatch({ type: LOADING, payload: true });
-    const res = await axios.post(
-      `https://flexim.tk/funeral/api/v1/users/register/customer`,
-      FormData,
-      config,
-    );
-    dispatch({ type: LOADING, payload: false });
-    if (res.data.status === 'FAIL') {
-      dispatch({
-        type: REGISTER_FAIL,
-        payload: res.data.message,
+    doPost(`v1/account/signup/`, FormData)
+      .then(({ data }) => {
+        dispatch({ type: LOADING, payload: false });
+        navigation.navigate('Home');
+      })
+      .catch(error => {
+        toast.show(error.message, {
+          type: 'warning',
+          duration: 4000,
+          animationType: 'zoom-in',
+        });
+        dispatch({ type: LOADING, payload: false });
       });
-    } else {
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data,
-      });
-    }
   };
 
   const approveVarify = async (FormData, navigation) => {
