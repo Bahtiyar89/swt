@@ -9,6 +9,7 @@ import { PersistGate } from 'redux-persist/es/integration/react';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { ToastProvider } from 'react-native-toast-notifications';
 import AuthState from './context/auth/AuthState';
+import GoodsState from './context/goods/GoodsState';
 
 import {
   PaperThemeDefault,
@@ -44,9 +45,11 @@ const EntryPoint: React.FC = () => {
     <ToastProvider placement="top">
       <Provider store={store}>
         <AuthState>
-          <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
-            <RootNavigation />
-          </PersistGate>
+          <GoodsState>
+            <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
+              <RootNavigation />
+            </PersistGate>
+          </GoodsState>
         </AuthState>
       </Provider>
     </ToastProvider>

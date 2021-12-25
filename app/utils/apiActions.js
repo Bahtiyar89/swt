@@ -17,6 +17,21 @@ export const doGet = async (uri, params = {}) => {
   return await axios.get('https://swttoken.herokuapp.com/' + uri, config);
 };
 
+export const doGetByBody = async (uri, postData, params = {}) => {
+  const config = {
+    headers: {
+      // Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    params,
+  };
+  return await axios.get(
+    'https://swttoken.herokuapp.com/' + uri,
+    postData,
+    config,
+  );
+};
+
 export const doPost = async (uri, postData, params = {}) => {
   const config = {
     headers: {

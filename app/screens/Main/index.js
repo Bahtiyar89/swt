@@ -20,19 +20,23 @@ import AuthContext from '../../context/auth/AuthContext';
 import styles from './styles';
 import I18n from '../../../i18';
 import utility from '../../utils/Utility';
+import GoodsContext from '../../context/goods/GoodsContext';
 
 const MainScreen = props => {
   const elements = {
-    from: '',
-    to: '',
+    city_From: '',
+    city_To: '',
     weight: '',
-    capacity: '',
+    volume: '',
   };
 
   const [state, seTstate] = useState({ ...elements });
   const authContext = useContext(AuthContext);
-  const { calculateArray, signOut, user, calculatedValue, calculatingMethod } =
-    authContext;
+  const goodsContext = useContext(GoodsContext);
+
+  const { calculateArray, signOut, user } = authContext;
+  const { calculatPriceGood, setMainGood, fetchAllGoods, good, allGoods } =
+    goodsContext;
 
   const [scan, setScan] = useState(false);
   const [calculated, seTcalculated] = useState(0);
@@ -51,6 +55,7 @@ const MainScreen = props => {
   const onButtonCalculate = () => {
     let weight = parseFloat(state.weight);
     seTcalculated(weight * 20.75);
+    setMainGood(state);
     showDialog();
   };
   const [visible, setVisible] = React.useState(false);
@@ -60,10 +65,10 @@ const MainScreen = props => {
   const hideDialog = () => setVisible(false);
   const redirectButton = () => {
     setVisible(false);
-    calculatingMethod(calculated);
+    calculatPriceGood(calculated);
     props.navigation.navigate('Calculator');
   };
-  console.log('calculateArray: ', calculateArray);
+
   return (
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
@@ -92,17 +97,17 @@ const MainScreen = props => {
               <TextInput
                 label={I18n.t('city')}
                 mode="outlined"
-                value={state.from}
+                value={state.city_From}
                 style={styles.textInput}
-                onChangeText={val => seTstate({ ...state, from: val })}
+                onChangeText={val => seTstate({ ...state, city_From: val })}
               />
               <Text style={styles.textparagraph}>{I18n.t('to')}</Text>
               <TextInput
                 label={I18n.t('city')}
                 mode="outlined"
-                value={state.to}
+                value={state.city_To}
                 style={styles.textInput}
-                onChangeText={val => seTstate({ ...state, to: val })}
+                onChangeText={val => seTstate({ ...state, city_To: val })}
               />
               <Text style={styles.textparagraph}>{I18n.t('weight_kg')}</Text>
               <TextInput
@@ -116,9 +121,9 @@ const MainScreen = props => {
               <TextInput
                 label={I18n.t('capacity')}
                 mode="outlined"
-                value={state.capacity}
+                value={state.volume}
                 style={styles.textInput}
-                onChangeText={val => seTstate({ ...state, capacity: val })}
+                onChangeText={val => seTstate({ ...state, volume: val })}
               />
               <Button onPress={() => onButtonCalculate()} style={styles.button}>
                 <Text style={styles.buttonText}>{I18n.t('сalculate')}</Text>

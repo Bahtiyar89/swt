@@ -3,6 +3,7 @@ import { ScrollView, SafeAreaView, View, Text, FlatList } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { Button, IconButton, Card, Title, Paragraph } from 'react-native-paper';
 import AuthContext from '../../context/auth/AuthContext';
+import GoodsContext from '../../context/goods/GoodsContext';
 import Login from '../Login';
 import I18n from '../../../i18';
 import utility from '../../utils/Utility';
@@ -32,7 +33,7 @@ const MyShipmentsScreen = props => {
       };
     }, []),
   );
-
+  console.log('shipment: ', state);
   return (
     <Fragment>
       {isSigned ? (
@@ -61,31 +62,36 @@ const MyShipmentsScreen = props => {
             }}
             data={state}
             keyExtractor={state => (Math.random(100) * 10).toString()}
-            renderItem={({ state }) => (
-              <Card
-                style={{
-                  flex: 1,
-                  width: '90%',
-                  margin: 5,
-                  borderColor: '#000',
-                  borderWidth: 2,
-                }}>
-                <Card.Content>
-                  <View>
-                    <IconButton
-                      icon="checkbox-blank-circle"
-                      size={10}
-                      color="green"
-                      style={{ margin: 0 }}
-                    />
-                    <Text style={{ paddingLeft: 3 }}>Не доставлен</Text>
-                  </View>
-                  <Title style={{ fontSize: 16 }}>№ 4325348723</Title>
-                  <Paragraph>Санкт-Петербург — Москва</Paragraph>
-                  <Paragraph>Полная дата доставки: 27.11.2021</Paragraph>
-                </Card.Content>
-              </Card>
-            )}
+            renderItem={({ item }) => {
+              console.log('statesss: ', item);
+              return (
+                <Card
+                  style={{
+                    flex: 1,
+                    width: '90%',
+                    margin: 5,
+                    borderColor: '#000',
+                    borderWidth: 2,
+                  }}>
+                  <Card.Content>
+                    <View>
+                      <IconButton
+                        icon="checkbox-blank-circle"
+                        size={10}
+                        color="green"
+                        style={{ margin: 0 }}
+                      />
+                      <Text style={{ paddingLeft: 3 }}>{item.Status}</Text>
+                    </View>
+                    <Title style={{ fontSize: 16 }}>№ 4325348723</Title>
+                    <Paragraph>
+                      {item.city_From} — {item.city_To}
+                    </Paragraph>
+                    <Paragraph>Полная дата доставки: 27.11.2021</Paragraph>
+                  </Card.Content>
+                </Card>
+              );
+            }}
           />
 
           <Button

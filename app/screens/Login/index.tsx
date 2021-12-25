@@ -33,18 +33,14 @@ const Login: React.FC<IProps> = (props: IProps) => {
 
   const isDark = useSelector((state: IState) => state.themeReducer.isDark);
   const authContext = useContext(AuthContext);
-  const { signin, signOut, loading } = authContext;
-  const elements = {
-    username: '',
-    password: '',
-  };
+  const { signin, signOut, user, loading } = authContext;
 
   const validationElements = {
     username: false,
     password: false,
   };
 
-  const [user, seTuser] = useState({
+  const [userState, seTuserState] = useState({
     data: {
       username: '',
       password: '',
@@ -54,7 +50,7 @@ const Login: React.FC<IProps> = (props: IProps) => {
   const [passwordShow, seTpasswordShow] = useState(true);
 
   const handleChange = (val: string, fieldName: string) => {
-    seTuser(prev => {
+    seTuserState(prev => {
       const varPr = { ...prev };
       switch (fieldName) {
         case 'username':
@@ -70,7 +66,7 @@ const Login: React.FC<IProps> = (props: IProps) => {
 
   const validation = () => {
     let err = false;
-    if (user.data.username.length < 3) {
+    if (userState.data.username.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, username: true });
       setTimeout(() => {
@@ -78,7 +74,7 @@ const Login: React.FC<IProps> = (props: IProps) => {
       }, 1000);
       return err;
     }
-    if (user.data.password.length < 3) {
+    if (userState.data.password.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, password: true });
       setTimeout(() => {
@@ -90,11 +86,11 @@ const Login: React.FC<IProps> = (props: IProps) => {
 
   const submit = () => {
     const err = validation();
-    console.log(user);
+    console.log(userState);
 
     if (err) {
     } else {
-      signin(user);
+      signin(userState);
       //  onLogin();
     }
   };
@@ -126,7 +122,7 @@ const Login: React.FC<IProps> = (props: IProps) => {
             style={styles.textInput}
             onChangeText={val => handleChange(val, 'username')}
             right={<TextInput.Icon name={require('../../assets/email.png')} />}
-            value={user.data.username}
+            value={userState.data.username}
           />
           <View style={{ marginTop: 20, flexDirection: 'row', width: '90%' }}>
             <Text style={{ flex: 1 }}>{I18n.t('password')}</Text>
@@ -149,7 +145,7 @@ const Login: React.FC<IProps> = (props: IProps) => {
               />
             }
             secureTextEntry={passwordShow}
-            value={user.data.password}
+            value={userState.data.password}
           />
 
           <Button

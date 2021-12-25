@@ -15,7 +15,6 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const FALSE_REDIRECT = 'FALSE_REDIRECT';
 export const VARIFY_OK = 'VARIFY_OK';
 export const LOADING = 'LOADING';
-export const CALCULATED = 'CALCULATED';
 export const CHECKOUT_ORDER = 'CHECKOUT_ORDER';
 export const GET_CHECKOUT_ORDER = 'GET_CHECKOUT_ORDER';
 
@@ -28,7 +27,6 @@ const AuthState = props => {
     varifyId: '',
     error: [],
     user: utility.getItemObject('user'),
-    calculatedValue: 0,
     calculateArray: [],
   };
   const [state, dispatch] = useReducer(AuthReducer, initialState);
@@ -48,65 +46,25 @@ const AuthState = props => {
 
   //Login User
   const signin = async FormData => {
-    console.log('FormData: ', FormData);
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    try {
-      dispatch({ type: LOADING, payload: true });
-      /* const res = await axios.post(
-        `https://flexim.tk/funeral/api/v1/users/login`,
-        FormData,
-        config,
-      );
-      */
-      dispatch({ type: LOADING, payload: false });
-      dispatch({
-        type: LOGIN_SUCCESS,
-        payload: FormData,
+    dispatch({ type: LOADING, payload: true });
+    doPost(`v1/account/login/`, FormData.data)
+      .then(({ data }) => {
+        dispatch({ type: LOADING, payload: false });
+        dispatch({
+          type: LOGIN_SUCCESS,
+          payload: { ...data, ...FormData.data },
+        });
+      })
+      .catch(error => {
+        toast.show(error.response.request._response, {
+          type: 'warning',
+          duration: 4000,
+          animationType: 'zoom-in',
+        });
+        dispatch({ type: LOADING, payload: false });
       });
-    } catch (err) {
-      dispatch({ type: LOADING, payload: false });
-      dispatch({
-        type: LOGIN_FAIL,
-        payload: err,
-      });
-    }
-  };
-  /*
-  //Load User
-  const signout = async () => {
-    try {
-      await axios.get(`${API}/v1/users/signout`);
-      dispatch({
-        type: LOGOUT,
-      });
-    } catch (err) {
-      console.log(err);
-    }
   };
 
-  //forgotPassword Errors
-  const forgotPassword = async FormData => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    try {
-      axios.post(`${API}/v1/users/forgotPassword`, FormData, config);
-    } catch (error) {
-      console.log('error11 ');
-    }
-  };
-
-  //clear Errors
-  const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
-  const reverseRedirect = () => dispatch({ type: FALSE_REDIRECT });
-*/
   //Register user
   const register = async (FormData, navigation) => {
     dispatch({ type: LOADING, payload: true });
@@ -150,9 +108,6 @@ const AuthState = props => {
     }
   };
 
-  const calculatingMethod = calc => {
-    dispatch({ type: CALCULATED, payload: calc });
-  };
   const checkoutOrderMethod = obj => {
     console.log('objjjj ', obj);
     dispatch({ type: CHECKOUT_ORDER, payload: obj });
@@ -173,7 +128,6 @@ const AuthState = props => {
         varifyId: state.varifyId,
         user: state.user,
         loading: state.loading,
-        calculatedValue: state.calculatedValue,
         calculateArray: state.calculateArray,
         /* token: state.token, 
         error: state.error,
@@ -186,7 +140,6 @@ const AuthState = props => {
         signin,
         signout
         */
-        calculatingMethod,
         signin,
         signOut,
         register,

@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import { Button, Avatar, IconButton, Badge } from 'react-native-paper';
 //import { useDispatch } from 'react-redux';
 import Modal from 'react-native-modal';
+import { useFocusEffect } from '@react-navigation/native';
 
 import AuthContext from '../../context/auth/AuthContext';
 import Login from '../Login';
@@ -95,7 +96,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
               source={require('../../assets/gubin.png')}
             />
             <View style={styles.profileNameSurname}>
-              <Text>Aлександр Грачев</Text>
+              <Text>{user?.fio}</Text>
               <Text>Москва, Россия</Text>
             </View>
           </View>

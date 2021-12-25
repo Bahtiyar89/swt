@@ -10,7 +10,6 @@ import {
   FALSE_REDIRECT,
   VARIFY_OK,
   LOADING,
-  CALCULATED,
   CHECKOUT_ORDER,
   GET_CHECKOUT_ORDER,
 } from './AuthState';
@@ -19,8 +18,6 @@ export default (state, action) => {
   switch (action.type) {
     case LOADING:
       return { ...state, loading: action.payload };
-    case CALCULATED:
-      return { ...state, calculatedValue: action.payload };
     case GET_CHECKOUT_ORDER:
       let aa = utility.getItemObject('calculator');
       console.log('aa: ', aa);
@@ -49,7 +46,7 @@ export default (state, action) => {
         ...state,
         isSigned: true,
         loading: false,
-        user: action.payload.user,
+        user: action.payload,
       };
     case FALSE_REDIRECT:
       return {
