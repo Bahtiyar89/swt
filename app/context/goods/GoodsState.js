@@ -50,7 +50,6 @@ const GoodsState = props => {
       DescrGood: '',
       Status: '',
       Price: 0,
-      trackid: 0,
     },
     allGoods: utility.getItemObject('allGoods'),
     loading: false,
@@ -88,9 +87,11 @@ const GoodsState = props => {
     dispatch({ type: LOADING, payload: true });
     doPost(`v1/post/b/qwe/`, FormData)
       .then(({ data }) => {
+        FormData['trackid'] = data.trackid;
         console.log('data::: 555', data);
         dispatch({ type: LOADING, payload: false });
         let newType1 = Object.assign([], arr);
+        console.log('FormData:::: ', FormData);
         newType1.push(FormData);
         dispatch({
           type: PRODUCT_SAVED,

@@ -51,7 +51,6 @@ const CalculatorScreen = props => {
     city_To: '',
     volume: 0,
     weight: 0,
-    trackid: 0,
   };
   const [state, seTstate] = useState({ ...elements });
   const [arr, seTarr] = useState([]);
@@ -78,7 +77,6 @@ const CalculatorScreen = props => {
           city_To: good.city_To,
           volume: good.volume,
           weight: good.weight,
-          trackid: Math.floor(Math.random() * 1000) + 100,
         });
       }
       return () => {

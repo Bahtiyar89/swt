@@ -34,6 +34,10 @@ const MyShipmentsScreen = props => {
     }, []),
   );
   console.log('shipment: ', state);
+  let fullDate = new Date(new Date().getTime() + 14 * 24 * 60 * 60 * 1000);
+  let date = new Date().getDate(); //Current Date
+  let month = new Date().getMonth() + 1; //Current Month
+  let year = new Date().getFullYear();
   return (
     <Fragment>
       {isSigned ? (
@@ -75,19 +79,26 @@ const MyShipmentsScreen = props => {
                   }}>
                   <Card.Content>
                     <View>
-                      <IconButton
+                      {/*  <IconButton
                         icon="checkbox-blank-circle"
                         size={10}
                         color="green"
                         style={{ margin: 0 }}
                       />
-                      <Text style={{ paddingLeft: 3 }}>{item.Status}</Text>
+                       <Text style={{ paddingLeft: 3 }}>{item.Status}</Text>*/}
                     </View>
-                    <Title style={{ fontSize: 16 }}>№ 4325348723</Title>
+                    <Title style={{ fontSize: 16 }}>№ {item.trackid}</Title>
                     <Paragraph>
                       {item.city_From} — {item.city_To}
                     </Paragraph>
-                    <Paragraph>Полная дата доставки: 27.11.2021</Paragraph>
+                    <Paragraph>
+                      Ориентировочная дата доставки:
+                      {fullDate.getDate() +
+                        '/' +
+                        (fullDate.getMonth() + 1) +
+                        '/' +
+                        fullDate.getFullYear()}
+                    </Paragraph>
                   </Card.Content>
                 </Card>
               );
