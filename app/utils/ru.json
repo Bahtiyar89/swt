@@ -81,5 +81,7 @@
   "register_sendings": "Регистрация отправления",
   "authorization": "Авторизация",
   "keys":"Ключи",
-  "discard": "Сброс"
+  "discard": "Сброс",
+  "file_saved_under_name": "Файл сохранен под названием",
+  "ok":"Хорошо"
 }

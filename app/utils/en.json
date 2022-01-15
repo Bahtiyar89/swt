@@ -81,5 +81,7 @@
   "register_sendings": "Register sendings",
   "authorization": "Authorization",
   "keys":"Keys",
-  "discard": "Discard"
+  "discard": "Discard",
+  "file_saved_under_name": "File saved under name",
+  "ok":"ok"
 }

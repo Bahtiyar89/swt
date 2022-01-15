@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
 import { Button, IconButton, Card } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import Modal from 'react-native-modal'; 
@@ -8,11 +8,13 @@ import Sodium from 'react-native-sodium';
 import Buffer from 'buffer'; 
 import Clipboard from '@react-native-clipboard/clipboard';
 import Toast from 'react-native-toast-notifications';
+import RNFS from 'react-native-fs';
 
 import I18n from '../../../i18';
 import styles from './styles';
 import utility from '../../utils/Utility'; 
 import { IThemeState } from 'app/models/reducers/theme';
+import CustomAlert from '../../components/customAlert'
 
 interface IState {
   model: boolean; 
@@ -31,6 +33,8 @@ const KeysModal: React.FC<IState> = ({
     sk: '',
     pk: ''
   });  
+  const [displayAlert, seTdisplayAlert] = useState(false);  
+  const [filePath, seTfilePath] = useState('');  
 
   async function generateKeys() {
     const ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
@@ -106,6 +110,26 @@ const KeysModal: React.FC<IState> = ({
       animationType: 'zoom-in',
     });
   }
+
+  const downloadKeys = async () => {
+    await utility.getItemObject('wkeys').then(keys => { 
+      if (keys) {
+        let path = RNFS.CachesDirectoryPath + '/keys.txt';          
+        RNFS.writeFile(path, JSON.stringify(keys), 'utf8')
+            .then((success) => { 
+              seTfilePath(path.substring(path.indexOf('A')))
+              seTdisplayAlert(true)               
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+        
+      }else{ 
+        console.log("else", keys);
+        
+      }
+    });
+  }
   
   return (
     <>
@@ -142,7 +166,7 @@ const KeysModal: React.FC<IState> = ({
                     <Text style={{ color: textColor, fontSize: 16, fontWeight:'bold', marginBottom: 20 }}>{walletKeys.pk}</Text>
                   </TouchableOpacity>
                 </Card.Content>
-                <Button icon="download" mode="contained" onPress={() => console.log('Pressed')}>
+                <Button icon="download" mode="contained" onPress={downloadKeys}>
                     <Text style={{ color: '#000', fontSize: 9 }}>
                       Cкачать ключи (Секретный/Публичный)
                     </Text> 
@@ -157,6 +181,17 @@ const KeysModal: React.FC<IState> = ({
           </ScrollView>
         </SafeAreaView>
         <Toast placement='top' ref={toastRef} />
+        <CustomAlert 
+          displayAlert={displayAlert}
+          displayAlertIcon={true}
+          alertTitleText={I18n.t('file_saved_under_name')}
+          alertMessageText={filePath}
+          displayPositiveButton={true}
+          positiveButtonText={I18n.t('ok')}
+          displayNegativeButton={false}
+          negativeButtonText={'CANCEL'} 
+          onPressNegativeButton={() => seTdisplayAlert(false)}
+          onPressPositiveButton={() => seTdisplayAlert(false)} />
       </Modal>
     </>
   );
