@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -14,7 +14,10 @@ import {
   Paragraph,
 } from 'react-native-paper';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import { useToast } from 'react-native-toast-notifications';
+import Sodium from "react-native-sodium";
+//import { useToast } from 'react-native-toast-notifications';
+//import Base64 from 'base64-js' 
+//import * as encoding from 'text-encoding';
 
 import AuthContext from '../../context/auth/AuthContext';
 import styles from './styles';
@@ -68,7 +71,41 @@ const MainScreen = props => {
     calculatPriceGood(calculated);
     props.navigation.navigate('Calculator');
   };
+/*
+  let uint8array = new encoding.TextEncoder().encode("Проверка текста текста");
+  const encryptedMessageFromByteArray = Base64.fromByteArray(uint8array)
+  console.log("encryptedMessageFromByteArray: ", encryptedMessageFromByteArray);
+  const k = Base64.fromByteArray(new Uint8Array([
+    0x1b, 0x27, 0x55, 0x64, 0x73, 0xe9, 0x85, 0xd4, 0x62, 0xcd, 0x51, 0x19, 0x7a, 0x9a, 0x46, 0xc7,
+    0x60, 0x09, 0x54, 0x9e, 0xac, 0x64, 0x74, 0xf2, 0x06, 0xc4, 0xee, 0x08, 0x44, 0xf6, 0x83, 0x89]))
 
+  const n = Base64.fromByteArray(new Uint8Array([
+    0x69, 0x69, 0x6e, 0xe9, 0x55, 0xb6, 0x2b, 0x73, 0xcd, 0x62, 0xbd, 0xa8,
+    0x75, 0xfc, 0x73, 0xd6, 0x82, 0x19, 0xe0, 0x03, 0x6b, 0x7a, 0x0b, 0x37]))
+  Sodium.crypto_secretbox_easy(encryptedMessageFromByteArray, n, k).then((c) => {
+    console.log("c: ", c);
+    { 
+      //this.testPassed('crypto_secretbox_easy_1')
+    }
+    Sodium.crypto_secretbox_open_easy(c, n, k)
+      .then((mm) => {
+        {
+          console.log("mm: ",mm);
+          //this.testPassed('crypto_secretbox_open_easy_1', encryptedMessageFromByteArray === mm)
+      }
+        let p = Base64.toByteArray(mm);
+        var uint8array = new encoding.TextDecoder().decode(p);
+        console.log("uint8array: 55", uint8array);
+      })
+      .catch((error) =>{
+        console.log("error: 33",error);
+        // this.testFailed('crypto_secretbox_open_easy_1', error)
+        })
+  }).catch((error) => {
+    console.log("error: 44",error);
+    //  this.testFailed('crypto_secretbox_easy_1', error)
+  })
+*/
   return (
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">

@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* RNBoilerPlateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* RNBoilerPlateTests.m */; };
+		00E356F31AD99517003FC87E /* SWTTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SWTTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		8C0034E753E707BEC7F6C22E /* libPods-RNBoilerPlate-RNBoilerPlateTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EEDA297F9E38174EFABD9F4 /* libPods-RNBoilerPlate-RNBoilerPlateTests.a */; };
-		D377B620A197FE77DAEA05BD /* libPods-RNBoilerPlate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C44A80C424A9BAF97858DAB /* libPods-RNBoilerPlate.a */; };
+		8C0034E753E707BEC7F6C22E /* libPods-SWT-SWTTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EEDA297F9E38174EFABD9F4 /* libPods-SWT-SWTTests.a */; };
+		D377B620A197FE77DAEA05BD /* libPods-SWT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C44A80C424A9BAF97858DAB /* libPods-SWT.a */; };
 		ECAC844F2714A11D002B35B5 /* Void.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAC844E2714A11D002B35B5 /* Void.swift */; };
 /* End PBXBuildFile section */
 
@@ -23,27 +23,27 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = RNBoilerPlate;
+			remoteInfo = SWT;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* RNBoilerPlateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RNBoilerPlateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* SWTTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SWTTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* RNBoilerPlateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNBoilerPlateTests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* RNBoilerPlate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RNBoilerPlate.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = RNBoilerPlate/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = RNBoilerPlate/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RNBoilerPlate/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = RNBoilerPlate/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = RNBoilerPlate/main.m; sourceTree = "<group>"; };
-		6380DA9E108DD561F30AD3C1 /* Pods-RNBoilerPlate-RNBoilerPlateTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNBoilerPlate-RNBoilerPlateTests.release.xcconfig"; path = "Target Support Files/Pods-RNBoilerPlate-RNBoilerPlateTests/Pods-RNBoilerPlate-RNBoilerPlateTests.release.xcconfig"; sourceTree = "<group>"; };
-		6714FE58BD3310A8ED341F09 /* Pods-RNBoilerPlate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNBoilerPlate.debug.xcconfig"; path = "Target Support Files/Pods-RNBoilerPlate/Pods-RNBoilerPlate.debug.xcconfig"; sourceTree = "<group>"; };
-		6EEDA297F9E38174EFABD9F4 /* libPods-RNBoilerPlate-RNBoilerPlateTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RNBoilerPlate-RNBoilerPlateTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7C44A80C424A9BAF97858DAB /* libPods-RNBoilerPlate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RNBoilerPlate.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = RNBoilerPlate/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		9DA2E65FB2FC3D85825B9BEC /* Pods-RNBoilerPlate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNBoilerPlate.release.xcconfig"; path = "Target Support Files/Pods-RNBoilerPlate/Pods-RNBoilerPlate.release.xcconfig"; sourceTree = "<group>"; };
-		D43AD0A9557CD35E97F2C388 /* Pods-RNBoilerPlate-RNBoilerPlateTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNBoilerPlate-RNBoilerPlateTests.debug.xcconfig"; path = "Target Support Files/Pods-RNBoilerPlate-RNBoilerPlateTests/Pods-RNBoilerPlate-RNBoilerPlateTests.debug.xcconfig"; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* SWTTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SWTTests.m; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* SWT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SWT.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = SWT/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = SWT/AppDelegate.m; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SWT/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SWT/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SWT/main.m; sourceTree = "<group>"; };
+		6380DA9E108DD561F30AD3C1 /* Pods-SWT-SWTTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SWT-SWTTests.release.xcconfig"; path = "Target Support Files/Pods-SWT-SWTTests/Pods-SWT-SWTTests.release.xcconfig"; sourceTree = "<group>"; };
+		6714FE58BD3310A8ED341F09 /* Pods-SWT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SWT.debug.xcconfig"; path = "Target Support Files/Pods-SWT/Pods-SWT.debug.xcconfig"; sourceTree = "<group>"; };
+		6EEDA297F9E38174EFABD9F4 /* libPods-SWT-SWTTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SWT-SWTTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C44A80C424A9BAF97858DAB /* libPods-SWT.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SWT.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SWT/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9DA2E65FB2FC3D85825B9BEC /* Pods-SWT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SWT.release.xcconfig"; path = "Target Support Files/Pods-SWT/Pods-SWT.release.xcconfig"; sourceTree = "<group>"; };
+		D43AD0A9557CD35E97F2C388 /* Pods-SWT-SWTTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SWT-SWTTests.debug.xcconfig"; path = "Target Support Files/Pods-SWT-SWTTests/Pods-SWT-SWTTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ECAC844E2714A11D002B35B5 /* Void.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Void.swift; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -53,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8C0034E753E707BEC7F6C22E /* libPods-RNBoilerPlate-RNBoilerPlateTests.a in Frameworks */,
+				8C0034E753E707BEC7F6C22E /* libPods-SWT-SWTTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,20 +61,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D377B620A197FE77DAEA05BD /* libPods-RNBoilerPlate.a in Frameworks */,
+				D377B620A197FE77DAEA05BD /* libPods-SWT.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* RNBoilerPlateTests */ = {
+		00E356EF1AD99517003FC87E /* SWTTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* RNBoilerPlateTests.m */,
+				00E356F21AD99517003FC87E /* SWTTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = RNBoilerPlateTests;
+			path = SWTTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -85,7 +85,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* RNBoilerPlate */ = {
+		13B07FAE1A68108700A75B9A /* SWT */ = {
 			isa = PBXGroup;
 			children = (
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -95,16 +95,16 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = RNBoilerPlate;
+			name = SWT;
 			sourceTree = "<group>";
 		};
 		244F76ECE4F9D42F4415AFD7 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				6714FE58BD3310A8ED341F09 /* Pods-RNBoilerPlate.debug.xcconfig */,
-				9DA2E65FB2FC3D85825B9BEC /* Pods-RNBoilerPlate.release.xcconfig */,
-				D43AD0A9557CD35E97F2C388 /* Pods-RNBoilerPlate-RNBoilerPlateTests.debug.xcconfig */,
-				6380DA9E108DD561F30AD3C1 /* Pods-RNBoilerPlate-RNBoilerPlateTests.release.xcconfig */,
+				6714FE58BD3310A8ED341F09 /* Pods-SWT.debug.xcconfig */,
+				9DA2E65FB2FC3D85825B9BEC /* Pods-SWT.release.xcconfig */,
+				D43AD0A9557CD35E97F2C388 /* Pods-SWT-SWTTests.debug.xcconfig */,
+				6380DA9E108DD561F30AD3C1 /* Pods-SWT-SWTTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -113,8 +113,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				7C44A80C424A9BAF97858DAB /* libPods-RNBoilerPlate.a */,
-				6EEDA297F9E38174EFABD9F4 /* libPods-RNBoilerPlate-RNBoilerPlateTests.a */,
+				7C44A80C424A9BAF97858DAB /* libPods-SWT.a */,
+				6EEDA297F9E38174EFABD9F4 /* libPods-SWT-SWTTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -130,9 +130,9 @@
 			isa = PBXGroup;
 			children = (
 				ECAC844E2714A11D002B35B5 /* Void.swift */,
-				13B07FAE1A68108700A75B9A /* RNBoilerPlate */,
+				13B07FAE1A68108700A75B9A /* SWT */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* RNBoilerPlateTests */,
+				00E356EF1AD99517003FC87E /* SWTTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				244F76ECE4F9D42F4415AFD7 /* Pods */,
@@ -145,8 +145,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* RNBoilerPlate.app */,
-				00E356EE1AD99517003FC87E /* RNBoilerPlateTests.xctest */,
+				13B07F961A680F5B00A75B9A /* SWT.app */,
+				00E356EE1AD99517003FC87E /* SWTTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -154,9 +154,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* RNBoilerPlateTests */ = {
+		00E356ED1AD99517003FC87E /* SWTTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "RNBoilerPlateTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "SWTTests" */;
 			buildPhases = (
 				A5B92A2136080137912FD921 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -170,14 +170,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = RNBoilerPlateTests;
-			productName = RNBoilerPlateTests;
-			productReference = 00E356EE1AD99517003FC87E /* RNBoilerPlateTests.xctest */;
+			name = SWTTests;
+			productName = SWTTests;
+			productReference = 00E356EE1AD99517003FC87E /* SWTTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* RNBoilerPlate */ = {
+		13B07F861A680F5B00A75B9A /* SWT */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "RNBoilerPlate" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "SWT" */;
 			buildPhases = (
 				CA8864E0BBE8269DF8F4C369 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -192,9 +192,9 @@
 			);
 			dependencies = (
 			);
-			name = RNBoilerPlate;
-			productName = RNBoilerPlate;
-			productReference = 13B07F961A680F5B00A75B9A /* RNBoilerPlate.app */;
+			name = SWT;
+			productName = SWT;
+			productReference = 13B07F961A680F5B00A75B9A /* SWT.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -214,7 +214,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "RNBoilerPlate" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "SWT" */;
 			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -227,8 +227,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* RNBoilerPlate */,
-				00E356ED1AD99517003FC87E /* RNBoilerPlateTests */,
+				13B07F861A680F5B00A75B9A /* SWT */,
+				00E356ED1AD99517003FC87E /* SWTTests */,
 			);
 		};
 /* End PBXProject section */
@@ -273,15 +273,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RNBoilerPlate/Pods-RNBoilerPlate-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-SWT/Pods-SWT-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RNBoilerPlate/Pods-RNBoilerPlate-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-SWT/Pods-SWT-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RNBoilerPlate/Pods-RNBoilerPlate-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SWT/Pods-SWT-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		2FB4247ECC062E378C2FD8A8 /* [CP] Copy Pods Resources */ = {
@@ -290,15 +290,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RNBoilerPlate/Pods-RNBoilerPlate-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-SWT/Pods-SWT-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RNBoilerPlate/Pods-RNBoilerPlate-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-SWT/Pods-SWT-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RNBoilerPlate/Pods-RNBoilerPlate-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SWT/Pods-SWT-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7A0A82FA374DABA2362BD759 /* [CP] Embed Pods Frameworks */ = {
@@ -307,15 +307,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RNBoilerPlate-RNBoilerPlateTests/Pods-RNBoilerPlate-RNBoilerPlateTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-SWT-SWTTests/Pods-SWT-SWTTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RNBoilerPlate-RNBoilerPlateTests/Pods-RNBoilerPlate-RNBoilerPlateTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-SWT-SWTTests/Pods-SWT-SWTTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RNBoilerPlate-RNBoilerPlateTests/Pods-RNBoilerPlate-RNBoilerPlateTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SWT-SWTTests/Pods-SWT-SWTTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A5B92A2136080137912FD921 /* [CP] Check Pods Manifest.lock */ = {
@@ -333,7 +333,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-RNBoilerPlate-RNBoilerPlateTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-SWT-SWTTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -346,15 +346,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RNBoilerPlate-RNBoilerPlateTests/Pods-RNBoilerPlate-RNBoilerPlateTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-SWT-SWTTests/Pods-SWT-SWTTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RNBoilerPlate-RNBoilerPlateTests/Pods-RNBoilerPlate-RNBoilerPlateTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-SWT-SWTTests/Pods-SWT-SWTTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RNBoilerPlate-RNBoilerPlateTests/Pods-RNBoilerPlate-RNBoilerPlateTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SWT-SWTTests/Pods-SWT-SWTTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CA8864E0BBE8269DF8F4C369 /* [CP] Check Pods Manifest.lock */ = {
@@ -372,7 +372,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-RNBoilerPlate-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-SWT-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -405,7 +405,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* RNBoilerPlateTests.m in Sources */,
+				00E356F31AD99517003FC87E /* SWTTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,7 +424,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* RNBoilerPlate */;
+			target = 13B07F861A680F5B00A75B9A /* SWT */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -432,7 +432,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D43AD0A9557CD35E97F2C388 /* Pods-RNBoilerPlate-RNBoilerPlateTests.debug.xcconfig */;
+			baseConfigurationReference = D43AD0A9557CD35E97F2C388 /* Pods-SWT-SWTTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -440,7 +440,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = RNBoilerPlateTests/Info.plist;
+				INFOPLIST_FILE = SWTTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -454,18 +454,18 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RNBoilerPlate.app/RNBoilerPlate";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SWT.app/SWT";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6380DA9E108DD561F30AD3C1 /* Pods-RNBoilerPlate-RNBoilerPlateTests.release.xcconfig */;
+			baseConfigurationReference = 6380DA9E108DD561F30AD3C1 /* Pods-SWT-SWTTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = RNBoilerPlateTests/Info.plist;
+				INFOPLIST_FILE = SWTTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -479,19 +479,19 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RNBoilerPlate.app/RNBoilerPlate";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SWT.app/SWT";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6714FE58BD3310A8ED341F09 /* Pods-RNBoilerPlate.debug.xcconfig */;
+			baseConfigurationReference = 6714FE58BD3310A8ED341F09 /* Pods-SWT.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = RNBoilerPlate/Info.plist;
+				INFOPLIST_FILE = SWT/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -502,7 +502,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = RNBoilerPlate;
+				PRODUCT_NAME = SWT;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -511,12 +511,12 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9DA2E65FB2FC3D85825B9BEC /* Pods-RNBoilerPlate.release.xcconfig */;
+			baseConfigurationReference = 9DA2E65FB2FC3D85825B9BEC /* Pods-SWT.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = RNBoilerPlate/Info.plist;
+				INFOPLIST_FILE = SWT/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -527,7 +527,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = RNBoilerPlate;
+				PRODUCT_NAME = SWT;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -659,7 +659,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "RNBoilerPlateTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "SWTTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -668,7 +668,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "RNBoilerPlate" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "SWT" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -677,7 +677,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "RNBoilerPlate" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "SWT" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

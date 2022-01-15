@@ -17,8 +17,9 @@ import LocalizationModal from './localizationModal';
 import PasswordEditModal from './passwordEditModal';
 import AdressBookModal from './adressBookModal';
 import DraftModal from './draftModal';
+import KeysModal from './keys';
 import ArchiveModal from './archiveModal';
-
+import { IThemeState } from 'app/models/reducers/theme';
 interface IState {
   navigation: any;
 }
@@ -51,6 +52,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
   const [modelAdressBook, seTmodelAdressBook] = useState(false);
   const [modelDraft, seTmodelDraft] = useState(false);
   const [modelArchive, seTmodelArchive] = useState(false);
+  const [modelWallet, seTmodelWallet] = useState(false);
 
   const modelOpen = () => {
     setmodel(!model);
@@ -145,6 +147,15 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
             </Button>
             <Button
               color="#000"
+              onPress={() => seTmodelWallet(!modelWallet)}
+              uppercase={false}
+              style={{}}
+              icon="chevron-right"
+              contentStyle={{ flexDirection: 'row-reverse' }}>
+              {I18n.t('keys')}
+            </Button>
+            <Button
+              color="#000"
               onPress={() => seTmodelArchive(!modelArchive)}
               uppercase={false}
               style={{}}
@@ -192,6 +203,12 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
             model={modelDraft}
             noPressed={() => seTmodelDraft(false)}
           />
+
+          { 
+            modelWallet && <KeysModal 
+            model={modelWallet}
+            noPressed={() => seTmodelWallet(false)} themeReducer={{'isDark':false}}                      />
+          }
 
           <ArchiveModal
             okPressed={modelOkPressed}

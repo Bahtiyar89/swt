@@ -6,7 +6,7 @@ platform :ios, '10.0'
 permissions_path = '../node_modules/react-native-permissions/ios'
 pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
 
-target 'RNBoilerPlate' do
+target 'SWT' do
   config = use_native_modules!
 
   use_react_native!(
@@ -15,7 +15,7 @@ target 'RNBoilerPlate' do
     :hermes_enabled => false
   )
 
-  target 'RNBoilerPlateTests' do
+  target 'SWTTests' do
     inherit! :complete
     # Pods for testing
   end

@@ -79,5 +79,7 @@
   "look_all": "Смотреть все",
   "no_registered_sendings": "Нет зарегистрированных отправлений",
   "register_sendings": "Регистрация отправления",
-  "authorization": "Авторизация"
+  "authorization": "Авторизация",
+  "keys":"Ключи",
+  "discard": "Сброс"
 }

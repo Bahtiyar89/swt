@@ -79,5 +79,7 @@
   "look_all": "Look all",
   "no_registered_sendings": "No registered sendings",
   "register_sendings": "Register sendings",
-  "authorization": "Authorization"
+  "authorization": "Authorization",
+  "keys":"Keys",
+  "discard": "Discard"
 }

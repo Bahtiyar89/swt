@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   modelHelperText: { alignItems: 'flex-end' },
   modelYesNo: { flexDirection: 'row', justifyContent: 'flex-end' },
   modelButtonNoColor: { color: 'black' },
-  modelButtonYesColor: { color: 'blue' },
+  modelButtonYesColor: { color: '#397AF9' },
 });
 
 export default styles;
