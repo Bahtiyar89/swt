@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, ScrollView, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, ScrollView, SafeAreaView, TouchableOpacity, Platform } from 'react-native';
 import { Button, IconButton, Card } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import Modal from 'react-native-modal'; 
@@ -113,8 +113,8 @@ const KeysModal: React.FC<IState> = ({
 
   const downloadKeys = async () => {
     await utility.getItemObject('wkeys').then(keys => { 
-      if (keys) {
-        let path = RNFS.CachesDirectoryPath + '/keys.txt';          
+      if (keys) { 
+        let path = Platform.OS === 'ios' ? RNFS.MainBundlePath + '/keys.txt': RNFS.ExternalDirectoryPath + '/keys.txt';          
         RNFS.writeFile(path, JSON.stringify(keys), 'utf8')
             .then((success) => { 
               seTfilePath(path.substring(path.indexOf('A')))
