@@ -10,7 +10,7 @@
   "choose_localization": "Choose Localization",
   "language": "Language",
   "incorrect_email": "Email incorrect!",
-  "incorrect_username": "Username incorrect!",
+  "incorrect_username": "User-e incorrect!",
   "by_default_language_russian": "By default use Russian language",
   "by_default_language_english": "By default use English language",
   "choose_default_language": "Not choosen default language",
@@ -83,5 +83,6 @@
   "keys":"Keys",
   "discard": "Discard",
   "file_saved_under_name": "File saved under name",
-  "ok":"ok"
+  "ok":"ok",
+  "restore_account ":"Restore account"
 }

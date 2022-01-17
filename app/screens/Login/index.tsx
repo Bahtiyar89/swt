@@ -11,6 +11,7 @@ import NavigationService from 'app/navigation/NavigationService';
 import { IThemeState } from 'app/models/reducers/theme';
 import AuthContext from '../../context/auth/AuthContext';
 import I18n from '../../../i18';
+import Validation from '../../components/validation'
 
 interface IState {
   loginReducer: ILoginState;
@@ -27,9 +28,10 @@ const Login: React.FC<IProps> = (props: IProps) => {
   // const id = useSelector((state: IState) => state.loginReducer.id);
   //const dispatch = useDispatch();
   // const onLogin = () => dispatch(loginActions.requestLogin('test', '1234'));
-  //const onForgot = () => NavigationService.navigate('ForgotPassword');
+  //const onForgot = () => NavigationService.navigate('RestoreAccount');
   // const onRegistration = () => NavigationService.navigate('Registration');
   const onRegistration = () => navigation.navigate('Registration');
+  const onRestoreAccount = () => navigation.navigate('RestoreAccount');
 
   const isDark = useSelector((state: IState) => state.themeReducer.isDark);
   const authContext = useContext(AuthContext);
@@ -94,7 +96,6 @@ const Login: React.FC<IProps> = (props: IProps) => {
       //  onLogin();
     }
   };
-  console.log('loading:', loading);
 
   return (
     <SafeAreaView>
@@ -106,14 +107,12 @@ const Login: React.FC<IProps> = (props: IProps) => {
             textStyle={{ color: '#3498db' }}
           />
           <Text style={styles.signInText}>{I18n.t('authorization')}</Text>
-          <View style={{ flexDirection: 'row', width: '90%' }}>
-            <Text style={{ flex: 1 }}>Имя пользователя</Text>
-            <HelperText
-              style={{ alignItems: 'flex-end' }}
-              type="error"
-              visible={validObj.username}>
-              {I18n.t('incorrect_username')}
-            </HelperText>
+          <View style={{width: '90%'}}>
+            <Validation
+              text={'Имя пользователя'}
+              visible={validObj.username}
+              errText={I18n.t('incorrect_username')}
+            />
           </View>
 
           <TextInput
@@ -124,14 +123,12 @@ const Login: React.FC<IProps> = (props: IProps) => {
             right={<TextInput.Icon name={require('../../assets/email.png')} />}
             value={userState.data.username}
           />
-          <View style={{ marginTop: 20, flexDirection: 'row', width: '90%' }}>
-            <Text style={{ flex: 1 }}>{I18n.t('password')}</Text>
-            <HelperText
-              style={{ alignItems: 'flex-end' }}
-              type="error"
-              visible={validObj.password}>
-              {I18n.t('password_wrong')}!
-            </HelperText>
+          <View style={{width: '90%', marginTop: 20}}>
+            <Validation
+              text={I18n.t('password')}
+              visible={validObj.password}
+              errText={I18n.t('password_wrong')}
+            />
           </View>
           <TextInput
             mode="outlined"
@@ -154,13 +151,20 @@ const Login: React.FC<IProps> = (props: IProps) => {
             onPress={submit}>
             <Text style={styles.buttonText}>{I18n.t('enter')}</Text>
           </Button>
-          <Button
-            mode="text"
-            style={styles.forgot}
-            labelStyle={styles.labelStyle}
-            onPress={onRegistration}>
-            {I18n.t('registration')}
-          </Button>
+          <View style={styles.floatLeft_right}>
+            <Button
+              uppercase={false}
+              mode="text"
+              onPress={onRegistration}>
+              {I18n.t('registration')}
+            </Button>
+            <Button
+              uppercase={false}
+              mode="text"
+              onPress={onRestoreAccount}>
+              {I18n.t('restore_account')}
+            </Button>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -34,7 +34,7 @@ const Registration: React.FC<IProps> = (props: IProps) => {
   //const id = useSelector((state: IState) => state.loginReducer.id);
   //const dispatch = useDispatch();
   //const onLogin = () => dispatch(loginActions.requestLogin('test', '1234'));
-  //const onForgot = () => NavigationService.navigate('ForgotPassword');
+  //const onForgot = () => NavigationService.navigate('RestoreAccount');
 
   const toast = useToast();
   const elements = {

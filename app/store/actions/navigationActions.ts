@@ -8,5 +8,5 @@ export function navigateToHome(params: any) {
 }
 
 export function navigateToForgotPassword(params?: any) {
-  NavigationService.navigate('ForgotPassword', params);
+  NavigationService.navigate('RestoreAccount', params);
 }

@@ -7,7 +7,7 @@ import { StatusBar } from 'react-native';
 import { navigationRef } from './NavigationService';
 import Login from 'app/screens/Login';
 import Home from 'app/screens/Home';
-import ForgotPassword from 'app/screens/ForgotPassword';
+import ForgotPassword from 'app/screens/RestoreAccount';
 import Registration from '../screens/Registration';
 import ThemeController from '../components/ThemeController';
 import { ILoginState } from 'app/models/reducers/login';

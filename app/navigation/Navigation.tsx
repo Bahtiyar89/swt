@@ -8,7 +8,7 @@ import AuthContext from '../context/auth/AuthContext';
 
 import Login from 'app/screens/Login';
 import Home from 'app/screens/Home';
-import ForgotPassword from 'app/screens/ForgotPassword';
+import RestoreAccount from 'app/screens/RestoreAccount';
 import Registration from '../screens/Registration';
 import TimerController from '../components/TimerController';
 
@@ -82,11 +82,12 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
         <Stack.Screen name="Home" component={LoggedInNavigator} />
         <Stack.Screen
           name="Login"
-          component={AuthNavigator}
+          component={Login}
           options={{
+            title: 'Профиль',
             // When logging out, a pop animation feels intuitive
             // You can remove this if you want the default 'push' animation
-            animationTypeForReplace: isSigned ? 'push' : 'pop',
+
             headerRight: () => <ThemeController />,
           }}
         />
@@ -95,6 +96,17 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
           component={Registration}
           options={{
             title: 'Регистрация',
+            // When logging out, a pop animation feels intuitive
+            // You can remove this if you want the default 'push' animation
+
+            headerRight: () => <ThemeController />,
+          }}
+        />
+        <Stack.Screen
+          name="RestoreAccount"
+          component={RestoreAccount}
+          options={{
+            title: 'Восстановить',
             // When logging out, a pop animation feels intuitive
             // You can remove this if you want the default 'push' animation
 

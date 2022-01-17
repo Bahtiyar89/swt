@@ -10,7 +10,7 @@
   "choose_localization": "Выбор локализации",
   "language": "Язык",
   "incorrect_email": "Email недействителень!",
-  "incorrect_username": "Имя пользователя недействителень!",
+  "incorrect_username": "Имя недейст-нь!",
   "by_default_language_russian": "По-умолчанию использовать Русский язык",
   "by_default_language_english": "По-умолчанию использовать Английский язык",
   "choose_default_language": "Не выбрано язык по умолчанию",
@@ -59,7 +59,7 @@
   "password_wrong": "Неправельный пароль",
   "password_enter": "Введите пароль",
   "enter": "Войти",
-  "registration": "Зарегистрироваться",
+  "registration": "Регистрация",
   "departures": "Отправления",
   "choose_from_adres_book": "Выбрать из адресной книги",
   "nsl": "ФИО",
@@ -83,5 +83,6 @@
   "keys":"Ключи",
   "discard": "Сброс",
   "file_saved_under_name": "Файл сохранен под названием",
-  "ok":"Хорошо"
+  "ok":"Хорошо",
+  "restore_account":"Восст-ть аккаунт"
 }

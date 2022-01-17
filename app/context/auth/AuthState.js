@@ -56,7 +56,7 @@ const AuthState = props => {
         });
       })
       .catch(error => {
-        toast.show(error.response.request._response, {
+        toast.show(error.response.request._response + " попробуйте попожже", {
           type: 'warning',
           duration: 4000,
           animationType: 'zoom-in',
@@ -129,7 +129,7 @@ const AuthState = props => {
         user: state.user,
         loading: state.loading,
         calculateArray: state.calculateArray,
-        /* token: state.token, 
+        /* token: state.token,
         error: state.error,
         redirectToReferrer: state.redirectToReferrer,
         user: state.user,
