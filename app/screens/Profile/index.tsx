@@ -204,11 +204,13 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
             noPressed={() => seTmodelDraft(false)}
           />
 
-          { 
-            modelWallet && <KeysModal 
-            model={modelWallet}
-            noPressed={() => seTmodelWallet(false)} themeReducer={{'isDark':false}}                      />
-          }
+          {modelWallet && (
+            <KeysModal
+              model={modelWallet}
+              noPressed={() => seTmodelWallet(false)}
+              themeReducer={{ isDark: false }}
+            />
+          )}
 
           <ArchiveModal
             okPressed={modelOkPressed}

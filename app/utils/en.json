@@ -84,5 +84,7 @@
   "discard": "Discard",
   "file_saved_under_name": "File saved under name",
   "ok":"ok",
-  "restore_account ":"Restore account"
+  "restore_account ":"Restore account",
+  "choose_file":"Choose file",
+  "upload":"Upload"
 }

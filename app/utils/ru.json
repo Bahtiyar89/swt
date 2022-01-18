@@ -84,5 +84,7 @@
   "discard": "Сброс",
   "file_saved_under_name": "Файл сохранен под названием",
   "ok":"Хорошо",
-  "restore_account":"Восст-ть аккаунт"
+  "restore_account":"Восст-ть аккаунт",
+  "choose_file":"Выберите файл",
+  "upload":"Загрузить"
 }
