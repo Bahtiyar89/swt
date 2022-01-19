@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, ScrollView, SafeAreaView } from 'react-native';
+import { View, ScrollView, SafeAreaView, Platform } from 'react-native';
 import {
   Text,
   TextInput,
@@ -11,12 +11,19 @@ import {
 import Modal from 'react-native-modal';
 import { TextInputMask } from 'react-native-masked-text';
 import { useToast } from 'react-native-toast-notifications';
+import basex from 'bs58-rn';
+import Sodium from 'react-native-sodium';
+import Buffer from 'buffer';
 
 //import * as loginActions from 'app/store/actions/loginActions';
 import styles from './styles';
 import { ILoginState } from 'app/models/reducers/login';
 import AuthContext from '../../context/auth/AuthContext';
 //import NavigationService from 'app/navigation/NavigationService';
+import I18n from '../../../i18';
+import utility from '../../utils/Utility';
+import RNFS from 'react-native-fs';
+import CustomAlert from '../../components/customAlert';
 
 interface IState {
   loginReducer: ILoginState;
@@ -63,6 +70,12 @@ const Registration: React.FC<IProps> = (props: IProps) => {
   const [passwordConfirmShow, seTpasswordConfirmShow] = useState(true);
   const [checked, setChecked] = React.useState(false);
   const [model, setmodel] = React.useState(false);
+  const [filePath, seTfilePath] = useState('');
+  const [displayAlert, seTdisplayAlert] = useState(false);
+  const [walletKeys, seTwalletKeys] = useState({
+    sk: '',
+    pk: '',
+  });
 
   const handleChange = (val: string, fieldName: string) => {
     seTuser(prev => {
@@ -156,11 +169,100 @@ const Registration: React.FC<IProps> = (props: IProps) => {
     }
   };
 
+  const generateKeys = async () => {
+    const ALPHABET =
+      '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+    const base58 = basex(ALPHABET);
+    let key = await Sodium.crypto_sign_keypair();
+    let encoded_SK_Base58 = base58.encode(Buffer.Buffer.from(key.sk, 'base64'));
+    let encoded_PK_Base58 = base58.encode(Buffer.Buffer.from(key.pk, 'base64'));
+    const obj = {};
+    obj['sk'] = encoded_SK_Base58;
+    obj['pk'] = encoded_PK_Base58;
+    utility.setItemObject('wkeys', obj);
+    seTwalletKeys({
+      ...walletKeys,
+      sk: encoded_SK_Base58,
+      pk: encoded_PK_Base58,
+    });
+  };
+
+  const downloadKeys = async () => {
+    await utility.getItemObject('wkeys').then(keys => {
+      if (keys) {
+        let path =
+          Platform.OS === 'ios'
+            ? RNFS.MainBundlePath + '/keys.txt'
+            : RNFS.ExternalDirectoryPath + '/keys.txt';
+        RNFS.writeFile(path, JSON.stringify(keys), 'utf8')
+          .then(success => {
+            seTfilePath(path.substring(path.indexOf('A')));
+            seTdisplayAlert(true);
+          })
+          .catch(err => {
+            console.log(err.message);
+          });
+      } else {
+        console.log('else', keys);
+      }
+    });
+  };
+
   return (
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={styles.container}>
           <Text style={styles.signInText}>Регистрация</Text>
+          <Button
+            icon="lead-pencil"
+            style={{
+              width: '90%',
+              marginTop: 20,
+              marginBottom: 10,
+            }}
+            disabled={
+              walletKeys.pk.length === 44 && walletKeys.sk.length === 88
+            }
+            onPress={generateKeys}
+            mode="contained">
+            <Text style={{ textAlign: 'center', color: '#000' }}>
+              {'Сгенирировать Ключи'}
+            </Text>
+          </Button>
+          <Button
+            icon="download"
+            style={{
+              width: '90%',
+            }}
+            disabled={walletKeys.pk.length != 44 && walletKeys.sk.length != 88}
+            onPress={downloadKeys}
+            mode="contained">
+            <Text style={{ textAlign: 'center', color: '#000' }}>
+              {'Скачать Ключи'}
+            </Text>
+          </Button>
+          <View style={{ marginTop: 5, flexDirection: 'row', width: '90%' }}>
+            <Text style={{ flex: 1 }}>Публичный ключ</Text>
+          </View>
+          <TextInput
+            editable={false}
+            placeholder="Публичный ключ"
+            mode="outlined"
+            style={styles.textInput}
+            onChangeText={val => handleChange(val, 'fio')}
+            value={walletKeys.pk}
+          />
+          <View style={{ marginTop: 5, flexDirection: 'row', width: '90%' }}>
+            <Text style={{ flex: 1 }}>Секретный ключ</Text>
+          </View>
+          <TextInput
+            editable={false}
+            placeholder="Секретный ключ"
+            mode="outlined"
+            style={styles.textInput}
+            onChangeText={val => handleChange(val, 'fio')}
+            value={walletKeys.sk}
+          />
           <View style={{ flexDirection: 'row', width: '90%' }}>
             <Text style={{ flex: 1 }}>Имя Фамилия Отчество</Text>
             <HelperText
@@ -241,7 +343,7 @@ const Registration: React.FC<IProps> = (props: IProps) => {
             )}
             style={styles.textInput}
           />
-
+          {/*
           <View style={{ marginTop: 10, flexDirection: 'row', width: '90%' }}>
             <Text style={{ flex: 1 }}>Пароль</Text>
             <HelperText
@@ -289,7 +391,7 @@ const Registration: React.FC<IProps> = (props: IProps) => {
             secureTextEntry={passwordConfirmShow}
             value={password_confirm}
           />
-
+          */}
           <View
             style={{
               marginTop: 10,
@@ -348,6 +450,18 @@ const Registration: React.FC<IProps> = (props: IProps) => {
             </Button>
           </View>
         </Modal>
+        <CustomAlert
+          displayAlert={displayAlert}
+          displayAlertIcon={true}
+          alertTitleText={I18n.t('file_saved_under_name')}
+          alertMessageText={filePath}
+          displayPositiveButton={true}
+          positiveButtonText={I18n.t('ok')}
+          displayNegativeButton={false}
+          negativeButtonText={'CANCEL'}
+          onPressNegativeButton={() => seTdisplayAlert(false)}
+          onPressPositiveButton={() => seTdisplayAlert(false)}
+        />
       </ScrollView>
     </SafeAreaView>
   );

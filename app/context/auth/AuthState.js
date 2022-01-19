@@ -1,22 +1,29 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
+import { CommonActions } from '@react-navigation/native';
+import { useToast } from 'react-native-toast-notifications';
+
 import AuthContext from './AuthContext';
 import AuthReducer from './AuthReducer';
 import { CLEAR_ERRORS } from '../types';
 import { doGet, doPost } from '../../utils/apiActions';
-import { useToast } from 'react-native-toast-notifications';
 
 import utility from '../../utils/Utility';
-export const LOGOUT = 'LOGOUT';
-export const REGISTER_FAIL = 'REGISTER_FAIL';
-export const AUTH_ERROR = 'AUTH_ERROR';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_FAIL = 'LOGIN_FAIL';
-export const FALSE_REDIRECT = 'FALSE_REDIRECT';
-export const VARIFY_OK = 'VARIFY_OK';
-export const LOADING = 'LOADING';
-export const CHECKOUT_ORDER = 'CHECKOUT_ORDER';
-export const GET_CHECKOUT_ORDER = 'GET_CHECKOUT_ORDER';
+import {
+  F4_POST_SUCC_BALANCE,
+  LOGOUT,
+  REGISTER_FAIL,
+  AUTH_ERROR,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  FALSE_REDIRECT,
+  VARIFY_OK,
+  LOADING,
+  CHECKOUT_ORDER,
+  GET_CHECKOUT_ORDER,
+  BALANCE_0,
+  CLOSE_MODAL_BALANCE,
+} from '../types';
 
 const AuthState = props => {
   const toast = useToast();
@@ -25,11 +32,51 @@ const AuthState = props => {
     loading: false,
     isSigned: false,
     varifyId: '',
-    error: [],
     user: utility.getItemObject('user'),
     calculateArray: [],
+    modalBalanceErr: false,
+    balance: '',
+    error: [],
   };
   const [state, dispatch] = useReducer(AuthReducer, initialState);
+
+  const postFileBalanceToCheck = async file => {
+    console.log('file: ', file);
+    dispatch({ type: LOADING, payload: true });
+    doPost('api/Monitor/GetBalance/', {
+      PublicKey: file.pk,
+      networkAlias: 'MainNet',
+    })
+      .then(({ data }) => {
+        console.log('data: 2', data);
+        dispatch({ type: LOADING, payload: false });
+        if (data.success) {
+          if (data.balance >= 0.1) {
+            console.log('moree www', data);
+            dispatch({
+              type: F4_POST_SUCC_BALANCE,
+              payload: data,
+            });
+          } else if (data.balance === 0) {
+            dispatch({
+              type: BALANCE_0,
+              payload: data,
+            });
+            console.log('data.balance === 0', data.balance === 0);
+          } else {
+            dispatch({ type: LOADING, payload: false });
+          }
+        }
+      })
+      .catch(error => {
+        dispatch({ type: LOADING, payload: false });
+        toast.show(error.message, {
+          type: 'warning',
+          duration: 3000,
+          animationType: 'zoom-in',
+        });
+      });
+  };
 
   //logout
   const signOut = async () => {
@@ -56,7 +103,7 @@ const AuthState = props => {
         });
       })
       .catch(error => {
-        toast.show(error.response.request._response + " попробуйте попожже", {
+        toast.show(error.response.request._response + ' попробуйте попожже', {
           type: 'warning',
           duration: 4000,
           animationType: 'zoom-in',
@@ -120,6 +167,13 @@ const AuthState = props => {
     }
   };
 
+  const closeModel = async () => {
+    try {
+      dispatch({ type: CLOSE_MODAL_BALANCE });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <AuthContext.Provider
       value={{
@@ -129,10 +183,13 @@ const AuthState = props => {
         user: state.user,
         loading: state.loading,
         calculateArray: state.calculateArray,
-        /* token: state.token,
+        //balance
+        modalBalanceErr: state.modalBalanceErr,
+        balance: state.balance,
+        token: state.token,
         error: state.error,
-        redirectToReferrer: state.redirectToReferrer,
-        user: state.user,
+
+        /* 
         //  register,
         forgotPassword,
         clearErrors,
@@ -140,6 +197,8 @@ const AuthState = props => {
         signin,
         signout
         */
+        postFileBalanceToCheck,
+        closeModel,
         signin,
         signOut,
         register,

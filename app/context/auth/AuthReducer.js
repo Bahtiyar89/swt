@@ -2,6 +2,7 @@ import utility from '../../utils/Utility';
 import { CommonActions } from '@react-navigation/native';
 import { CLEAR_ERRORS } from '../types';
 import {
+  F4_POST_SUCC_BALANCE,
   LOGOUT,
   REGISTER_FAIL,
   AUTH_ERROR,
@@ -12,7 +13,9 @@ import {
   LOADING,
   CHECKOUT_ORDER,
   GET_CHECKOUT_ORDER,
-} from './AuthState';
+  BALANCE_0,
+  CLOSE_MODAL_BALANCE,
+} from '../types';
 
 export default (state, action) => {
   switch (action.type) {
@@ -38,8 +41,39 @@ export default (state, action) => {
       return {
         ...state,
       };
+    case F4_POST_SUCC_BALANCE:
+      console.log('reducerrr: ', action.payload);
+      let { balance } = action.payload;
+      utility.setItemObject('user', {
+        fio: 'bahMah',
+        email: 'b@mail.ru',
+        password: '123',
+        phone_number: '123343',
+        username: 'bbb',
+      });
+      return {
+        ...state,
+        balance,
+        user: {
+          fio: 'bahMah',
+          email: 'b@mail.ru',
+          password: '123',
+          phone_number: '123343',
+          username: 'bbb',
+        },
+        isSigned: true,
+        loading: false,
+      };
+    case BALANCE_0:
+      return {
+        ...state,
+        modalBalanceErr: true,
+        loading: false,
+      };
+    case CLOSE_MODAL_BALANCE:
+      return { ...state, modalBalanceErr: false };
     case LOGIN_SUCCESS:
-      console.log(action.payload);
+      console.log('action.payload', action.payload);
       utility.setItemObject('user', action.payload);
       //  utility.setItem('token', action.payload.token);
       return {

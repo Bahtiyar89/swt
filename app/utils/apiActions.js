@@ -13,8 +13,8 @@ export const doGet = async (uri, params = {}) => {
     params,
   };
   console.log('config 4', config);
-  console.log('ur 4', 'https://swttoken.herokuapp.com/' + uri);
-  return await axios.get('https://swttoken.herokuapp.com/' + uri, config);
+  console.log('ur 4', 'http://176.113.80.7:62000/' + uri);
+  return await axios.get('http://176.113.80.7:62000/' + uri, config);
 };
 
 export const doGetByBody = async (uri, postData, params = {}) => {
@@ -41,7 +41,7 @@ export const doPost = async (uri, postData, params = {}) => {
     params,
   };
   return await axios.post(
-    'https://swttoken.herokuapp.com/' + uri,
+    'http://176.113.80.7:62000/' + uri,
     postData,
     config,
   );

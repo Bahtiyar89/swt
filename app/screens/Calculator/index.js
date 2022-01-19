@@ -58,7 +58,7 @@ const CalculatorScreen = props => {
   const fetchUser = async () => {
     seTarr([]);
     const userData = await utility.getItemObject('calculator');
-    console.log('userData: ', userData);
+
     if (userData) {
       seTarr(userData);
     }
@@ -69,7 +69,6 @@ const CalculatorScreen = props => {
       // Do something when the screen is focused
       fetchUser();
       if (user) {
-        console.log('infffff', user);
         seTstate({
           ...state,
           Price: good.Price,
@@ -91,7 +90,6 @@ const CalculatorScreen = props => {
     postAGood(state, arr);
   };
   const hideDialog = () => modalSaveGoodHide(false);
-  console.log('a2222: ', arr);
   return (
     <Fragment>
       {isSigned ? (
