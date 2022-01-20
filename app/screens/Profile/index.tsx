@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import { SafeAreaView, ScrollView, View, Text } from 'react-native';
 import { Button, Avatar, IconButton, Badge } from 'react-native-paper';
 //import { useDispatch } from 'react-redux';
 import Modal from 'react-native-modal';
@@ -84,164 +84,175 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
   return (
     <>
       {isSigned ? (
-        <View style={styles.container}>
-          <View style={styles.mainHeader}>
-            <Text style={styles.profileHeaderText}>{I18n.t('profile')}</Text>
-            <View>
-              <IconButton icon="bell-outline" size={35} onPress={goToProfile} />
-              <Badge style={styles.badgeStyle}>3</Badge>
-            </View>
-          </View>
-          <View style={styles.profileHeaderContainer}>
-            <Avatar.Image
-              size={65}
-              source={require('../../assets/gubin.png')}
-            />
-            <View style={styles.profileNameSurname}>
-              <Text>{user?.fio}</Text>
-              <Text>Москва, Россия</Text>
-            </View>
-          </View>
-          <View style={styles.buttonMenuContainer}>
-            <Button
-              color="#000"
-              onPress={() => seTmodelProfileEdit(!modelProfileEdit)}
-              uppercase={false}
-              icon="chevron-right"
-              contentStyle={{ flexDirection: 'row-reverse' }}>
-              {I18n.t('profile_edit')}
-            </Button>
-            <Button
-              color="#000"
-              onPress={() => seTmodelLocalization(!modelLocalization)}
-              uppercase={false}
-              icon="chevron-right"
-              contentStyle={{ flexDirection: 'row-reverse' }}>
-              {I18n.t('choose_localization')}
-            </Button>
-            <Button
-              color="#000"
-              onPress={() => seTmodelEditPassword(!modelEditPassword)}
-              uppercase={false}
-              icon="chevron-right"
-              contentStyle={{ flexDirection: 'row-reverse' }}>
-              {I18n.t('change_password')}
-            </Button>
-            <Button
-              color="#000"
-              onPress={() => seTmodelAdressBook(!modelAdressBook)}
-              uppercase={false}
-              icon="chevron-right"
-              contentStyle={{ flexDirection: 'row-reverse' }}>
-              {I18n.t('adress_book')}
-            </Button>
-
-            <Button
-              color="#000"
-              onPress={() => seTmodelDraft(!modelDraft)}
-              uppercase={false}
-              style={{}}
-              icon="chevron-right"
-              contentStyle={{ flexDirection: 'row-reverse' }}>
-              {I18n.t('drafts')}
-            </Button>
-            <Button
-              color="#000"
-              onPress={() => seTmodelWallet(!modelWallet)}
-              uppercase={false}
-              style={{}}
-              icon="chevron-right"
-              contentStyle={{ flexDirection: 'row-reverse' }}>
-              {I18n.t('keys')}
-            </Button>
-            <Button
-              color="#000"
-              onPress={() => seTmodelArchive(!modelArchive)}
-              uppercase={false}
-              style={{}}
-              icon="chevron-right"
-              contentStyle={{ flexDirection: 'row-reverse' }}>
-              {I18n.t('archive')}
-            </Button>
-            <Button
-              color="#B82424"
-              onPress={onLogout}
-              uppercase={false}
-              icon="chevron-right"
-              contentStyle={{ flexDirection: 'row-reverse' }}>
-              {I18n.t('logout')}
-            </Button>
-          </View>
-          <ProfileEditModal
-            okPressed={modelOkPressed}
-            model={modelProfileEdit}
-            noPressed={() => seTmodelProfileEdit(false)}
-          />
-
-          <LocalizationModal
-            okPressed={updateLanguageStorage}
-            onChangeLanguage={onChangeLanguage}
-            model={modelLocalization}
-            lang={lang}
-            noPressed={() => seTmodelLocalization(false)}
-          />
-
-          <PasswordEditModal
-            okPressed={modelOkPressed}
-            model={modelEditPassword}
-            noPressed={() => seTmodelEditPassword(false)}
-          />
-
-          <AdressBookModal
-            okPressed={modelOkPressed}
-            model={modelAdressBook}
-            noPressed={() => seTmodelAdressBook(false)}
-          />
-
-          <DraftModal
-            okPressed={modelOkPressed}
-            model={modelDraft}
-            noPressed={() => seTmodelDraft(false)}
-          />
-
-          {modelWallet && (
-            <KeysModal
-              model={modelWallet}
-              noPressed={() => seTmodelWallet(false)}
-              themeReducer={{ isDark: false }}
-            />
-          )}
-
-          <ArchiveModal
-            okPressed={modelOkPressed}
-            model={modelArchive}
-            noPressed={() => seTmodelArchive(false)}
-          />
-
-          <Modal isVisible={model}>
-            <View
-              style={{
-                backgroundColor: 'white',
-                padding: 10,
-              }}>
-              <Text style={{ fontWeight: 'bold', textAlign: 'center' }}>
-                {I18n.t('want_logout')}
-              </Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'flex-end',
-                }}>
-                <Button onPress={() => setmodel(false)}>
-                  <Text>{I18n.t('no')}</Text>
+        <SafeAreaView>
+          <ScrollView contentInsetAdjustmentBehavior="automatic">
+            <View style={styles.container}>
+              <View style={styles.mainHeader}>
+                <Text style={styles.profileHeaderText}>
+                  {I18n.t('profile')}
+                </Text>
+                <View>
+                  <IconButton
+                    icon="bell-outline"
+                    size={35}
+                    onPress={goToProfile}
+                  />
+                  <Badge style={styles.badgeStyle}>3</Badge>
+                </View>
+              </View>
+              <View style={styles.profileHeaderContainer}>
+                <Avatar.Image
+                  size={65}
+                  source={require('../../assets/gubin.png')}
+                />
+                <View style={styles.profileNameSurname}>
+                  <Text>{user?.fio}</Text>
+                  <Text>Москва, Россия</Text>
+                </View>
+              </View>
+              <View style={styles.buttonMenuContainer}>
+                <Button
+                  color="#000"
+                  onPress={() => seTmodelProfileEdit(!modelProfileEdit)}
+                  uppercase={false}
+                  icon="chevron-right"
+                  contentStyle={{ flexDirection: 'row-reverse' }}>
+                  {I18n.t('profile_edit')}
                 </Button>
-                <Button onPress={modelLogOutPressed}>
-                  <Text style={{ color: 'red' }}>{I18n.t('yes')}</Text>
+                <Button
+                  color="#000"
+                  onPress={() => seTmodelLocalization(!modelLocalization)}
+                  uppercase={false}
+                  icon="chevron-right"
+                  contentStyle={{ flexDirection: 'row-reverse' }}>
+                  {I18n.t('choose_localization')}
+                </Button>
+                <Button
+                  color="#000"
+                  onPress={() => seTmodelEditPassword(!modelEditPassword)}
+                  uppercase={false}
+                  icon="chevron-right"
+                  contentStyle={{ flexDirection: 'row-reverse' }}>
+                  {I18n.t('change_password')}
+                </Button>
+                <Button
+                  color="#000"
+                  onPress={() => seTmodelAdressBook(!modelAdressBook)}
+                  uppercase={false}
+                  icon="chevron-right"
+                  contentStyle={{ flexDirection: 'row-reverse' }}>
+                  {I18n.t('adress_book')}
+                </Button>
+
+                <Button
+                  color="#000"
+                  onPress={() => seTmodelDraft(!modelDraft)}
+                  uppercase={false}
+                  style={{}}
+                  icon="chevron-right"
+                  contentStyle={{ flexDirection: 'row-reverse' }}>
+                  {I18n.t('drafts')}
+                </Button>
+                <Button
+                  color="#000"
+                  onPress={() => seTmodelWallet(!modelWallet)}
+                  uppercase={false}
+                  style={{}}
+                  icon="chevron-right"
+                  contentStyle={{ flexDirection: 'row-reverse' }}>
+                  {I18n.t('keys')}
+                </Button>
+                <Button
+                  color="#000"
+                  onPress={() => seTmodelArchive(!modelArchive)}
+                  uppercase={false}
+                  style={{}}
+                  icon="chevron-right"
+                  contentStyle={{ flexDirection: 'row-reverse' }}>
+                  {I18n.t('archive')}
+                </Button>
+                <Button
+                  style={{ marginBottom: 10 }}
+                  color="#B82424"
+                  onPress={onLogout}
+                  uppercase={false}
+                  icon="chevron-right"
+                  contentStyle={{ flexDirection: 'row-reverse' }}>
+                  {I18n.t('logout')}
                 </Button>
               </View>
+              <ProfileEditModal
+                okPressed={modelOkPressed}
+                model={modelProfileEdit}
+                noPressed={() => seTmodelProfileEdit(false)}
+              />
+
+              <LocalizationModal
+                okPressed={updateLanguageStorage}
+                onChangeLanguage={onChangeLanguage}
+                model={modelLocalization}
+                lang={lang}
+                noPressed={() => seTmodelLocalization(false)}
+              />
+
+              <PasswordEditModal
+                okPressed={modelOkPressed}
+                model={modelEditPassword}
+                noPressed={() => seTmodelEditPassword(false)}
+              />
+
+              <AdressBookModal
+                okPressed={modelOkPressed}
+                model={modelAdressBook}
+                noPressed={() => seTmodelAdressBook(false)}
+              />
+
+              <DraftModal
+                okPressed={modelOkPressed}
+                model={modelDraft}
+                noPressed={() => seTmodelDraft(false)}
+              />
+
+              {modelWallet && (
+                <KeysModal
+                  model={modelWallet}
+                  cancelPressed={() => seTmodelWallet(false)}
+                  themeReducer={{ isDark: false }}
+                />
+              )}
+
+              <ArchiveModal
+                okPressed={modelOkPressed}
+                model={modelArchive}
+                noPressed={() => seTmodelArchive(false)}
+              />
+
+              <Modal isVisible={model}>
+                <View
+                  style={{
+                    backgroundColor: 'white',
+                    padding: 10,
+                  }}>
+                  <Text style={{ fontWeight: 'bold', textAlign: 'center' }}>
+                    {I18n.t('want_logout')}
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'flex-end',
+                    }}>
+                    <Button onPress={() => setmodel(false)}>
+                      <Text>{I18n.t('no')}</Text>
+                    </Button>
+                    <Button onPress={modelLogOutPressed}>
+                      <Text style={{ color: 'red' }}>{I18n.t('yes')}</Text>
+                    </Button>
+                  </View>
+                </View>
+              </Modal>
             </View>
-          </Modal>
-        </View>
+          </ScrollView>
+        </SafeAreaView>
       ) : (
         <Login navigation={navigation} />
       )}

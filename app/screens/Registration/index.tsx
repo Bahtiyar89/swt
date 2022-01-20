@@ -24,6 +24,7 @@ import I18n from '../../../i18';
 import utility from '../../utils/Utility';
 import RNFS from 'react-native-fs';
 import CustomAlert from '../../components/customAlert';
+import KeysModal from '../Profile/keys';
 
 interface IState {
   loginReducer: ILoginState;
@@ -68,6 +69,8 @@ const Registration: React.FC<IProps> = (props: IProps) => {
   const [password_confirm, seTpassword_confirm] = useState('');
   const [passwordShow, seTpasswordShow] = useState(true);
   const [passwordConfirmShow, seTpasswordConfirmShow] = useState(true);
+  const [haveKeysModal, seThaveKeysModal] = useState(false);
+  const [modelWallet, seTmodelWallet] = useState(false);
   const [checked, setChecked] = React.useState(false);
   const [model, setmodel] = React.useState(false);
   const [filePath, seTfilePath] = useState('');
@@ -157,8 +160,15 @@ const Registration: React.FC<IProps> = (props: IProps) => {
     return err;
   };
 
-  const submit = () => {
-    postRegisterBalanceToCheck(walletKeys, navigation);
+  const submit = async () => {
+    await utility.getItemObject('wkeys').then(keys => {
+      if (keys) {
+        seThaveKeysModal(true);
+      } else {
+        utility.setItemObject('wkeys', walletKeys);
+        postRegisterBalanceToCheck(walletKeys, navigation);
+      }
+    });
     /*
     const err = validation();
     console.log('err...', JSON.stringify(err));
@@ -182,7 +192,6 @@ const Registration: React.FC<IProps> = (props: IProps) => {
     const obj = {};
     obj['sk'] = encoded_SK_Base58;
     obj['pk'] = encoded_PK_Base58;
-    utility.setItemObject('wkeys', obj);
     seTwalletKeys({
       ...walletKeys,
       sk: encoded_SK_Base58,
@@ -211,6 +220,13 @@ const Registration: React.FC<IProps> = (props: IProps) => {
     });
   };
   console.log('walletKeys: ', walletKeys);
+  const positivButtonPressed = () => {
+    console.log('ok Pressed');
+    seThaveKeysModal(false);
+    seTmodelWallet(true);
+  };
+  console.log('seThaveKeysModal', haveKeysModal);
+
   return (
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
@@ -465,6 +481,27 @@ const Registration: React.FC<IProps> = (props: IProps) => {
           onPressNegativeButton={() => seTdisplayAlert(false)}
           onPressPositiveButton={() => seTdisplayAlert(false)}
         />
+        <CustomAlert
+          displayAlert={haveKeysModal}
+          displayAlertIcon={true}
+          alertTitleText={'У вас уже имеются ключи'}
+          alertMessageText={
+            'Вы не можете зарегистрироваться, потому что у вас уже имеются ключи'
+          }
+          displayPositiveButton={true}
+          positiveButtonText={I18n.t('ok')}
+          displayNegativeButton={false}
+          negativeButtonText={'CANCEL'}
+          onPressNegativeButton={positivButtonPressed}
+          onPressPositiveButton={positivButtonPressed}
+        />
+        {modelWallet && (
+          <KeysModal
+            model={modelWallet}
+            cancelPressed={() => seTmodelWallet(false)}
+            themeReducer={{ isDark: false }}
+          />
+        )}
       </ScrollView>
     </SafeAreaView>
   );

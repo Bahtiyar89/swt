@@ -25,11 +25,11 @@ import CustomAlert from '../../components/customAlert';
 
 interface IState {
   model: boolean;
-  noPressed: () => void;
+  cancelPressed: () => void;
   themeReducer: IThemeState;
 }
 
-const KeysModal: React.FC<IState> = ({ noPressed, model }: IState) => {
+const KeysModal: React.FC<IState> = ({ cancelPressed, model }: IState) => {
   const isDark = useSelector((state: IState) => state.themeReducer.isDark);
   const textColor = isDark ? 'white' : 'black';
   const toastRef = useRef<any>();
@@ -202,7 +202,7 @@ const KeysModal: React.FC<IState> = ({ noPressed, model }: IState) => {
                 </Button>
               </Card>
               <View style={styles.modelYesNo}>
-                <Button onPress={() => noPressed()}>
+                <Button onPress={() => cancelPressed()}>
                   <Text style={styles.modelButtonNoColor}>
                     {I18n.t('discard')}
                   </Text>

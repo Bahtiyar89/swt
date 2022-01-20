@@ -50,6 +50,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: 10,
   },
+  modelContainer: { backgroundColor: 'white', padding: 10 },
+  modelHeaderText: { color: 'black', fontWeight: '500', fontSize: 20 },
+  modelTextAndError: { marginTop: 10, flexDirection: 'row', width: '100%' },
+  modelHelperText: { alignItems: 'flex-end' },
+  modelYesNo: { flexDirection: 'row', justifyContent: 'flex-end' },
+  modelButtonNoColor: { color: 'black' },
+  modelButtonYesColor: { color: '#397AF9' },
 });
 
 export default styles;
