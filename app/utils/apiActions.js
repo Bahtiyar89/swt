@@ -37,14 +37,12 @@ export const doPost = async (uri, postData, params = {}) => {
     headers: {
       // Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'Content-Encoding': 'utf-8',
     },
     params,
   };
-  return await axios.post(
-    'http://176.113.80.7:62000/' + uri,
-    postData,
-    config,
-  );
+  return await axios.post('http://176.113.80.7:62000/' + uri, postData, config);
 };
 
 export const doPostFormData = async (uri, postData, params = {}) => {

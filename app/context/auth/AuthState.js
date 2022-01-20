@@ -2,6 +2,8 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import { CommonActions } from '@react-navigation/native';
 import { useToast } from 'react-native-toast-notifications';
+import basex from 'bs58-rn';
+import Buffer from 'buffer';
 
 import AuthContext from './AuthContext';
 import AuthReducer from './AuthReducer';
@@ -23,8 +25,10 @@ import {
   GET_CHECKOUT_ORDER,
   BALANCE_0,
   CLOSE_MODAL_BALANCE,
+  REGISTER_SUCCESS,
 } from '../types';
-
+import Sodium from 'react-native-sodium';
+import Base64 from 'base64-js';
 const AuthState = props => {
   const toast = useToast();
   const initialState = {
@@ -41,7 +45,6 @@ const AuthState = props => {
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
   const postFileBalanceToCheck = async file => {
-    console.log('file: ', file);
     dispatch({ type: LOADING, payload: true });
     doPost('api/Monitor/GetBalance/', {
       PublicKey: file.pk,
@@ -66,6 +69,134 @@ const AuthState = props => {
           } else {
             dispatch({ type: LOADING, payload: false });
           }
+        }
+      })
+      .catch(error => {
+        dispatch({ type: LOADING, payload: false });
+        toast.show(error.message, {
+          type: 'warning',
+          duration: 3000,
+          animationType: 'zoom-in',
+        });
+      });
+  };
+
+  const transactionExecute = async (
+    transactionPackagedStr,
+    file,
+    navigation,
+  ) => {
+    console.log('navigation: 33', navigation);
+    console.log('transactionPackagedStr', transactionPackagedStr);
+    console.log('file exx', file);
+    const ALPHABET =
+      '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+    const base58 = basex(ALPHABET);
+
+    let decodedFoBase58 = base58.decode(
+      '43b7AeXY6zHDv8tK2PqZCbXH3CcvygEWxKQxzw6SEmX8u6xqCAHr5BbEekSwkpVJCw1CTAs38M2i5myox7tyU3SA',
+    );
+    const decryptedMessageFromByteArray = Base64.fromByteArray(decodedFoBase58);
+    console.log('dec', decryptedMessageFromByteArray);
+
+    let decoded = base58.decode(transactionPackagedStr);
+    const decrypted = Base64.fromByteArray(decoded);
+    console.log('dec 333', decrypted);
+
+    let dt = await Sodium.crypto_sign_detached(
+      decrypted,
+      decryptedMessageFromByteArray,
+    );
+    console.log('dt 333: ', dt);
+
+    let signature = base58.encode(Buffer.Buffer.from(dt, 'base64'));
+    console.log('signature:: ', signature);
+    doPost('api/transaction/Execute', {
+      authKey: '',
+      NetworkAlias: 'MainNet',
+      MethodApi: 'TransferCs',
+      PublicKey: 'DjUaijUD1tavJyryfhngbvrJpgEdHjihtfK95yhteNWN',
+      ReceiverPublicKey: file.pk,
+      Amount: 1,
+      Fee: 0.2,
+      UserData: '',
+      TransactionSignature: signature,
+    })
+      .then(({ data }) => {
+        dispatch({ type: LOADING, payload: false });
+        if (data.success) {
+          dispatch({ type: REGISTER_SUCCESS, payload: { data, navigation } });
+        } else {
+          toast.show(data.message, {
+            type: 'warning',
+            duration: 3000,
+            animationType: 'zoom-in',
+          });
+        }
+      })
+      .catch(error => {
+        dispatch({ type: LOADING, payload: false });
+        toast.show(error.message, {
+          type: 'warning',
+          duration: 3000,
+          animationType: 'zoom-in',
+        });
+      });
+  };
+  const transactionPack = async (file, navigation) => {
+    doPost('api/transaction/pack', {
+      PublicKey: 'DjUaijUD1tavJyryfhngbvrJpgEdHjihtfK95yhteNWN',
+      ReceiverPublicKey: file.pk,
+      networkAlias: 'MainNet',
+      authKey: '',
+      MethodApi: 'TransferCs',
+      Amount: 1,
+      Fee: 0.2,
+      UserDat: '',
+    })
+      .then(({ data }) => {
+        console.log('data:Pack ', data);
+        if (data.success) {
+          transactionExecute(
+            data.dataResponse.transactionPackagedStr,
+            file,
+            navigation,
+          );
+        } else {
+          dispatch({ type: LOADING, payload: false });
+          toast.show(data.message, {
+            type: 'warning',
+            duration: 3000,
+            animationType: 'zoom-in',
+          });
+        }
+      })
+      .catch(error => {
+        dispatch({ type: LOADING, payload: false });
+        toast.show(error.message, {
+          type: 'warning',
+          duration: 3000,
+          animationType: 'zoom-in',
+        });
+      });
+  };
+
+  const postRegisterBalanceToCheck = async (file, navigation) => {
+    dispatch({ type: LOADING, payload: true });
+    doPost('api/Monitor/GetBalance', {
+      PublicKey: file.pk,
+      networkAlias: 'MainNet',
+    })
+      .then(({ data }) => {
+        if (data.success) {
+          transactionPack(file, navigation);
+        } else {
+          dispatch({ type: LOADING, payload: false });
+          toast.show(data.message, {
+            type: 'warning',
+            duration: 3000,
+            animationType: 'zoom-in',
+          });
         }
       })
       .catch(error => {
@@ -189,7 +320,7 @@ const AuthState = props => {
         token: state.token,
         error: state.error,
 
-        /* 
+        /*
         //  register,
         forgotPassword,
         clearErrors,
@@ -198,6 +329,7 @@ const AuthState = props => {
         signout
         */
         postFileBalanceToCheck,
+        postRegisterBalanceToCheck,
         closeModel,
         signin,
         signOut,

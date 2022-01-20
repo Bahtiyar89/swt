@@ -36,7 +36,7 @@ interface IProps {
 const Registration: React.FC<IProps> = (props: IProps) => {
   const { navigation } = props;
   const authContext = useContext(AuthContext);
-  const { register } = authContext;
+  const { register, postRegisterBalanceToCheck } = authContext;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   //const id = useSelector((state: IState) => state.loginReducer.id);
   //const dispatch = useDispatch();
@@ -158,6 +158,8 @@ const Registration: React.FC<IProps> = (props: IProps) => {
   };
 
   const submit = () => {
+    postRegisterBalanceToCheck(walletKeys, navigation);
+    /*
     const err = validation();
     console.log('err...', JSON.stringify(err));
     console.log('user...', JSON.stringify(validObj));
@@ -166,7 +168,7 @@ const Registration: React.FC<IProps> = (props: IProps) => {
       toast.show('Было ошибка повторите заново');
     } else {
       register(user, navigation);
-    }
+    }*/
   };
 
   const generateKeys = async () => {
@@ -174,6 +176,7 @@ const Registration: React.FC<IProps> = (props: IProps) => {
       '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
     const base58 = basex(ALPHABET);
     let key = await Sodium.crypto_sign_keypair();
+    console.log('keyR', key);
     let encoded_SK_Base58 = base58.encode(Buffer.Buffer.from(key.sk, 'base64'));
     let encoded_PK_Base58 = base58.encode(Buffer.Buffer.from(key.pk, 'base64'));
     const obj = {};
@@ -207,7 +210,7 @@ const Registration: React.FC<IProps> = (props: IProps) => {
       }
     });
   };
-
+  console.log('walletKeys: ', walletKeys);
   return (
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">

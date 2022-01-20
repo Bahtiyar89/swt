@@ -15,6 +15,7 @@ import {
   GET_CHECKOUT_ORDER,
   BALANCE_0,
   CLOSE_MODAL_BALANCE,
+  REGISTER_SUCCESS,
 } from '../types';
 
 export default (state, action) => {
@@ -72,6 +73,22 @@ export default (state, action) => {
       };
     case CLOSE_MODAL_BALANCE:
       return { ...state, modalBalanceErr: false };
+    case REGISTER_SUCCESS:
+      const { data, navigation } = action.payload;
+      navigation.goBack();
+      return {
+        ...state,
+        isSigned: true,
+        loading: false,
+        user: {
+          fio: 'bahMah',
+          email: 'b@mail.ru',
+          password: '123',
+          phone_number: '123343',
+          username: 'bbb',
+        },
+      };
+
     case LOGIN_SUCCESS:
       console.log('action.payload', action.payload);
       utility.setItemObject('user', action.payload);
@@ -91,6 +108,19 @@ export default (state, action) => {
     case AUTH_ERROR:
     case LOGIN_FAIL:
       // localStorage.removeItem('token');
+      return {
+        ...state,
+        balance,
+        user: {
+          fio: 'bahMah',
+          email: 'b@mail.ru',
+          password: '123',
+          phone_number: '123343',
+          username: 'bbb',
+        },
+        isSigned: true,
+        loading: false,
+      };
       return {
         ...state,
         token: null,

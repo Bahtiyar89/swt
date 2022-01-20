@@ -16,8 +16,10 @@ import {
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import Sodium from "react-native-sodium";
 //import { useToast } from 'react-native-toast-notifications';
-//import Base64 from 'base64-js' 
-//import * as encoding from 'text-encoding';
+import Base64 from 'base64-js'
+import * as encoding from 'text-encoding';
+import basex from 'bs58-rn';
+import Buffer from 'buffer';
 
 import AuthContext from '../../context/auth/AuthContext';
 import styles from './styles';
@@ -71,6 +73,62 @@ const MainScreen = props => {
     calculatPriceGood(calculated);
     props.navigation.navigate('Calculator');
   };
+
+  useEffect(() => {
+    async function encrypData() {
+      const ALPHABET =
+        '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+      let key = {"pk": "I2c/6iMS+LLd67wV1T4yFRkhmbY3rl3aKTLQ2TdGte0=", "sk": "3w9wXdjZt6BFcQ6ENwdskmtpnYBZFXnCu1gMZqo06IIjZz/qIxL4st3rvBXVPjIVGSGZtjeuXdopMtDZN0a17Q=="};
+
+      console.log('key : ', key);
+      const base58 = basex(ALPHABET);
+      let buff = Buffer.Buffer.from(key.sk, 'base64');
+      console.log('buff',buff);
+      let encodedFoBase58 = base58.encode(buff);
+      console.log("encodedFoBase58: ",encodedFoBase58);
+
+      let decodedFoBase58 = base58.decode(encodedFoBase58);
+      console.log("decodedFoBase58: ", decodedFoBase58);
+      const encryptedMessageFromByteArray = Base64.fromByteArray(decodedFoBase58);
+      console.log('dec', encryptedMessageFromByteArray);
+
+      let decoded = base58.decode('43b7AeXY6zHDv8tK2PqZCbXH3CcvygEWxKQxzw6SEmX8u6xqCAHr5BbEekSwkpVJCw1CTAs38M2i5myox7tyU3SA');
+      const decryptedMessageFromByteArray = Base64.fromByteArray(decoded);
+      console.log('decryptedMessageFromByteArray:',decryptedMessageFromByteArray);
+      let dt =await Sodium.crypto_sign_detached('A6EAoRxttSiyS2ECAWJi48bVfKDD5NCQQb2eF4gN1u38fGDFHMch5JgZqBke417d9FR7G9TTjdqLUqSsCDAcxaVA6DS1Myk2p291DB8hEhHuf9eSrtH2fjzE8F',decryptedMessageFromByteArray)
+      console.log('dt 55555:', dt);
+      /*
+
+      let keysig = await Sodium.crypto_box_keypair();
+
+      let key = await Sodium.crypto_sign_keypair();
+      console.log('key : ', key);
+      let uint8arraySk = new encoding.TextEncoder().encode('7YXVWT');
+      console.log('uint8arraySK',uint8arraySk );
+
+        console.log('decoded 555',Buffer.Buffer.from('7YXVWT','binary'))
+      let enc = base58.encode(Buffer.Buffer.from(uint8arraySk));
+      let sk = base58.encode(Buffer.Buffer.from([255, 254, 253, 252]));
+      let pk = Buffer.Buffer.from(key.pk);
+      console.log('enc', enc);
+      console.log('sk', sk);
+
+      console.log('pk', pk);
+
+      console.log('bufferr ', Buffer.Buffer.from(key.sk));
+      let encodedPKBase58 = base58.encode(Buffer.Buffer.from(key.pk, 'base64'));
+      let encodedFoBase58 = base58.encode(Buffer.Buffer.from(key.sk, 'base64'));
+      utility.setItem('pk',encodedPKBase58)
+      utility.setItem('sk',encodedFoBase58)
+      console.log('encodedPKBase58', encodedPKBase58);
+      console.log('keySK 333', encodedFoBase58);
+      seTsekret(encodedFoBase58)
+      seTpublic1(encodedPKBase58)
+      */
+    }
+    encrypData();
+  }, []);
+
 /*
   let uint8array = new encoding.TextEncoder().encode("Проверка текста текста");
   const encryptedMessageFromByteArray = Base64.fromByteArray(uint8array)
@@ -84,7 +142,7 @@ const MainScreen = props => {
     0x75, 0xfc, 0x73, 0xd6, 0x82, 0x19, 0xe0, 0x03, 0x6b, 0x7a, 0x0b, 0x37]))
   Sodium.crypto_secretbox_easy(encryptedMessageFromByteArray, n, k).then((c) => {
     console.log("c: ", c);
-    { 
+    {
       //this.testPassed('crypto_secretbox_easy_1')
     }
     Sodium.crypto_secretbox_open_easy(c, n, k)

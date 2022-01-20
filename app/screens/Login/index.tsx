@@ -253,14 +253,19 @@ const Login: React.FC<IProps> = (props: IProps) => {
             onPress={submit}>
             <Text style={styles.buttonText}>{I18n.t('enter')}</Text>
           </Button>
+          <Button
+            uppercase={false}
+            style={{ marginTop: 10 }}
+            onPress={onRegistration}>
+            {I18n.t('registration')}
+          </Button>
+          {/*
           <View style={styles.floatLeft_right}>
-            <Button uppercase={false} mode="text" onPress={onRegistration}>
-              {I18n.t('registration')}
-            </Button>
             <Button uppercase={false} mode="text" onPress={onRestoreAccount}>
               {I18n.t('restore_account')}
             </Button>
           </View>
+          */}
         </View>
         <Portal>
           <Dialog visible={modalBalanceErr}>
