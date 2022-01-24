@@ -16,6 +16,7 @@ const MyShipmentsScreen = props => {
 
   const fetchUser = async () => {
     await utility.getItemObject('calculator').then(t => {
+      console.log('tttttt: ', t);
       if (t) {
         seTstate(t);
       }
@@ -33,7 +34,7 @@ const MyShipmentsScreen = props => {
       };
     }, []),
   );
-  console.log('shipment: ', state);
+  console.log('shipment:2 ', Object.values(state));
   let fullDate = new Date(new Date().getTime() + 14 * 24 * 60 * 60 * 1000);
   let date = new Date().getDate(); //Current Date
   let month = new Date().getMonth() + 1; //Current Month

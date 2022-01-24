@@ -28,14 +28,30 @@ import utility from '../../utils/Utility';
 import GoodsContext from '../../context/goods/GoodsContext';
 
 const MainScreen = props => {
-  const elements = {
-    city_From: '',
-    city_To: '',
-    weight: '',
-    volume: '',
-  };
+  const elements = [
+    {
+      name: 'city_From',
+      valString: '',
+    },
+    {
+      name: 'city_To',
+      valString: '',
+    },
+    {
+      name: 'weight',
+      valString: '',
+    },
+    {
+      name: 'volume',
+      valString: '',
+    },
+    {
+      name: 'Price',
+      valString: '',
+    },
+  ];
 
-  const [state, seTstate] = useState({ ...elements });
+  const [state, seTstate] = useState([...elements]);
   const authContext = useContext(AuthContext);
   const goodsContext = useContext(GoodsContext);
 
@@ -44,7 +60,7 @@ const MainScreen = props => {
     goodsContext;
 
   const [scan, setScan] = useState(false);
-  const [calculated, seTcalculated] = useState(0);
+  const [calculated, seTcalculated] = useState('');
   const [result, setResult] = useState();
 
   onSuccess = e => {
@@ -58,9 +74,20 @@ const MainScreen = props => {
   };
 
   const onButtonCalculate = () => {
-    let weight = parseFloat(state.weight);
+    let weight = parseFloat(state[2].valString);
     seTcalculated(weight * 20.75);
-    setMainGood(state);
+    let pr = weight * 20.75;
+    seTstate(state => {
+      // loop over the todos list and find the provided id.
+      return state.map(item => {
+        //gets everything that was already in item, and updates "done"
+        //else returns unmodified item
+        return item.name === 'Price'
+          ? { ...item, valString: pr.toString() }
+          : item;
+      });
+    });
+    //setMainGood(state);
     showDialog();
   };
   const [visible, setVisible] = React.useState(false);
@@ -70,8 +97,9 @@ const MainScreen = props => {
   const hideDialog = () => setVisible(false);
   const redirectButton = () => {
     setVisible(false);
-    calculatPriceGood(calculated);
-    props.navigation.navigate('Calculator');
+    // calculatPriceGood(calculated);
+    console.log('state: ', state);
+    props.navigation.navigate('Calculator', { state });
   };
   /*
   useEffect(() => {
@@ -101,6 +129,16 @@ const MainScreen = props => {
   }, []);
   */
 
+  const onChangeCalculator = (val, dataType) => {
+    seTstate(state => {
+      // loop over the todos list and find the provided id.
+      return state.map(item => {
+        //gets everything that was already in item, and updates "done"
+        //else returns unmodified item
+        return item.name === dataType ? { ...item, valString: val } : item;
+      });
+    }); // set state to new object with updated list
+  };
   return (
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
@@ -131,7 +169,7 @@ const MainScreen = props => {
                 mode="outlined"
                 value={state.city_From}
                 style={styles.textInput}
-                onChangeText={val => seTstate({ ...state, city_From: val })}
+                onChangeText={val => onChangeCalculator(val, 'city_From')}
               />
               <Text style={styles.textparagraph}>{I18n.t('to')}</Text>
               <TextInput
@@ -139,7 +177,7 @@ const MainScreen = props => {
                 mode="outlined"
                 value={state.city_To}
                 style={styles.textInput}
-                onChangeText={val => seTstate({ ...state, city_To: val })}
+                onChangeText={val => onChangeCalculator(val, 'city_To')}
               />
               <Text style={styles.textparagraph}>{I18n.t('weight_kg')}</Text>
               <TextInput
@@ -147,7 +185,7 @@ const MainScreen = props => {
                 mode="outlined"
                 value={state.weight}
                 style={styles.textInput}
-                onChangeText={val => seTstate({ ...state, weight: val })}
+                onChangeText={val => onChangeCalculator(val, 'weight')}
               />
               <Text style={styles.textparagraph}>{I18n.t('capacity_m3')}</Text>
               <TextInput
@@ -155,7 +193,7 @@ const MainScreen = props => {
                 mode="outlined"
                 value={state.volume}
                 style={styles.textInput}
-                onChangeText={val => seTstate({ ...state, volume: val })}
+                onChangeText={val => onChangeCalculator(val, 'volume')}
               />
               <Button onPress={() => onButtonCalculate()} style={styles.button}>
                 <Text style={styles.buttonText}>{I18n.t('сalculate')}</Text>

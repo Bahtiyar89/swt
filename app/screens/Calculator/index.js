@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from 'react';
+import React, { useEffect, Fragment, useContext, useState } from 'react';
 import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import {
   Button,
@@ -17,40 +17,105 @@ import GoodsContext from '../../context/goods/GoodsContext';
 import I18n from '../../../i18';
 import Login from '../Login';
 import utility from '../../utils/Utility';
+import Validation from '../../components/validation';
 
 const CalculatorScreen = props => {
   const { navigation } = props;
+  const { state: calculated } = props.route.params;
   const authContext = useContext(AuthContext);
   const goodsContext = useContext(GoodsContext);
-  const { user, isSigned, getCheckout, calculateArray, checkoutOrderMethod } =
-    authContext;
+  const { user, isSigned, file } = authContext;
   const { modalSaveGood, loading, good, postAGood, modalSaveGoodHide } =
     goodsContext;
   const [checked, setChecked] = useState(false);
+  const columns = [
+    {
+      name: 'sender_FIO',
+      valString: '',
+    },
+    {
+      name: 'sender_EMail',
+      valString: '',
+    },
+    {
+      name: 'sender_Tel',
+      valString: '',
+    },
+    {
+      name: 'sender_DocID',
+      valString: '',
+    },
+    {
+      name: 'sender_INN',
+      valString: '',
+    },
+    {
+      name: 'sender_Addr',
+      valString: '',
+    },
+    {
+      name: 'recip_FIO',
+      valString: '',
+    },
+    {
+      name: 'recip_EMail',
+      valString: '',
+    },
+    {
+      name: 'recip_Tel',
+      valString: '',
+    },
+    {
+      name: 'recip_DocID',
+      valString: '',
+    },
+    {
+      name: 'recip_INN',
+      valString: '',
+    },
+    {
+      name: 'recip_Addr',
+      valString: '',
+    },
+    {
+      name: 'LinkOnGood',
+      valString: '',
+    },
+    {
+      name: 'DescrGood',
+      valString: '',
+    },
+  ];
 
+  const [stateColumns, seTstateColumns] = useState([...columns]);
+
+  const validationElements = {
+    sender_FIO: false,
+    sender_Tel: false,
+    sender_DocID: false,
+    sender_INN: false,
+    sender_EMail: false,
+    sender_Addr: false,
+    recip_FIO: false,
+    recip_Tel: false,
+    recip_DocID: false,
+    recip_INN: false,
+    recip_EMail: false,
+    recip_Addr: false,
+    DescrGood: false,
+    LinkOnGood: false,
+  };
+  const [validObj, seTvalidObj] = useState({ ...validationElements });
   const elements = {
-    // sender: '',
-    sender_FIO: '',
-    sender_Tel: '',
-    sender_EMail: '',
-    sender_DocID: '',
-    sender_INN: '',
-    sender_Addr: '',
-    //  receiver: '',
-    recip_FIO: '',
-    recip_EMail: '',
-    recip_Tel: '',
-    recip_DocID: '',
-    recip_INN: '',
-    recip_Addr: '',
-    LinkOnGood: '',
-    DescrGood: '',
-    Status: 'Status',
-    Price: 0,
-    city_From: '',
-    city_To: '',
-    volume: 0,
-    weight: 0,
+    authKey: '',
+    NetworkAlias: 'MainNet',
+    MethodApi: 'SmartMethodExecute',
+    PublicKey: file.pk,
+    TokenPublicKey: '35soygBAV35AvoJUBhGe9YjCygCBPai3FL6ZPRtKkaZD',
+    TokenMethod: 'SetNewPost',
+    notSaveNewState: 0,
+    Fee: 0.2,
+    contractParams: [],
   };
   const [state, seTstate] = useState({ ...elements });
   const [arr, seTarr] = useState([]);
@@ -64,6 +129,17 @@ const CalculatorScreen = props => {
     }
   };
 
+  useFocusEffect(
+    React.useCallback(() => {
+      // Do something when the screen is focused
+
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+      };
+    }, []),
+  );
+  /*
   useFocusEffect(
     React.useCallback(() => {
       // Do something when the screen is focused
@@ -84,12 +160,146 @@ const CalculatorScreen = props => {
       };
     }, [user, good]),
   );
+*/
 
+  const validation = () => {
+    let err = false;
+    if (stateColumns[4].valString < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, sender_FIO: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, sender_FIO: false });
+      }, 1000);
+      return err;
+    }
+    if (stateColumns[6].valString < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, sender_Tel: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, sender_Tel: false });
+      }, 1000);
+      return err;
+    }
+    if (stateColumns[7].valString < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, sender_DocID: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, sender_DocID: false });
+      }, 1000);
+      return err;
+    }
+    if (stateColumns[8].valString < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, sender_INN: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, sender_INN: false });
+      }, 1000);
+      return err;
+    }
+    if (stateColumns[5].valString < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, sender_EMail: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, sender_EMail: false });
+      }, 1000);
+      return err;
+    }
+    if (stateColumns[9].valString < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, sender_Addr: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, sender_Addr: false });
+      }, 1000);
+      return err;
+    }
+    if (stateColumns[10].valString < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, recip_FIO: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, recip_FIO: false });
+      }, 1000);
+      return err;
+    }
+    if (stateColumns[12].valString < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, recip_Tel: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, recip_Tel: false });
+      }, 1000);
+      return err;
+    }
+    if (stateColumns[13].valString < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, recip_DocID: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, recip_DocID: false });
+      }, 1000);
+      return err;
+    }
+    /*
+    if (stateColumns[14].valString < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, recip_INN: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, recip_INN: false });
+      }, 1000);
+      return err;
+    }*/
+    if (stateColumns[11].valString < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, recip_EMail: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, recip_EMail: false });
+      }, 1000);
+      return err;
+    }
+    /*
+    if (stateColumns[15].valString < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, recip_Addr: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, recip_Addr: false });
+      }, 1000);
+      return err;
+    }
+    if (stateColumns[17].valString < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, DescrGood: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, DescrGood: false });
+      }, 1000);
+      return err;
+    }
+    if (stateColumns[16].valString < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, LinkOnGood: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, LinkOnGood: false });
+      }, 1000);
+      return err;
+    }*/
+    return err;
+  };
   const onButtonPressed = () => {
+    const err = validation();
+    const contractParams = [...stateColumns, ...calculated];
+    console.log('contractParams: ', contractParams);
     //arr.push(state);
-    postAGood(state, arr);
+    postAGood(contractParams, file);
   };
   const hideDialog = () => modalSaveGoodHide(false);
+  const onChangeCalculator = (val, dataType) => {
+    seTstateColumns(state => {
+      // loop over the todos list and find the provided id.
+      return state.map(item => {
+        //gets everything that was already in item, and updates "done"
+        //else returns unmodified item
+        return item.name === dataType ? { ...item, valString: val } : item;
+      });
+    }); // set state to new object with updated list
+  };
+
+  //console.log('good: ', good);
   return (
     <Fragment>
       {isSigned ? (
@@ -137,68 +347,29 @@ const CalculatorScreen = props => {
                 </Text>
               </View>
 
-              <View
-                style={{
-                  width: '90%',
-                  paddingTop: '2%',
-                  flexDirection: 'row',
-                }}>
-                <Text style={{ flex: 1 }}>{I18n.t('sender')}</Text>
-                <HelperText
-                  style={{ alignItems: 'flex-end' }}
-                  type="error"
-                  visible={false}>
-                  {I18n.t('field_not_be_empty')}
-                </HelperText>
-              </View>
-              {/*   <TextInput
-                label={'Москва, ул. Леонова, д. 35'}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val => seTstate({ ...state, sender: val })}
-                value={state.sender}
-              />
-
-              <Text style={{ width: '90%', paddingTop: '2%' }}>
-                + {I18n.t('choose_from_adres_book')}
+              <Text style={{ width: '90%', marginTop: 10 }}>
+                {I18n.t('sender')}
               </Text>
-           */}
-              <View
-                style={{
-                  width: '90%',
-                  paddingTop: '2%',
-                  flexDirection: 'row',
-                }}>
-                <Text style={{ flex: 1 }}>{I18n.t('nsl')}</Text>
-                <HelperText
-                  style={{ alignItems: 'flex-end' }}
-                  type="error"
-                  visible={false}>
-                  {I18n.t('field_not_be_empty')}
-                </HelperText>
-              </View>
+
+              <Validation
+                text={I18n.t('nsl')}
+                visible={true}
+                errText={I18n.t('field_not_be_empty')}
+              />
 
               <TextInput
                 label={'Иванов Иван Иванович'}
                 mode="outlined"
                 style={{ width: '90%' }}
-                onChangeText={val => seTstate({ ...state, sender_FIO: val })}
-                value={state.sender_FIO}
+                onChangeText={val => onChangeCalculator(val, 'sender_FIO')}
+                value={stateColumns[0].valString}
               />
-              <View
-                style={{
-                  width: '90%',
-                  paddingTop: '2%',
-                  flexDirection: 'row',
-                }}>
-                <Text style={{ flex: 1 }}>{I18n.t('phone')}</Text>
-                <HelperText
-                  style={{ alignItems: 'flex-end' }}
-                  type="error"
-                  visible={false}>
-                  {I18n.t('field_not_be_empty')}
-                </HelperText>
-              </View>
+
+              <Validation
+                text={I18n.t('phone')}
+                visible={true}
+                errText={I18n.t('field_not_be_empty')}
+              />
 
               <TextInput
                 mode="outlined"
@@ -209,102 +380,64 @@ const CalculatorScreen = props => {
                     options={{
                       mask: '+9 (999) 999 99 99',
                     }}
-                    onChangeText={val =>
-                      seTstate({ ...state, sender_Tel: val })
-                    }
-                    value={state.sender_Tel}
+                    onChangeText={val => onChangeCalculator(val, 'sender_Tel')}
+                    value={stateColumns[2].valString}
                     placeholder="+ 7 (123) 123 12 34"
                   />
                 )}
                 style={{ width: '90%' }}
               />
 
-              <View
-                style={{
-                  width: '90%',
-                  paddingTop: '2%',
-                  flexDirection: 'row',
-                }}>
-                <Text style={{ flex: 1 }}>{I18n.t('pasport')}</Text>
-                <HelperText
-                  style={{ alignItems: 'flex-end' }}
-                  type="error"
-                  visible={false}>
-                  {I18n.t('field_not_be_empty')}
-                </HelperText>
-              </View>
-
+              <Validation
+                text={I18n.t('pasport')}
+                visible={true}
+                errText={I18n.t('field_not_be_empty')}
+              />
               <TextInput
                 mode="outlined"
-                onChangeText={val => seTstate({ ...state, sender_DocID: val })}
-                value={state.sender_DocID}
+                onChangeText={val => onChangeCalculator(val, 'sender_DocID')}
+                value={stateColumns[3].valString}
                 placeholder="3220 231245"
                 style={{ width: '90%' }}
               />
 
-              <View
-                style={{
-                  width: '90%',
-                  paddingTop: '2%',
-                  flexDirection: 'row',
-                }}>
-                <Text style={{ flex: 1 }}>{I18n.t('inn')}</Text>
-                <HelperText
-                  style={{ alignItems: 'flex-end' }}
-                  type="error"
-                  visible={false}>
-                  {I18n.t('field_not_be_empty')}
-                </HelperText>
-              </View>
+              <Validation
+                text={I18n.t('inn')}
+                visible={true}
+                errText={I18n.t('field_not_be_empty')}
+              />
               <TextInput
                 mode="outlined"
-                onChangeText={val => seTstate({ ...state, sender_INN: val })}
-                value={state.sender_INN}
+                onChangeText={val => onChangeCalculator(val, 'sender_INN')}
+                value={stateColumns[4].valString}
                 placeholder="322043253234231245"
                 style={{ width: '90%' }}
               />
 
-              <View
-                style={{
-                  width: '90%',
-                  paddingTop: '2%',
-                  flexDirection: 'row',
-                }}>
-                <Text style={{ flex: 1 }}>{I18n.t('email')}</Text>
-                <HelperText
-                  style={{ alignItems: 'flex-end' }}
-                  type="error"
-                  visible={false}>
-                  {I18n.t('field_not_be_empty')}
-                </HelperText>
-              </View>
+              <Validation
+                text={I18n.t('email')}
+                visible={true}
+                errText={I18n.t('field_not_be_empty')}
+              />
               <TextInput
                 label={'maksim@mail.ru'}
                 mode="outlined"
                 style={{ width: '90%' }}
-                onChangeText={val => seTstate({ ...state, sender_EMail: val })}
-                value={state.sender_EMail}
+                onChangeText={val => onChangeCalculator(val, 'sender_EMail')}
+                value={stateColumns[1].valString}
               />
-              <View
-                style={{
-                  width: '90%',
-                  paddingTop: '2%',
-                  flexDirection: 'row',
-                }}>
-                <Text style={{ flex: 1 }}>{I18n.t('adress')}</Text>
-                <HelperText
-                  style={{ alignItems: 'flex-end' }}
-                  type="error"
-                  visible={false}>
-                  {I18n.t('field_not_be_empty')}
-                </HelperText>
-              </View>
+
+              <Validation
+                text={I18n.t('adress')}
+                visible={true}
+                errText={I18n.t('field_not_be_empty')}
+              />
               <TextInput
                 label={'Москва, ул. Леонова, д. 35'}
                 mode="outlined"
                 style={{ width: '90%' }}
-                onChangeText={val => seTstate({ ...state, sender_Addr: val })}
-                value={state.sender_Addr}
+                onChangeText={val => onChangeCalculator(val, 'sender_Addr')}
+                value={stateColumns[5].valString}
               />
               <View
                 style={{
@@ -352,53 +485,25 @@ const CalculatorScreen = props => {
                   {I18n.t('field_not_be_empty')}
                 </HelperText>
               </View>
-              {/*
-              <TextInput
-                label={'Москва, ул. Леонова, д. 35'}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val => seTstate({ ...state, receiver: val })}
-                value={state.receiver}
+              <Validation
+                text={I18n.t('nsl')}
+                visible={true}
+                errText={I18n.t('field_not_be_empty')}
               />
-              <Text style={{ width: '90%', paddingTop: '2%' }}>
-                + {I18n.t('choose_from_adres_book')}
-              </Text>
-              */}
-              <View
-                style={{
-                  width: '90%',
-                  paddingTop: '2%',
-                  flexDirection: 'row',
-                }}>
-                <Text style={{ flex: 1 }}>{I18n.t('nsl')}</Text>
-                <HelperText
-                  style={{ alignItems: 'flex-end' }}
-                  type="error"
-                  visible={false}>
-                  {I18n.t('field_not_be_empty')}
-                </HelperText>
-              </View>
+
               <TextInput
                 label={'Иванов Иван Иванович'}
                 mode="outlined"
                 style={{ width: '90%' }}
-                onChangeText={val => seTstate({ ...state, recip_FIO: val })}
-                value={state.recip_FIO}
+                onChangeText={val => onChangeCalculator(val, 'recip_FIO')}
+                value={stateColumns[6].valString}
               />
-              <View
-                style={{
-                  width: '90%',
-                  paddingTop: '2%',
-                  flexDirection: 'row',
-                }}>
-                <Text style={{ flex: 1 }}>{I18n.t('phone')}</Text>
-                <HelperText
-                  style={{ alignItems: 'flex-end' }}
-                  type="error"
-                  visible={false}>
-                  {I18n.t('field_not_be_empty')}
-                </HelperText>
-              </View>
+
+              <Validation
+                text={I18n.t('phone')}
+                visible={true}
+                errText={I18n.t('field_not_be_empty')}
+              />
               <TextInput
                 mode="outlined"
                 render={props => (
@@ -408,96 +513,61 @@ const CalculatorScreen = props => {
                     options={{
                       mask: '+9 (999) 999 99 99',
                     }}
-                    onChangeText={val => seTstate({ ...state, recip_Tel: val })}
-                    value={state.recip_Tel}
+                    onChangeText={val => onChangeCalculator(val, 'recip_Tel')}
+                    value={stateColumns[8].valString}
                     placeholder="+ 7 (123) 123 12 34"
                   />
                 )}
                 style={{ width: '90%', color: 'white' }}
               />
-              <View
-                style={{
-                  width: '90%',
-                  paddingTop: '2%',
-                  flexDirection: 'row',
-                }}>
-                <Text style={{ flex: 1 }}>{I18n.t('pasport')}</Text>
-                <HelperText
-                  style={{ alignItems: 'flex-end' }}
-                  type="error"
-                  visible={false}>
-                  {I18n.t('field_not_be_empty')}
-                </HelperText>
-              </View>
+
+              <Validation
+                text={I18n.t('pasport')}
+                visible={true}
+                errText={I18n.t('field_not_be_empty')}
+              />
               <TextInput
                 mode="outlined"
-                onChangeText={val => seTstate({ ...state, recip_DocID: val })}
-                value={state.recip_DocID}
+                onChangeText={val => onChangeCalculator(val, 'recip_DocID')}
+                value={stateColumns[9].valString}
                 placeholder="A0123824"
                 style={{ width: '90%' }}
               />
-              <View
-                style={{
-                  width: '90%',
-                  paddingTop: '2%',
-                  flexDirection: 'row',
-                }}>
-                <Text style={{ flex: 1 }}>{I18n.t('inn')}</Text>
-                <HelperText
-                  style={{ alignItems: 'flex-end' }}
-                  type="error"
-                  visible={false}>
-                  {I18n.t('field_not_be_empty')}
-                </HelperText>
-              </View>
+              <Validation
+                text={I18n.t('inn')}
+                visible={true}
+                errText={I18n.t('field_not_be_empty')}
+              />
               <TextInput
                 mode="outlined"
-                onChangeText={val => seTstate({ ...state, recip_INN: val })}
-                value={state.recip_INN}
+                onChangeText={val => onChangeCalculator(val, 'recip_INN')}
+                value={stateColumns[10].valString}
                 placeholder="2222222222"
                 style={{ width: '90%' }}
               />
-              <View
-                style={{
-                  width: '90%',
-                  paddingTop: '2%',
-                  flexDirection: 'row',
-                }}>
-                <Text style={{ flex: 1 }}>{I18n.t('email')}</Text>
-                <HelperText
-                  style={{ alignItems: 'flex-end' }}
-                  type="error"
-                  visible={false}>
-                  {I18n.t('field_not_be_empty')}
-                </HelperText>
-              </View>
+              <Validation
+                text={I18n.t('email')}
+                visible={true}
+                errText={I18n.t('field_not_be_empty')}
+              />
               <TextInput
                 label={'maksim@mail.ru'}
                 mode="outlined"
                 style={{ width: '90%' }}
-                onChangeText={val => seTstate({ ...state, recip_EMail: val })}
-                value={state.recip_EMail}
+                onChangeText={val => onChangeCalculator(val, 'recip_EMail')}
+                value={stateColumns[7].valString}
               />
-              <View
-                style={{
-                  width: '90%',
-                  paddingTop: '2%',
-                  flexDirection: 'row',
-                }}>
-                <Text style={{ flex: 1 }}>{I18n.t('adress')}</Text>
-                <HelperText
-                  style={{ alignItems: 'flex-end' }}
-                  type="error"
-                  visible={false}>
-                  {I18n.t('field_not_be_empty')}
-                </HelperText>
-              </View>
+              <Validation
+                text={I18n.t('adress')}
+                visible={true}
+                errText={I18n.t('field_not_be_empty')}
+              />
               <TextInput
                 label={'Москва, ул. Леонова, д. 35'}
                 mode="outlined"
                 style={{ width: '90%' }}
-                onChangeText={val => seTstate({ ...state, recip_Addr: val })}
-                value={state.recip_Addr}
+                onChangeText={val => onChangeCalculator(val, 'recip_Addr')}
+                value={stateColumns[11].valString}
               />
               <View
                 style={{
@@ -530,40 +600,31 @@ const CalculatorScreen = props => {
                   </Text>
                 </Button>
               </View>
-              <View
-                style={{
-                  width: '90%',
-                  paddingTop: '2%',
-                  flexDirection: 'row',
-                }}>
-                <Text style={{ flex: 1 }}>{I18n.t('product_description')}</Text>
-                <HelperText
-                  style={{ alignItems: 'flex-end' }}
-                  type="error"
-                  visible={false}>
-                  {I18n.t('field_not_be_empty')}
-                </HelperText>
-              </View>
+              <Validation
+                text={I18n.t('product_description')}
+                visible={true}
+                errText={I18n.t('field_not_be_empty')}
+              />
               <TextInput
-                placeholder={
-                  'Выбрать из адресной книги рыбный текстВыбрать из адресной книги рыбный текстВыбрать из адресной книги рыбный текст'
-                }
-                onChangeText={val => seTstate({ ...state, DescrGood: val })}
-                value={state.DescrGood}
+                label={'description'}
+                onChangeText={val => onChangeCalculator(val, 'DescrGood')}
+                value={stateColumns[13].valString}
                 numberOfLines={3}
                 mode="outlined"
                 multiline={false}
                 style={{ width: '90%' }}
               />
-              <Text style={{ width: '90%', paddingTop: '2%' }}>
-                {I18n.t('link_web')}
-              </Text>
+              <Validation
+                text={I18n.t('link_web')}
+                visible={true}
+                errText={I18n.t('field_not_be_empty')}
+              />
               <TextInput
                 label={'lamoda.ru/krossy'}
                 mode="outlined"
                 style={{ width: '90%' }}
-                onChangeText={val => seTstate({ ...state, LinkOnGood: val })}
-                value={state.LinkOnGood}
+                onChangeText={val => onChangeCalculator(val, 'LinkOnGood')}
+                value={stateColumns[12].valString}
               />
               <View
                 style={{
@@ -574,7 +635,7 @@ const CalculatorScreen = props => {
                   justifyContent: 'space-between',
                 }}>
                 <Text>{I18n.t('transportation_cost')}</Text>
-                <Text>{good?.Price} $.</Text>
+                <Text>{calculated[4]?.valString} $.</Text>
               </View>
               <Button
                 style={{

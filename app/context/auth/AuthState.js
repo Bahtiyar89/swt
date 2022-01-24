@@ -41,6 +41,7 @@ const AuthState = props => {
     modalBalanceErr: false,
     balance: '',
     error: [],
+    file:{}
   };
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
@@ -58,7 +59,7 @@ const AuthState = props => {
             console.log('moree www', data);
             dispatch({
               type: F4_POST_SUCC_BALANCE,
-              payload: data,
+              payload: {data, file},
             });
           } else if (data.balance === 0) {
             dispatch({
@@ -85,8 +86,7 @@ const AuthState = props => {
     transactionPackagedStr,
     file,
     navigation,
-  ) => {
-    console.log('navigation: 33', navigation);
+  ) => { 
     console.log('transactionPackagedStr', transactionPackagedStr);
     console.log('file exx', file);
     const ALPHABET =
@@ -123,6 +123,7 @@ const AuthState = props => {
       TransactionSignature: signature,
     })
       .then(({ data }) => {
+        console.log("daaattaaa:",data);
         dispatch({ type: LOADING, payload: false });
         if (data.success) {
           dispatch({ type: REGISTER_SUCCESS, payload: { data, navigation } });
@@ -314,6 +315,7 @@ const AuthState = props => {
         user: state.user,
         loading: state.loading,
         calculateArray: state.calculateArray,
+        file: state.file,
         //balance
         modalBalanceErr: state.modalBalanceErr,
         balance: state.balance,

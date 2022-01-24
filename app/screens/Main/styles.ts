@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     
   headerLowerText: { width:"90%", paddingTop:'5%', color: '#000000', fontWeight: 'bold', fontSize: 20 },  
   textInput: { width:"90%" }, 
-  button: { marginTop:'5%', width:'90%', backgroundColor: '#333333'  },
+  button: { marginTop:10, width:'90%', backgroundColor: '#333333', marginBottom: 20},
   buttonText: { color: 'white', padding:'12%'  }, 
 
   scrollView: {

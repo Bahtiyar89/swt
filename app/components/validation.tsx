@@ -11,10 +11,9 @@ const Validation: React.FC<IProps> = (props: IProps) => {
   const { text, visible, errText } = props;
 
   return (
-    <View style={{ flexDirection: 'row', width: '100%' }}>
-      <Text style={{ flex: 1 }}>{text}</Text>
-      <HelperText
-        style={{ alignItems: 'flex-end' }}
+    <View style={{ flexDirection: 'row', width: '90%', justifyContent:'space-between', marginTop:10 }}>
+      <Text>{text}</Text>
+      <HelperText 
         type="error"
         visible={visible}>
         {errText}

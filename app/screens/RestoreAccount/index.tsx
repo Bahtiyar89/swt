@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Alert, View } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import {  View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import DocumentPicker, {
   DirectoryPickerResponse,
@@ -11,11 +10,9 @@ import DocumentPicker, {
 import RNFS from 'react-native-fs';
 import { useToast } from 'react-native-toast-notifications';
 
-import I18n from '../../../i18';
-import NavigationService from 'app/navigation/NavigationService';
-import { doGet, doPost } from '../../utils/apiActions';
-import utility from '../../utils/Utility';
+import I18n from '../../../i18'; 
 import styles from './styles';
+import AuthContext from '../../context/auth/AuthContext';
 
 interface IProps {
   navigation: any;
@@ -23,15 +20,15 @@ interface IProps {
 
 const RestoreAccount: React.FC<IProps> = (props: IProps) => {
   const { navigation } = props;
+  const authContext = useContext(AuthContext);
+  const {  postRegisterBalanceToCheck } = authContext;
   const toast = useToast();
   //const goBack = () => NavigationService.goBack();
   const [result, setResult] =
     useState<
       Array<DocumentPickerResponse> | DirectoryPickerResponse | undefined | null
     >();
-  const [path, seTpath] = useState('');
-  const [balance, seTbalance] = useState('');
-  const [loading, seTloading] = useState('');
+  const [path, seTpath] = useState(''); 
 
   useEffect(() => {
     if (result instanceof Array) {
@@ -59,46 +56,10 @@ const RestoreAccount: React.FC<IProps> = (props: IProps) => {
     }
   };
 
-  const doPostBalance = async (postData: any) => {
-    //const token = await utility.getItem('token');
-    const obj = JSON.parse(postData);
-    const config = {
-      headers: {
-        // Authorization: `Bearer ${token}`,
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      params: {},
-    };
-
-    return await axios
-      .post(
-        'http://176.113.80.7:62000/api/Monitor/GetBalance/',
-        {
-          PublicKey: obj.pk,
-          networkAlias: 'MainNet',
-        },
-        config,
-      )
-      .then(({ data }) => {
-        console.log('data: ', data);
-        toast.show('Ваш профиль востановлен', {
-          type: 'success',
-          duration: 4000,
-          animationType: 'zoom-in',
-        });
-        seTbalance(data);
-        utility.setItemObject('wkeys', obj);
-        navigation.goBack();
-      })
-      .catch(error => {
-        console.log('error', error);
-      });
-  };
-
+  
   const readFile = async () => {
-    const file = await RNFS.readFile(path, 'utf8');
-    doPostBalance(file);
+    const file = await RNFS.readFile(path, 'utf8'); 
+   postRegisterBalanceToCheck(JSON.parse(file), navigation); 
   };
 
   return (

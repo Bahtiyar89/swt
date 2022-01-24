@@ -44,7 +44,9 @@ export default (state, action) => {
       };
     case F4_POST_SUCC_BALANCE:
       console.log('reducerrr: ', action.payload);
-      let { balance } = action.payload;
+      let { data: balance, file } = action.payload;
+      console.log("balance 3: ",balance);
+      console.log("reducer file: ",file);
       utility.setItemObject('user', {
         fio: 'bahMah',
         email: 'b@mail.ru',
@@ -53,8 +55,7 @@ export default (state, action) => {
         username: 'bbb',
       });
       return {
-        ...state,
-        balance,
+        ...state, 
         user: {
           fio: 'bahMah',
           email: 'b@mail.ru',
@@ -62,6 +63,7 @@ export default (state, action) => {
           phone_number: '123343',
           username: 'bbb',
         },
+        file,
         isSigned: true,
         loading: false,
       };

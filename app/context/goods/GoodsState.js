@@ -1,12 +1,16 @@
 import React, { useReducer } from 'react';
-import axios from 'axios';
+import { useToast } from 'react-native-toast-notifications';
+import basex from 'bs58-rn';
+import Buffer from 'buffer';
+import Sodium from 'react-native-sodium';
+import Base64 from 'base64-js';
+
+import utility from '../../utils/Utility';
 import GoodsContext from './GoodsContext';
 import GoodsReducer from './GoodsReducer';
 import { CLEAR_ERRORS } from '../types';
-import { doGet, doPost, doGetByBody } from '../../utils/apiActions';
-import { useToast } from 'react-native-toast-notifications';
+import { doPost, doGetByBody } from '../../utils/apiActions';
 
-import utility from '../../utils/Utility';
 export const LOGOUT = 'LOGOUT';
 export const REGISTER_FAIL = 'REGISTER_FAIL';
 export const AUTH_ERROR = 'AUTH_ERROR';
@@ -25,32 +29,24 @@ export const PRODUCT_SAVED = 'PRODUCT_SAVED';
 const GoodsState = props => {
   const toast = useToast();
   const initialState = {
-    good: {
-      authorization: {
-        username: '',
-        password: '',
+    good: [
+      {
+        name: 'city_From',
+        valString: '',
       },
-      weight: 0,
-      volume: 0,
-      city_From: '',
-      city_To: '',
-      sender_FIO: '',
-      sender_EMail: '',
-      sender_Tel: '',
-      sender_DocID: '',
-      sender_INN: '',
-      sender_Addr: '',
-      recip_FIO: '',
-      recip_EMail: '',
-      recip_Tel: '',
-      recip_DocID: '',
-      recip_INN: '',
-      recip_Addr: '',
-      LinkOnGood: '',
-      DescrGood: '',
-      Status: '',
-      Price: 0,
-    },
+      {
+        name: 'city_To',
+        valString: '',
+      },
+      {
+        name: 'weight',
+        valString: '',
+      },
+      {
+        name: 'volume',
+        valString: '',
+      },
+    ],
     allGoods: utility.getItemObject('allGoods'),
     loading: false,
     modalSaveGood: false,
@@ -80,11 +76,112 @@ const GoodsState = props => {
     dispatch({ type: LOADING, payload: false });
   };
 
+  const transactionExecute = async (FormData, transactionPackagedStr, file) => {
+    console.log('transactionPackagedStr', transactionPackagedStr);
+    console.log('file exx', file);
+    const ALPHABET =
+      '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+    const base58 = basex(ALPHABET);
+
+    let decodedFoBase58 = base58.decode(file?.sk);
+    const decryptedMessageFromByteArray = Base64.fromByteArray(decodedFoBase58);
+    console.log('dec', decryptedMessageFromByteArray);
+
+    let decoded = base58.decode(transactionPackagedStr);
+    const decrypted = Base64.fromByteArray(decoded);
+    console.log('dec 333', decrypted);
+
+    let dt = await Sodium.crypto_sign_detached(
+      decrypted,
+      decryptedMessageFromByteArray,
+    );
+    console.log('dt 333: ', dt);
+
+    let signature = base58.encode(Buffer.Buffer.from(dt, 'base64'));
+    console.log('signature:: ', signature);
+    doPost('api/transaction/Execute', {
+      authKey: '',
+      NetworkAlias: 'MainNet',
+      MethodApi: 'SmartMethodExecute',
+      PublicKey: file.pk,
+      TokenPublicKey: '35soygBAV35AvoJUBhGe9YjCygCBPai3FL6ZPRtKkaZD',
+      TokenMethod: 'SetNewPost',
+      TransactionSignature: signature,
+      notSaveNewState: 0,
+      Fee: 0.1,
+      contractParams: FormData,
+    })
+      .then(({ data }) => {
+        console.log('data resp execute: ', data);
+        dispatch({ type: LOADING, payload: false });
+        if (data.success) {
+          console.log('successs: ', data);
+          dispatch({
+            type: PRODUCT_SAVED,
+            payload: FormData,
+          });
+        } else {
+          toast.show(data.message, {
+            type: 'warning',
+            duration: 3000,
+            animationType: 'zoom-in',
+          });
+        }
+      })
+      .catch(error => {
+        dispatch({ type: LOADING, payload: false });
+        toast.show(error.message, {
+          type: 'warning',
+          duration: 3000,
+          animationType: 'zoom-in',
+        });
+      });
+  };
+
   //Post a Good
-  const postAGood = async (FormData, arr) => {
-    console.log('3333 33', FormData);
-    console.log('arr ', arr);
+  const postAGood = async (FormData, file) => {
+    console.log('FormData', FormData);
+    console.log('file 1', file.pk);
+    const contract = {
+      authKey: '',
+      NetworkAlias: 'MainNet',
+      MethodApi: 'SmartMethodExecute',
+      PublicKey: file.pk,
+      TokenPublicKey: '35soygBAV35AvoJUBhGe9YjCygCBPai3FL6ZPRtKkaZD',
+      TokenMethod: 'SetNewPost',
+      notSaveNewState: 0,
+      Fee: 0.1,
+      contractParams: FormData,
+    };
+    console.log('contract: ', contract);
     dispatch({ type: LOADING, payload: true });
+    doPost('api/transaction/pack', contract)
+      .then(({ data }) => {
+        console.log('data:Pack ', data);
+        if (data.success) {
+          transactionExecute(
+            FormData,
+            data.dataResponse.transactionPackagedStr,
+            file,
+          );
+        } else {
+          dispatch({ type: LOADING, payload: false });
+          toast.show(data.message, {
+            type: 'warning',
+            duration: 3000,
+            animationType: 'zoom-in',
+          });
+        }
+      })
+      .catch(error => {
+        dispatch({ type: LOADING, payload: false });
+        toast.show(error.message, {
+          type: 'warning',
+          duration: 3000,
+          animationType: 'zoom-in',
+        });
+      });
+    /* dispatch({ type: LOADING, payload: true });
     doPost(`v1/post/b/qwe/`, FormData)
       .then(({ data }) => {
         FormData['trackid'] = data.trackid;
@@ -106,7 +203,7 @@ const GoodsState = props => {
           animationType: 'zoom-in',
         });
         dispatch({ type: LOADING, payload: false });
-      });
+      });*/
   };
 
   const setMainGood = form => {
