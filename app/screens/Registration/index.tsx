@@ -70,6 +70,7 @@ const Registration: React.FC<IProps> = (props: IProps) => {
   const [passwordShow, seTpasswordShow] = useState(true);
   const [passwordConfirmShow, seTpasswordConfirmShow] = useState(true);
   const [haveKeysModal, seThaveKeysModal] = useState(false);
+  const [keysDownloadModal, seTkeysDownloadModal] = useState(false);
   const [modelWallet, seTmodelWallet] = useState(false);
   const [checked, setChecked] = React.useState(false);
   const [model, setmodel] = React.useState(false);
@@ -202,11 +203,13 @@ const Registration: React.FC<IProps> = (props: IProps) => {
   const downloadKeys = async () => {
     await utility.getItemObject('wkeys').then(keys => {
       if (keys) {
+        seTkeysDownloadModal(true);
+      } else {
         let path =
           Platform.OS === 'ios'
             ? RNFS.MainBundlePath + '/keys.txt'
             : RNFS.ExternalDirectoryPath + '/keys.txt';
-        RNFS.writeFile(path, JSON.stringify(keys), 'utf8')
+        RNFS.writeFile(path, JSON.stringify(walletKeys), 'utf8')
           .then(success => {
             seTfilePath(path.substring(path.indexOf('A')));
             seTdisplayAlert(true);
@@ -214,8 +217,6 @@ const Registration: React.FC<IProps> = (props: IProps) => {
           .catch(err => {
             console.log(err.message);
           });
-      } else {
-        console.log('else', keys);
       }
     });
   };
@@ -223,6 +224,11 @@ const Registration: React.FC<IProps> = (props: IProps) => {
   const positivButtonPressed = () => {
     console.log('ok Pressed');
     seThaveKeysModal(false);
+    seTmodelWallet(true);
+  };
+  const keysDownloadPressed = () => {
+    console.log('ok Pressed');
+    seTkeysDownloadModal(false);
     seTmodelWallet(true);
   };
   console.log('seThaveKeysModal', haveKeysModal);
@@ -362,55 +368,6 @@ const Registration: React.FC<IProps> = (props: IProps) => {
             )}
             style={styles.textInput}
           />
-          {/*
-          <View style={{ marginTop: 10, flexDirection: 'row', width: '90%' }}>
-            <Text style={{ flex: 1 }}>Пароль</Text>
-            <HelperText
-              style={{ alignItems: 'flex-end' }}
-              type="error"
-              visible={validObj.password}>
-              Неправельный пароль!
-            </HelperText>
-          </View>
-          <TextInput
-            mode="outlined"
-            placeholder="Введите пароль"
-            style={styles.textInput}
-            onChangeText={val => handleChange(val, 'password')}
-            right={
-              <TextInput.Icon
-                onPress={() => seTpasswordShow(!passwordShow)}
-                name={require('../../assets/padlock.png')}
-              />
-            }
-            secureTextEntry={passwordShow}
-            value={user.password}
-          />
-
-          <View style={{ marginTop: 10, flexDirection: 'row', width: '90%' }}>
-            <Text style={{ flex: 1 }}>Повторный Пароль</Text>
-            <HelperText
-              style={{ alignItems: 'flex-end' }}
-              type="error"
-              visible={validObj.password_confirm}>
-              Пароль не совпадают!
-            </HelperText>
-          </View>
-          <TextInput
-            mode="outlined"
-            placeholder="Введите повторный пароль"
-            style={styles.textInput}
-            onChangeText={val => seTpassword_confirm(val)}
-            right={
-              <TextInput.Icon
-                onPress={() => seTpasswordConfirmShow(!passwordConfirmShow)}
-                name={require('../../assets/padlock_repeate.png')}
-              />
-            }
-            secureTextEntry={passwordConfirmShow}
-            value={password_confirm}
-          />
-          */}
           <View
             style={{
               marginTop: 10,
@@ -494,6 +451,20 @@ const Registration: React.FC<IProps> = (props: IProps) => {
           negativeButtonText={'CANCEL'}
           onPressNegativeButton={positivButtonPressed}
           onPressPositiveButton={positivButtonPressed}
+        />
+        <CustomAlert
+          displayAlert={keysDownloadModal}
+          displayAlertIcon={true}
+          alertTitleText={'У вас уже имеются ключи'}
+          alertMessageText={
+            'Вы не можете скачать ключи, потому что у вас уже имеются ключи'
+          }
+          displayPositiveButton={true}
+          positiveButtonText={I18n.t('ok')}
+          displayNegativeButton={false}
+          negativeButtonText={'CANCEL'}
+          onPressNegativeButton={keysDownloadPressed}
+          onPressPositiveButton={keysDownloadPressed}
         />
         {modelWallet && (
           <KeysModal

@@ -126,6 +126,7 @@ const GoodsState = props => {
             payload: { FormData, arr },
           });
         } else {
+          dispatch({ type: LOADING, payload: false });
           toast.show(data.message, {
             type: 'warning',
             duration: 3000,

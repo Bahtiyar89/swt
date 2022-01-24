@@ -9,11 +9,7 @@ import {
   MAIN_PAGE_GOOD,
   LOADING,
 } from './GoodsState';
-const getAsync = async () => {
-  let b = await utility.getItemObject('calculator');
-  console.log('bbbb', b);
-  return b;
-};
+
 export default (state, action) => {
   switch (action.type) {
     case PRODUCT_SAVED:

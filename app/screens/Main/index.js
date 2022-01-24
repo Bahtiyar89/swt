@@ -31,19 +31,19 @@ const MainScreen = props => {
   const elements = [
     {
       name: 'city_From',
-      valString: '',
+      valString: 'istanbul',
     },
     {
       name: 'city_To',
-      valString: '',
+      valString: 'ankara',
     },
     {
       name: 'weight',
-      valString: '',
+      valString: '1',
     },
     {
       name: 'volume',
-      valString: '',
+      valString: '1',
     },
     {
       name: 'Price',
@@ -167,7 +167,7 @@ const MainScreen = props => {
               <TextInput
                 label={I18n.t('city')}
                 mode="outlined"
-                value={state.city_From}
+                value={state[0].valString}
                 style={styles.textInput}
                 onChangeText={val => onChangeCalculator(val, 'city_From')}
               />
@@ -175,7 +175,7 @@ const MainScreen = props => {
               <TextInput
                 label={I18n.t('city')}
                 mode="outlined"
-                value={state.city_To}
+                value={state[1].valString}
                 style={styles.textInput}
                 onChangeText={val => onChangeCalculator(val, 'city_To')}
               />
@@ -183,7 +183,7 @@ const MainScreen = props => {
               <TextInput
                 label={I18n.t('weight')}
                 mode="outlined"
-                value={state.weight}
+                value={state[2].valString}
                 style={styles.textInput}
                 onChangeText={val => onChangeCalculator(val, 'weight')}
               />
@@ -191,7 +191,7 @@ const MainScreen = props => {
               <TextInput
                 label={I18n.t('capacity')}
                 mode="outlined"
-                value={state.volume}
+                value={state[3].valString}
                 style={styles.textInput}
                 onChangeText={val => onChangeCalculator(val, 'volume')}
               />

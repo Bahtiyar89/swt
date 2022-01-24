@@ -21,7 +21,31 @@ import Validation from '../../components/validation';
 
 const CalculatorScreen = props => {
   const { navigation } = props;
-  const { state: calculated } = props.route.params;
+
+  const calculated = props?.route?.params?.state
+    ? props?.route?.params?.state
+    : [
+        {
+          name: 'city_From',
+          valString: '',
+        },
+        {
+          name: 'city_To',
+          valString: '',
+        },
+        {
+          name: 'weight',
+          valString: '',
+        },
+        {
+          name: 'volume',
+          valString: '',
+        },
+        {
+          name: 'Price',
+          valString: '',
+        },
+      ];
   const authContext = useContext(AuthContext);
   const goodsContext = useContext(GoodsContext);
   const { user, isSigned, file } = authContext;
@@ -31,59 +55,59 @@ const CalculatorScreen = props => {
   const columns = [
     {
       name: 'sender_FIO',
-      valString: '',
+      valString: 'bahtiyar',
     },
     {
       name: 'sender_EMail',
-      valString: '',
+      valString: 'bah@gmail.com',
     },
     {
       name: 'sender_Tel',
-      valString: '',
+      valString: '83924798327',
     },
     {
       name: 'sender_DocID',
-      valString: '',
+      valString: '38742389',
     },
     {
       name: 'sender_INN',
-      valString: '',
+      valString: '8274392',
     },
     {
       name: 'sender_Addr',
-      valString: '',
+      valString: 'slkajdklsajds sakjd',
     },
     {
       name: 'recip_FIO',
-      valString: '',
+      valString: 'jdsfjkds',
     },
     {
       name: 'recip_EMail',
-      valString: '',
+      valString: 'ebah@mail.ru',
     },
     {
       name: 'recip_Tel',
-      valString: '',
+      valString: '38778732473',
     },
     {
       name: 'recip_DocID',
-      valString: '',
+      valString: '83297398274',
     },
     {
       name: 'recip_INN',
-      valString: '',
+      valString: '8437589437543',
     },
     {
       name: 'recip_Addr',
-      valString: '',
+      valString: 'jdksfjdsk dshjf',
     },
     {
       name: 'LinkOnGood',
-      valString: '',
+      valString: 'www.gmail.com',
     },
     {
       name: 'DescrGood',
-      valString: '',
+      valString: 'descriptipj',
     },
   ];
 
@@ -106,19 +130,11 @@ const CalculatorScreen = props => {
     LinkOnGood: false,
   };
   const [validObj, seTvalidObj] = useState({ ...validationElements });
-  const elements = {
-    authKey: '',
-    NetworkAlias: 'MainNet',
-    MethodApi: 'SmartMethodExecute',
-    PublicKey: file.pk,
-    TokenPublicKey: '35soygBAV35AvoJUBhGe9YjCygCBPai3FL6ZPRtKkaZD',
-    TokenMethod: 'SetNewPost',
-    notSaveNewState: 0,
-    Fee: 0.2,
-    contractParams: [],
-  };
-  const [state, seTstate] = useState({ ...elements });
   const [arr, seTarr] = useState([]);
+  const [walletKeys, seTwalletKeys] = useState({
+    sk: '',
+    pk: '',
+  });
 
   const fetchUser = async () => {
     seTarr([]);
@@ -129,16 +145,20 @@ const CalculatorScreen = props => {
     }
   };
 
-  useFocusEffect(
-    React.useCallback(() => {
-      // Do something when the screen is focused
+  async function encrypData() {
+    await utility.getItemObject('wkeys').then(keys => {
+      console.log('keys: ', keys);
+      if (keys) {
+        seTwalletKeys({ ...walletKeys, sk: keys?.sk, pk: keys?.pk });
+      } else {
+        seTwalletKeys({ ...walletKeys, sk: file?.sk, pk: file?.pk });
+      }
+    });
+  }
 
-      return () => {
-        // Do something when the screen is unfocused
-        // Useful for cleanup functions
-      };
-    }, []),
-  );
+  useEffect(() => {
+    encrypData();
+  }, [file]);
 
   useFocusEffect(
     React.useCallback(
@@ -290,9 +310,11 @@ const CalculatorScreen = props => {
     const contractParams = [...stateColumns, ...calculated];
     console.log('contractParams: ', contractParams);
     console.log('arr: ', arr);
+
     //arr.push(state);
-    postAGood(contractParams, file, arr);
+    postAGood(contractParams, walletKeys, arr);
   };
+
   const hideDialog = () => modalSaveGoodHide(false);
   const onChangeCalculator = (val, dataType) => {
     seTstateColumns(state => {
@@ -305,7 +327,9 @@ const CalculatorScreen = props => {
     }); // set state to new object with updated list
   };
 
-  //console.log('good: ', good);
+  console.log('calculated: ', calculated);
+  console.log('file: ', file);
+  console.log('walletKeys: ', walletKeys);
   return (
     <Fragment>
       {isSigned ? (
@@ -359,7 +383,7 @@ const CalculatorScreen = props => {
 
               <Validation
                 text={I18n.t('nsl')}
-                visible={true}
+                visible={false}
                 errText={I18n.t('field_not_be_empty')}
               />
 
@@ -373,7 +397,7 @@ const CalculatorScreen = props => {
 
               <Validation
                 text={I18n.t('phone')}
-                visible={true}
+                visible={false}
                 errText={I18n.t('field_not_be_empty')}
               />
 
@@ -396,7 +420,7 @@ const CalculatorScreen = props => {
 
               <Validation
                 text={I18n.t('pasport')}
-                visible={true}
+                visible={false}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
@@ -409,7 +433,7 @@ const CalculatorScreen = props => {
 
               <Validation
                 text={I18n.t('inn')}
-                visible={true}
+                visible={false}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
@@ -422,7 +446,7 @@ const CalculatorScreen = props => {
 
               <Validation
                 text={I18n.t('email')}
-                visible={true}
+                visible={false}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
@@ -435,7 +459,7 @@ const CalculatorScreen = props => {
 
               <Validation
                 text={I18n.t('adress')}
-                visible={true}
+                visible={false}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
@@ -493,7 +517,7 @@ const CalculatorScreen = props => {
               </View>
               <Validation
                 text={I18n.t('nsl')}
-                visible={true}
+                visible={false}
                 errText={I18n.t('field_not_be_empty')}
               />
 
@@ -507,7 +531,7 @@ const CalculatorScreen = props => {
 
               <Validation
                 text={I18n.t('phone')}
-                visible={true}
+                visible={false}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
@@ -529,7 +553,7 @@ const CalculatorScreen = props => {
 
               <Validation
                 text={I18n.t('pasport')}
-                visible={true}
+                visible={false}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
@@ -541,7 +565,7 @@ const CalculatorScreen = props => {
               />
               <Validation
                 text={I18n.t('inn')}
-                visible={true}
+                visible={false}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
@@ -553,7 +577,7 @@ const CalculatorScreen = props => {
               />
               <Validation
                 text={I18n.t('email')}
-                visible={true}
+                visible={false}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
@@ -565,7 +589,7 @@ const CalculatorScreen = props => {
               />
               <Validation
                 text={I18n.t('adress')}
-                visible={true}
+                visible={false}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
@@ -608,7 +632,7 @@ const CalculatorScreen = props => {
               </View>
               <Validation
                 text={I18n.t('product_description')}
-                visible={true}
+                visible={false}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
@@ -622,7 +646,7 @@ const CalculatorScreen = props => {
               />
               <Validation
                 text={I18n.t('link_web')}
-                visible={true}
+                visible={false}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
