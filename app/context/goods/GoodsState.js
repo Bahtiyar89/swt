@@ -76,7 +76,12 @@ const GoodsState = props => {
     dispatch({ type: LOADING, payload: false });
   };
 
-  const transactionExecute = async (FormData, transactionPackagedStr, file) => {
+  const transactionExecute = async (
+    FormData,
+    transactionPackagedStr,
+    file,
+    arr,
+  ) => {
     console.log('transactionPackagedStr', transactionPackagedStr);
     console.log('file exx', file);
     const ALPHABET =
@@ -118,7 +123,7 @@ const GoodsState = props => {
           console.log('successs: ', data);
           dispatch({
             type: PRODUCT_SAVED,
-            payload: FormData,
+            payload: { FormData, arr },
           });
         } else {
           toast.show(data.message, {
@@ -139,7 +144,7 @@ const GoodsState = props => {
   };
 
   //Post a Good
-  const postAGood = async (FormData, file) => {
+  const postAGood = async (FormData, file, arr) => {
     console.log('FormData', FormData);
     console.log('file 1', file.pk);
     const contract = {
@@ -163,6 +168,7 @@ const GoodsState = props => {
             FormData,
             data.dataResponse.transactionPackagedStr,
             file,
+            arr,
           );
         } else {
           dispatch({ type: LOADING, payload: false });

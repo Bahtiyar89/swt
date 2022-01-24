@@ -139,11 +139,13 @@ const CalculatorScreen = props => {
       };
     }, []),
   );
-  /*
+
   useFocusEffect(
-    React.useCallback(() => {
-      // Do something when the screen is focused
-      fetchUser();
+    React.useCallback(
+      () => {
+        // Do something when the screen is focused
+        fetchUser();
+        /*
       if (user) {
         seTstate({
           ...state,
@@ -153,14 +155,17 @@ const CalculatorScreen = props => {
           volume: good.volume,
           weight: good.weight,
         });
-      }
-      return () => {
-        // Do something when the screen is unfocused
-        // Useful for cleanup functions
-      };
-    }, [user, good]),
+      }*/
+        return () => {
+          // Do something when the screen is unfocused
+          // Useful for cleanup functions
+        };
+      },
+      [
+        /*user, good*/
+      ],
+    ),
   );
-*/
 
   const validation = () => {
     let err = false;
@@ -284,8 +289,9 @@ const CalculatorScreen = props => {
     const err = validation();
     const contractParams = [...stateColumns, ...calculated];
     console.log('contractParams: ', contractParams);
+    console.log('arr: ', arr);
     //arr.push(state);
-    postAGood(contractParams, file);
+    postAGood(contractParams, file, arr);
   };
   const hideDialog = () => modalSaveGoodHide(false);
   const onChangeCalculator = (val, dataType) => {
