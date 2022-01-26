@@ -166,7 +166,6 @@ const Registration: React.FC<IProps> = (props: IProps) => {
       if (keys) {
         seThaveKeysModal(true);
       } else {
-        utility.setItemObject('wkeys', walletKeys);
         postRegisterBalanceToCheck(walletKeys, navigation);
       }
     });
@@ -203,20 +202,10 @@ const Registration: React.FC<IProps> = (props: IProps) => {
   const downloadKeys = async () => {
     await utility.getItemObject('wkeys').then(keys => {
       if (keys) {
+        utility.removeItem('wkeys');
         seTkeysDownloadModal(true);
       } else {
-        let path =
-          Platform.OS === 'ios'
-            ? RNFS.MainBundlePath + '/keys.txt'
-            : RNFS.ExternalDirectoryPath + '/keys.txt';
-        RNFS.writeFile(path, JSON.stringify(walletKeys), 'utf8')
-          .then(success => {
-            seTfilePath(path.substring(path.indexOf('A')));
-            seTdisplayAlert(true);
-          })
-          .catch(err => {
-            console.log(err.message);
-          });
+        postRegisterBalanceToCheck(walletKeys, navigation);
       }
     });
   };
@@ -229,7 +218,7 @@ const Registration: React.FC<IProps> = (props: IProps) => {
   const keysDownloadPressed = () => {
     console.log('ok Pressed');
     seTkeysDownloadModal(false);
-    seTmodelWallet(true);
+    seTmodelWallet(false);
   };
   console.log('seThaveKeysModal', haveKeysModal);
 
@@ -288,7 +277,7 @@ const Registration: React.FC<IProps> = (props: IProps) => {
             onChangeText={val => handleChange(val, 'fio')}
             value={walletKeys.sk}
           />
-          <View style={{ flexDirection: 'row', width: '90%' }}>
+          {/*  <View style={{ flexDirection: 'row', width: '90%' }}>
             <Text style={{ flex: 1 }}>Имя Фамилия Отчество</Text>
             <HelperText
               style={{ alignItems: 'flex-end' }}
@@ -368,6 +357,7 @@ const Registration: React.FC<IProps> = (props: IProps) => {
             )}
             style={styles.textInput}
           />
+              */}
           <View
             style={{
               marginTop: 10,
@@ -426,6 +416,7 @@ const Registration: React.FC<IProps> = (props: IProps) => {
             </Button>
           </View>
         </Modal>
+        {/*
         <CustomAlert
           displayAlert={displayAlert}
           displayAlertIcon={true}
@@ -437,7 +428,7 @@ const Registration: React.FC<IProps> = (props: IProps) => {
           negativeButtonText={'CANCEL'}
           onPressNegativeButton={() => seTdisplayAlert(false)}
           onPressPositiveButton={() => seTdisplayAlert(false)}
-        />
+        />*/}
         <CustomAlert
           displayAlert={haveKeysModal}
           displayAlertIcon={true}
@@ -455,10 +446,8 @@ const Registration: React.FC<IProps> = (props: IProps) => {
         <CustomAlert
           displayAlert={keysDownloadModal}
           displayAlertIcon={true}
-          alertTitleText={'У вас уже имеются ключи'}
-          alertMessageText={
-            'Вы не можете скачать ключи, потому что у вас уже имеются ключи'
-          }
+          alertTitleText={'Нажимайте регистрацию заново'}
+          alertMessageText={'У вас были уже ключи мы удалили имеющихся ключей'}
           displayPositiveButton={true}
           positiveButtonText={I18n.t('ok')}
           displayNegativeButton={false}

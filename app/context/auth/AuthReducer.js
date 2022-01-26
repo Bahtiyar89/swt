@@ -76,7 +76,9 @@ export default (state, action) => {
     case CLOSE_MODAL_BALANCE:
       return { ...state, modalBalanceErr: false };
     case REGISTER_SUCCESS:
-      const { data, navigation } = action.payload;
+      const { file: files, navigation } = action.payload;
+      console.log("fileeee: ",files);
+      utility.setItemObject('wkeys', files);
       navigation.goBack();
       return {
         ...state,

@@ -98,7 +98,7 @@ const MainScreen = props => {
   const redirectButton = () => {
     setVisible(false);
     // calculatPriceGood(calculated);
-    console.log('state: ', state);
+    console.log('state: ', { state });
     props.navigation.navigate('Calculator', { state });
   };
   /*

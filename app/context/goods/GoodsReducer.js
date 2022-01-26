@@ -14,7 +14,7 @@ export default (state, action) => {
   switch (action.type) {
     case PRODUCT_SAVED:
       const { FormData, arr } = action.payload;
-
+      console.log('FormData', FormData);
       const product = {
         city_From: FormData[14].valString,
         city_To: FormData[15].valString,

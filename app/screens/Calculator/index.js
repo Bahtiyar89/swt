@@ -147,7 +147,6 @@ const CalculatorScreen = props => {
 
   async function encrypData() {
     await utility.getItemObject('wkeys').then(keys => {
-      console.log('keys: ', keys);
       if (keys) {
         seTwalletKeys({ ...walletKeys, sk: keys?.sk, pk: keys?.pk });
       } else {
@@ -308,8 +307,6 @@ const CalculatorScreen = props => {
   const onButtonPressed = () => {
     const err = validation();
     const contractParams = [...stateColumns, ...calculated];
-    console.log('contractParams: ', contractParams);
-    console.log('arr: ', arr);
 
     //arr.push(state);
     postAGood(contractParams, walletKeys, arr);
@@ -327,9 +324,6 @@ const CalculatorScreen = props => {
     }); // set state to new object with updated list
   };
 
-  console.log('calculated: ', calculated);
-  console.log('file: ', file);
-  console.log('walletKeys: ', walletKeys);
   return (
     <Fragment>
       {isSigned ? (
@@ -410,6 +404,7 @@ const CalculatorScreen = props => {
                     options={{
                       mask: '+9 (999) 999 99 99',
                     }}
+                    editable={false}
                     onChangeText={val => onChangeCalculator(val, 'sender_Tel')}
                     value={stateColumns[2].valString}
                     placeholder="+ 7 (123) 123 12 34"
@@ -543,6 +538,7 @@ const CalculatorScreen = props => {
                     options={{
                       mask: '+9 (999) 999 99 99',
                     }}
+                    editable={false}
                     onChangeText={val => onChangeCalculator(val, 'recip_Tel')}
                     value={stateColumns[8].valString}
                     placeholder="+ 7 (123) 123 12 34"

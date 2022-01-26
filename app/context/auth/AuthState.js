@@ -1,16 +1,19 @@
 import React, { useReducer } from 'react';
+import { Platform } from 'react-native';
 import axios from 'axios';
 import { CommonActions } from '@react-navigation/native';
 import { useToast } from 'react-native-toast-notifications';
 import basex from 'bs58-rn';
 import Buffer from 'buffer';
+import RNFS from 'react-native-fs';
 
 import AuthContext from './AuthContext';
 import AuthReducer from './AuthReducer';
 import { CLEAR_ERRORS } from '../types';
 import { doGet, doPost } from '../../utils/apiActions';
-
+import I18n from '../../../i18';
 import utility from '../../utils/Utility';
+
 import {
   F4_POST_SUCC_BALANCE,
   LOGOUT,
@@ -127,7 +130,31 @@ const AuthState = props => {
         console.log('daaattaaa:', data);
         dispatch({ type: LOADING, payload: false });
         if (data.success) {
-          dispatch({ type: REGISTER_SUCCESS, payload: { data, navigation } });
+          let path =
+            Platform.OS === 'ios'
+              ? RNFS.MainBundlePath + '/keys.txt'
+              : RNFS.ExternalDirectoryPath + '/keys.txt';
+          RNFS.writeFile(path, JSON.stringify(file), 'utf8')
+            .then(success => {
+              let path = path.substring(path.indexOf('A'));
+            })
+            .catch(err => {
+              console.log(err.message);
+            });
+          toast.show(
+            `Ваши ключи успешно сохранены путь к ключам ${
+              I18n.t('file_saved_under_name') + path
+            } `,
+            {
+              type: 'success',
+              duration: 6000,
+              animationType: 'zoom-in',
+            },
+          );
+          dispatch({
+            type: REGISTER_SUCCESS,
+            payload: { data, navigation, file },
+          });
         } else {
           toast.show(data.message, {
             type: 'warning',
