@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import { Button, HelperText, TextInput } from 'react-native-paper';
-import { TextInputMask } from 'react-native-masked-text';
+//import { TextInputMask } from 'react-native-masked-text';
 import { useDispatch } from 'react-redux';
 import Modal from 'react-native-modal';
 import I18n from '../../../i18';
@@ -183,7 +183,7 @@ const AdressBookModal: React.FC<IState> = ({
                   {I18n.t('enter_phone_number')}
                 </HelperText>
               </View>
-              <TextInput
+              {/*     <TextInput
                 mode="outlined"
                 right={<TextInput.Icon name="lead-pencil" />}
                 render={props => (
@@ -204,7 +204,7 @@ const AdressBookModal: React.FC<IState> = ({
                   />
                 )}
               />
-
+                  */}
               <View style={styles.modelYesNo}>
                 <Button onPress={() => noPressed()}>
                   <Text style={styles.modelButtonNoColor}>{I18n.t('no')}</Text>

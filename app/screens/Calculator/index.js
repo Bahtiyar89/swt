@@ -8,9 +8,9 @@ import {
   Portal,
   Dialog,
 } from 'react-native-paper';
-import { TextInputMask } from 'react-native-masked-text';
 import { useFocusEffect } from '@react-navigation/native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { MaskedTextInput } from 'react-native-mask-text';
 
 import AuthContext from '../../context/auth/AuthContext';
 import GoodsContext from '../../context/goods/GoodsContext';
@@ -18,10 +18,33 @@ import I18n from '../../../i18';
 import Login from '../Login';
 import utility from '../../utils/Utility';
 import Validation from '../../components/validation';
+import CustomAlert from '../../components/customAlert';
 
 const CalculatorScreen = props => {
   const { navigation } = props;
+  const elements = {
+    sender_FIO: '',
+    sender_EMail: '',
+    sender_Tel: '',
+    sender_DocID: '',
+    sender_INN: '',
+    sender_Addr: '',
+    recip_FIO: '',
+    recip_EMail: '',
+    recip_Tel: '',
+    recip_DocID: '',
+    recip_INN: '',
+    recip_Addr: '',
+    LinkOnGood: '',
+    DescrGood: '',
+    city_From: '',
+    city_To: '',
+    weight: '',
+    volume: '',
+    Price: '',
+  };
 
+  const [stMain, seTstMain] = useState({ ...elements });
   const calculated = props?.route?.params?.state
     ? props?.route?.params?.state
     : [
@@ -49,69 +72,10 @@ const CalculatorScreen = props => {
   const authContext = useContext(AuthContext);
   const goodsContext = useContext(GoodsContext);
   const { user, isSigned, file } = authContext;
-  const { modalSaveGood, loading, good, postAGood, modalSaveGoodHide } =
-    goodsContext;
+  const { modalSaveGood, loading, postAGood, modalSaveGoodHide } = goodsContext;
   const [checked, setChecked] = useState(false);
-  const columns = [
-    {
-      name: 'sender_FIO',
-      valString: 'bahtiyar',
-    },
-    {
-      name: 'sender_EMail',
-      valString: 'bah@gmail.com',
-    },
-    {
-      name: 'sender_Tel',
-      valString: '83924798327',
-    },
-    {
-      name: 'sender_DocID',
-      valString: '38742389',
-    },
-    {
-      name: 'sender_INN',
-      valString: '8274392',
-    },
-    {
-      name: 'sender_Addr',
-      valString: 'slkajdklsajds sakjd',
-    },
-    {
-      name: 'recip_FIO',
-      valString: 'jdsfjkds',
-    },
-    {
-      name: 'recip_EMail',
-      valString: 'ebah@mail.ru',
-    },
-    {
-      name: 'recip_Tel',
-      valString: '38778732473',
-    },
-    {
-      name: 'recip_DocID',
-      valString: '83297398274',
-    },
-    {
-      name: 'recip_INN',
-      valString: '8437589437543',
-    },
-    {
-      name: 'recip_Addr',
-      valString: 'jdksfjdsk dshjf',
-    },
-    {
-      name: 'LinkOnGood',
-      valString: 'www.gmail.com',
-    },
-    {
-      name: 'DescrGood',
-      valString: 'descriptipj',
-    },
-  ];
 
-  const [stateColumns, seTstateColumns] = useState([...columns]);
+  const [stateColumns, seTstateColumns] = useState();
 
   const validationElements = {
     sender_FIO: false,
@@ -135,6 +99,10 @@ const CalculatorScreen = props => {
     sk: '',
     pk: '',
   });
+
+  const [focusSender, seTfocusSender] = useState(false);
+  const [focusReceiver, seTfocusReceiver] = useState(false);
+  const [cantSaveAlert, seTcantSaveAlert] = useState(false);
 
   const fetchUser = async () => {
     seTarr([]);
@@ -188,15 +156,15 @@ const CalculatorScreen = props => {
 
   const validation = () => {
     let err = false;
-    if (stateColumns[4].valString < 3) {
+    if (stMain.sender_FIO.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, sender_FIO: true });
       setTimeout(() => {
         seTvalidObj({ ...validObj, sender_FIO: false });
-      }, 1000);
+      }, 10000);
       return err;
     }
-    if (stateColumns[6].valString < 3) {
+    if (stMain.sender_Tel.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, sender_Tel: true });
       setTimeout(() => {
@@ -204,7 +172,7 @@ const CalculatorScreen = props => {
       }, 1000);
       return err;
     }
-    if (stateColumns[7].valString < 3) {
+    if (stMain.sender_DocID.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, sender_DocID: true });
       setTimeout(() => {
@@ -212,7 +180,7 @@ const CalculatorScreen = props => {
       }, 1000);
       return err;
     }
-    if (stateColumns[8].valString < 3) {
+    if (stMain.sender_INN.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, sender_INN: true });
       setTimeout(() => {
@@ -220,7 +188,7 @@ const CalculatorScreen = props => {
       }, 1000);
       return err;
     }
-    if (stateColumns[5].valString < 3) {
+    if (stMain.sender_EMail.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, sender_EMail: true });
       setTimeout(() => {
@@ -228,15 +196,15 @@ const CalculatorScreen = props => {
       }, 1000);
       return err;
     }
-    if (stateColumns[9].valString < 3) {
+    if (stMain.sender_Addr < 3) {
       err = true;
       seTvalidObj({ ...validObj, sender_Addr: true });
       setTimeout(() => {
         seTvalidObj({ ...validObj, sender_Addr: false });
-      }, 1000);
+      }, 3000);
       return err;
     }
-    if (stateColumns[10].valString < 3) {
+    if (stMain.recip_FIO.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, recip_FIO: true });
       setTimeout(() => {
@@ -244,7 +212,7 @@ const CalculatorScreen = props => {
       }, 1000);
       return err;
     }
-    if (stateColumns[12].valString < 3) {
+    if (stMain.recip_Tel.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, recip_Tel: true });
       setTimeout(() => {
@@ -252,7 +220,7 @@ const CalculatorScreen = props => {
       }, 1000);
       return err;
     }
-    if (stateColumns[13].valString < 3) {
+    if (stMain.recip_DocID.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, recip_DocID: true });
       setTimeout(() => {
@@ -260,16 +228,16 @@ const CalculatorScreen = props => {
       }, 1000);
       return err;
     }
-    /*
-    if (stateColumns[14].valString < 3) {
+
+    if (stMain.recip_INN.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, recip_INN: true });
       setTimeout(() => {
         seTvalidObj({ ...validObj, recip_INN: false });
       }, 1000);
       return err;
-    }*/
-    if (stateColumns[11].valString < 3) {
+    }
+    if (stMain.recip_EMail.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, recip_EMail: true });
       setTimeout(() => {
@@ -277,8 +245,8 @@ const CalculatorScreen = props => {
       }, 1000);
       return err;
     }
-    /*
-    if (stateColumns[15].valString < 3) {
+
+    if (stMain.recip_Addr.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, recip_Addr: true });
       setTimeout(() => {
@@ -286,7 +254,7 @@ const CalculatorScreen = props => {
       }, 1000);
       return err;
     }
-    if (stateColumns[17].valString < 3) {
+    if (stMain.DescrGood.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, DescrGood: true });
       setTimeout(() => {
@@ -294,36 +262,134 @@ const CalculatorScreen = props => {
       }, 1000);
       return err;
     }
-    if (stateColumns[16].valString < 3) {
+    if (stMain.LinkOnGood.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, LinkOnGood: true });
       setTimeout(() => {
         seTvalidObj({ ...validObj, LinkOnGood: false });
       }, 1000);
       return err;
-    }*/
+    }
     return err;
   };
   const onButtonPressed = () => {
-    const err = validation();
-    const contractParams = [...stateColumns, ...calculated];
+    if (stMain.city_From.length < 3) {
+      seTcantSaveAlert(true);
+    } else if (stMain.city_To.length < 3) {
+      seTcantSaveAlert(true);
+    } else if (stMain.weight.length < 1) {
+      seTcantSaveAlert(true);
+    } else if (stMain.volume.length < 1) {
+      seTcantSaveAlert(true);
+    } else {
+      const err = validation();
+      if (err) {
+      } else {
+        const columns = [
+          {
+            name: 'city_From',
+            valString: stMain.city_From,
+          },
+          {
+            name: 'city_To',
+            valString: stMain.city_To,
+          },
+          {
+            name: 'weight',
+            valString: stMain.weight,
+          },
+          {
+            name: 'volume',
+            valString: stMain.volume,
+          },
+          {
+            name: 'Price',
+            valString: stMain.Price,
+          },
+          {
+            name: 'sender_FIO',
+            valString: stMain.sender_FIO,
+          },
+          {
+            name: 'sender_EMail',
+            valString: stMain.sender_EMail,
+          },
+          {
+            name: 'sender_Tel',
+            valString: stMain.sender_Tel,
+          },
+          {
+            name: 'sender_DocID',
+            valString: stMain.sender_DocID,
+          },
+          {
+            name: 'sender_INN',
+            valString: stMain.sender_INN,
+          },
+          {
+            name: 'sender_Addr',
+            valString: stMain.sender_Addr,
+          },
+          {
+            name: 'recip_FIO',
+            valString: stMain.recip_FIO,
+          },
+          {
+            name: 'recip_EMail',
+            valString: stMain.recip_EMail,
+          },
+          {
+            name: 'recip_Tel',
+            valString: stMain.recip_Tel,
+          },
+          {
+            name: 'recip_DocID',
+            valString: stMain.recip_DocID,
+          },
+          {
+            name: 'recip_INN',
+            valString: stMain.recip_INN,
+          },
+          {
+            name: 'recip_Addr',
+            valString: stMain.recip_Addr,
+          },
+          {
+            name: 'LinkOnGood',
+            valString: stMain.LinkOnGood,
+          },
+          {
+            name: 'DescrGood',
+            valString: stMain.DescrGood,
+          },
+        ];
 
-    //arr.push(state);
-    postAGood(contractParams, walletKeys, arr);
+        arr.push(stMain);
+        postAGood(columns, walletKeys, arr);
+      }
+    }
   };
 
   const hideDialog = () => modalSaveGoodHide(false);
-  const onChangeCalculator = (val, dataType) => {
-    seTstateColumns(state => {
-      // loop over the todos list and find the provided id.
-      return state.map(item => {
-        //gets everything that was already in item, and updates "done"
-        //else returns unmodified item
-        return item.name === dataType ? { ...item, valString: val } : item;
-      });
-    }); // set state to new object with updated list
-  };
 
+  const fetchFromMainScreen = () => {
+    if (isSigned) {
+      if (typeof props?.route?.params === 'object') {
+        seTstMain({
+          ...stMain,
+          city_From: props?.route?.params.city_From,
+          city_To: props?.route?.params.city_To,
+          weight: props?.route?.params.weight,
+          volume: props?.route?.params.volume,
+          Price: props?.route?.params.Price,
+        });
+      } else {
+      }
+    }
+  };
+  useEffect(() => {
+    fetchFromMainScreen();
+  }, [props?.route?.params]);
   return (
     <Fragment>
       {isSigned ? (
@@ -377,7 +443,7 @@ const CalculatorScreen = props => {
 
               <Validation
                 text={I18n.t('nsl')}
-                visible={false}
+                visible={validObj.sender_FIO}
                 errText={I18n.t('field_not_be_empty')}
               />
 
@@ -385,84 +451,89 @@ const CalculatorScreen = props => {
                 label={'Иванов Иван Иванович'}
                 mode="outlined"
                 style={{ width: '90%' }}
-                onChangeText={val => onChangeCalculator(val, 'sender_FIO')}
-                value={stateColumns[0].valString}
+                onChangeText={val => seTstMain({ ...stMain, sender_FIO: val })}
+                value={stMain.sender_FIO}
               />
 
               <Validation
                 text={I18n.t('phone')}
-                visible={false}
+                visible={validObj.sender_Tel}
                 errText={I18n.t('field_not_be_empty')}
               />
-
-              <TextInput
-                mode="outlined"
-                render={props => (
-                  <TextInputMask
-                    type={'custom'}
-                    style={{ color: '#333333' }}
-                    options={{
-                      mask: '+9 (999) 999 99 99',
-                    }}
-                    editable={false}
-                    onChangeText={val => onChangeCalculator(val, 'sender_Tel')}
-                    value={stateColumns[2].valString}
-                    placeholder="+ 7 (123) 123 12 34"
-                  />
-                )}
-                style={{ width: '90%' }}
+              <MaskedTextInput
+                mask="+9 (999) 999 99 99"
+                placeholder="+9 (999) 999 99 99"
+                onChangeText={(text, rawText) => {
+                  seTstMain({ ...stMain, sender_Tel: rawText });
+                }}
+                onFocus={() => seTfocusSender(true)}
+                onBlur={() => seTfocusSender(false)}
+                value={stMain.sender_Tel}
+                style={{
+                  backgroundColor: '#F5F5F5',
+                  width: '90%',
+                  borderWidth: 1,
+                  borderRadius: 5,
+                  paddingLeft: 10,
+                  borderColor: focusSender ? '#3498db' : '#808080',
+                  color: 'black',
+                }}
+                keyboardType="number-pad"
               />
-
               <Validation
                 text={I18n.t('pasport')}
-                visible={false}
+                visible={validObj.sender_DocID}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
                 mode="outlined"
-                onChangeText={val => onChangeCalculator(val, 'sender_DocID')}
-                value={stateColumns[3].valString}
+                onChangeText={val =>
+                  seTstMain({ ...stMain, sender_DocID: val })
+                }
+                value={stMain.sender_DocID}
                 placeholder="3220 231245"
                 style={{ width: '90%' }}
               />
 
               <Validation
                 text={I18n.t('inn')}
-                visible={false}
+                visible={validObj.sender_INN}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
                 mode="outlined"
-                onChangeText={val => onChangeCalculator(val, 'sender_INN')}
-                value={stateColumns[4].valString}
+                onChangeText={val => seTstMain({ ...stMain, sender_INN: val })}
+                value={stMain.sender_INN}
                 placeholder="322043253234231245"
                 style={{ width: '90%' }}
               />
 
               <Validation
                 text={I18n.t('email')}
-                visible={false}
+                visible={validObj.sender_EMail}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
                 label={'maksim@mail.ru'}
                 mode="outlined"
                 style={{ width: '90%' }}
-                onChangeText={val => onChangeCalculator(val, 'sender_EMail')}
-                value={stateColumns[1].valString}
+                onChangeText={val =>
+                  seTstMain({ ...stMain, sender_EMail: val })
+                }
+                value={stMain.sender_EMail}
               />
 
               <Validation
                 text={I18n.t('adress')}
-                visible={false}
+                visible={validObj.sender_Addr}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
                 label={'Москва, ул. Леонова, д. 35'}
                 mode="outlined"
                 style={{ width: '90%' }}
-                onChangeText={val => onChangeCalculator(val, 'sender_Addr')}
-                value={stateColumns[5].valString}
+                onChangeText={val => seTstMain({ ...stMain, sender_Addr: val })}
+                value={stMain.sender_Addr}
               />
               <View
                 style={{
@@ -496,23 +567,12 @@ const CalculatorScreen = props => {
                 </Button>
               </View>
 
-              <View
-                style={{
-                  width: '90%',
-                  paddingTop: '2%',
-                  flexDirection: 'row',
-                }}>
-                <Text style={{ flex: 1 }}>{I18n.t('reciver')}</Text>
-                <HelperText
-                  style={{ alignItems: 'flex-end' }}
-                  type="error"
-                  visible={false}>
-                  {I18n.t('field_not_be_empty')}
-                </HelperText>
-              </View>
+              <Text style={{ width: '90%', textAlign: 'left', marginTop: 10 }}>
+                {I18n.t('reciver')}
+              </Text>
               <Validation
                 text={I18n.t('nsl')}
-                visible={false}
+                visible={validObj.recip_FIO}
                 errText={I18n.t('field_not_be_empty')}
               />
 
@@ -520,80 +580,81 @@ const CalculatorScreen = props => {
                 label={'Иванов Иван Иванович'}
                 mode="outlined"
                 style={{ width: '90%' }}
-                onChangeText={val => onChangeCalculator(val, 'recip_FIO')}
-                value={stateColumns[6].valString}
+                onChangeText={val => seTstMain({ ...stMain, recip_FIO: val })}
+                value={stMain.recip_FIO}
               />
 
               <Validation
                 text={I18n.t('phone')}
-                visible={false}
+                visible={validObj.recip_Tel}
                 errText={I18n.t('field_not_be_empty')}
               />
-              <TextInput
-                mode="outlined"
-                render={props => (
-                  <TextInputMask
-                    type={'custom'}
-                    style={{ color: '#333333' }}
-                    options={{
-                      mask: '+9 (999) 999 99 99',
-                    }}
-                    editable={false}
-                    onChangeText={val => onChangeCalculator(val, 'recip_Tel')}
-                    value={stateColumns[8].valString}
-                    placeholder="+ 7 (123) 123 12 34"
-                  />
-                )}
-                style={{ width: '90%', color: 'white' }}
+              <MaskedTextInput
+                mask="+9 (999) 999 99 99"
+                placeholder="+9 (999) 999 99 99"
+                onChangeText={(text, rawText) => {
+                  seTstMain({ ...stMain, recip_Tel: rawText });
+                }}
+                onFocus={() => seTfocusReceiver(true)}
+                onBlur={() => seTfocusReceiver(false)}
+                value={stMain.sender_Tel}
+                style={{
+                  width: '90%',
+                  borderWidth: 1,
+                  borderRadius: 5,
+                  paddingLeft: 10,
+                  borderColor: focusReceiver ? '#3498db' : '#808080',
+                  color: 'black',
+                }}
+                keyboardType="number-pad"
               />
-
               <Validation
                 text={I18n.t('pasport')}
-                visible={false}
+                visible={validObj.recip_DocID}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
                 mode="outlined"
-                onChangeText={val => onChangeCalculator(val, 'recip_DocID')}
-                value={stateColumns[9].valString}
+                onChangeText={val => seTstMain({ ...stMain, recip_DocID: val })}
+                value={stMain.recip_DocID}
                 placeholder="A0123824"
                 style={{ width: '90%' }}
               />
               <Validation
                 text={I18n.t('inn')}
-                visible={false}
+                visible={validObj.recip_INN}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
                 mode="outlined"
-                onChangeText={val => onChangeCalculator(val, 'recip_INN')}
-                value={stateColumns[10].valString}
+                onChangeText={val => seTstMain({ ...stMain, recip_INN: val })}
+                value={stMain.recip_INN}
                 placeholder="2222222222"
                 style={{ width: '90%' }}
               />
               <Validation
                 text={I18n.t('email')}
-                visible={false}
+                visible={validObj.recip_EMail}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
                 label={'maksim@mail.ru'}
                 mode="outlined"
                 style={{ width: '90%' }}
-                onChangeText={val => onChangeCalculator(val, 'recip_EMail')}
-                value={stateColumns[7].valString}
+                onChangeText={val => seTstMain({ ...stMain, recip_EMail: val })}
+                value={stMain.recip_EMail}
               />
               <Validation
                 text={I18n.t('adress')}
-                visible={false}
+                visible={validObj.recip_Addr}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
                 label={'Москва, ул. Леонова, д. 35'}
                 mode="outlined"
                 style={{ width: '90%' }}
-                onChangeText={val => onChangeCalculator(val, 'recip_Addr')}
-                value={stateColumns[11].valString}
+                onChangeText={val => seTstMain({ ...stMain, recip_Addr: val })}
+                value={stMain.recip_Addr}
               />
               <View
                 style={{
@@ -628,13 +689,13 @@ const CalculatorScreen = props => {
               </View>
               <Validation
                 text={I18n.t('product_description')}
-                visible={false}
+                visible={validObj.DescrGood}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
                 label={'description'}
-                onChangeText={val => onChangeCalculator(val, 'DescrGood')}
-                value={stateColumns[13].valString}
+                onChangeText={val => seTstMain({ ...stMain, DescrGood: val })}
+                value={stMain.DescrGood}
                 numberOfLines={3}
                 mode="outlined"
                 multiline={false}
@@ -642,15 +703,15 @@ const CalculatorScreen = props => {
               />
               <Validation
                 text={I18n.t('link_web')}
-                visible={false}
+                visible={validObj.LinkOnGood}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
                 label={'lamoda.ru/krossy'}
                 mode="outlined"
                 style={{ width: '90%' }}
-                onChangeText={val => onChangeCalculator(val, 'LinkOnGood')}
-                value={stateColumns[12].valString}
+                onChangeText={val => seTstMain({ ...stMain, LinkOnGood: val })}
+                value={stMain.LinkOnGood}
               />
               <View
                 style={{
@@ -661,7 +722,7 @@ const CalculatorScreen = props => {
                   justifyContent: 'space-between',
                 }}>
                 <Text>{I18n.t('transportation_cost')}</Text>
-                <Text>{calculated[4]?.valString} $.</Text>
+                <Text>{stMain.Price} $.</Text>
               </View>
               <Button
                 style={{
@@ -698,6 +759,18 @@ const CalculatorScreen = props => {
                 {I18n.t('info_text')}
               </Text>
             </View>
+            <CustomAlert
+              displayAlert={cantSaveAlert}
+              displayAlertIcon={true}
+              alertTitleText={'Оформление заказа откланено!'}
+              alertMessageText={'Вы не заполнили форму в главном экране!'}
+              displayPositiveButton={true}
+              positiveButtonText={I18n.t('ok')}
+              displayNegativeButton={false}
+              negativeButtonText={'CANCEL'}
+              onPressNegativeButton={() => seTcantSaveAlert(false)}
+              onPressPositiveButton={() => seTcantSaveAlert(false)}
+            />
             <Portal>
               <Dialog visible={modalSaveGood} onDismiss={hideDialog}>
                 <Dialog.Title>Ваш заказ был принят</Dialog.Title>

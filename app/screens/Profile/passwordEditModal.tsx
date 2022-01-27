@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { Button, HelperText, TextInput } from 'react-native-paper';
-import { TextInputMask } from 'react-native-masked-text';
 import { useDispatch } from 'react-redux';
 import Modal from 'react-native-modal';
 import I18n from '../../../i18';

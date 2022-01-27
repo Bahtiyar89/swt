@@ -24,34 +24,28 @@ import Buffer from 'buffer';
 import AuthContext from '../../context/auth/AuthContext';
 import styles from './styles';
 import I18n from '../../../i18';
-import utility from '../../utils/Utility';
 import GoodsContext from '../../context/goods/GoodsContext';
+import Validation from '../../components/validation';
 
 const MainScreen = props => {
-  const elements = [
-    {
-      name: 'city_From',
-      valString: 'istanbul',
-    },
-    {
-      name: 'city_To',
-      valString: 'ankara',
-    },
-    {
-      name: 'weight',
-      valString: '1',
-    },
-    {
-      name: 'volume',
-      valString: '1',
-    },
-    {
-      name: 'Price',
-      valString: '',
-    },
-  ];
+  const elements = {
+    city_From: '',
+    city_To: '',
+    weight: '',
+    volume: '',
+    Price: '',
+  };
 
-  const [state, seTstate] = useState([...elements]);
+  const [stMain, seTstMain] = useState({ ...elements });
+
+  const validationElements = {
+    city_From: false,
+    city_To: false,
+    weight: false,
+    volume: false,
+  };
+  const [validObj, seTvalidObj] = useState({ ...validationElements });
+
   const authContext = useContext(AuthContext);
   const goodsContext = useContext(GoodsContext);
 
@@ -63,43 +57,36 @@ const MainScreen = props => {
   const [calculated, seTcalculated] = useState('');
   const [result, setResult] = useState();
 
-  onSuccess = e => {
+  const onSuccess = e => {
     setResult(e.data);
     setScan(false);
   };
 
-  startScan = () => {
+  const startScan = () => {
     setScan(true);
     setResult();
   };
 
   const onButtonCalculate = () => {
-    let weight = parseFloat(state[2].valString);
-    seTcalculated(weight * 20.75);
-    let pr = weight * 20.75;
-    seTstate(state => {
-      // loop over the todos list and find the provided id.
-      return state.map(item => {
-        //gets everything that was already in item, and updates "done"
-        //else returns unmodified item
-        return item.name === 'Price'
-          ? { ...item, valString: pr.toString() }
-          : item;
-      });
-    });
-    //setMainGood(state);
-    showDialog();
+    const err = validation();
+
+    if (err) {
+    } else {
+      let weight = parseFloat(stMain.weight);
+      seTcalculated(weight * 20.75);
+      seTstMain({ ...stMain, Price: (weight * 20.75).toString() });
+      showDialog();
+    }
   };
-  const [visible, setVisible] = React.useState(false);
+  const [visible, seTvisible] = useState(false);
 
-  const showDialog = () => setVisible(true);
+  const showDialog = () => seTvisible(true);
 
-  const hideDialog = () => setVisible(false);
+  const hideDialog = () => seTvisible(false);
   const redirectButton = () => {
-    setVisible(false);
+    seTvisible(false);
     // calculatPriceGood(calculated);
-    console.log('state: ', { state });
-    props.navigation.navigate('Calculator', { state });
+    props.navigation.navigate('Calculator', stMain);
   };
   /*
   useEffect(() => {
@@ -129,15 +116,41 @@ const MainScreen = props => {
   }, []);
   */
 
-  const onChangeCalculator = (val, dataType) => {
-    seTstate(state => {
-      // loop over the todos list and find the provided id.
-      return state.map(item => {
-        //gets everything that was already in item, and updates "done"
-        //else returns unmodified item
-        return item.name === dataType ? { ...item, valString: val } : item;
-      });
-    }); // set state to new object with updated list
+  const validation = () => {
+    let err = false;
+    if (stMain.city_From.length < 1) {
+      err = true;
+      seTvalidObj({ ...validObj, city_From: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, city_From: false });
+      }, 1000);
+      return err;
+    }
+    if (stMain.city_To.length < 1) {
+      err = true;
+      seTvalidObj({ ...validObj, city_To: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, city_To: false });
+      }, 1000);
+      return err;
+    }
+    if (stMain.weight.length < 1) {
+      err = true;
+      seTvalidObj({ ...validObj, weight: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, weight: false });
+      }, 1000);
+      return err;
+    }
+    if (stMain.volume.length < 1) {
+      err = true;
+      seTvalidObj({ ...validObj, volume: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, volume: false });
+      }, 1000);
+      return err;
+    }
+    return err;
   };
   return (
     <SafeAreaView>
@@ -163,37 +176,55 @@ const MainScreen = props => {
               <Text style={styles.headerLowerText}>
                 {I18n.t('TabNav.calculator')}
               </Text>
-              <Text style={styles.textparagraph}>{I18n.t('from')}</Text>
+              <Validation
+                text={I18n.t('from')}
+                visible={validObj.city_From}
+                errText={I18n.t('field_not_be_empty')}
+              />
               <TextInput
                 label={I18n.t('city')}
                 mode="outlined"
-                value={state[0].valString}
+                value={stMain.city_From}
                 style={styles.textInput}
-                onChangeText={val => onChangeCalculator(val, 'city_From')}
+                onChangeText={val => seTstMain({ ...stMain, city_From: val })}
               />
-              <Text style={styles.textparagraph}>{I18n.t('to')}</Text>
+              <Validation
+                text={I18n.t('to')}
+                visible={validObj.city_To}
+                errText={I18n.t('field_not_be_empty')}
+              />
               <TextInput
                 label={I18n.t('city')}
                 mode="outlined"
-                value={state[1].valString}
+                value={stMain.city_To}
                 style={styles.textInput}
-                onChangeText={val => onChangeCalculator(val, 'city_To')}
+                onChangeText={val => seTstMain({ ...stMain, city_To: val })}
               />
-              <Text style={styles.textparagraph}>{I18n.t('weight_kg')}</Text>
+              <Validation
+                text={I18n.t('weight_kg')}
+                visible={validObj.weight}
+                errText={I18n.t('field_not_be_empty')}
+              />
               <TextInput
                 label={I18n.t('weight')}
                 mode="outlined"
-                value={state[2].valString}
+                value={stMain.weight}
                 style={styles.textInput}
-                onChangeText={val => onChangeCalculator(val, 'weight')}
+                keyboardType="decimal-pad"
+                onChangeText={val => seTstMain({ ...stMain, weight: val })}
               />
-              <Text style={styles.textparagraph}>{I18n.t('capacity_m3')}</Text>
+              <Validation
+                text={I18n.t('capacity_m3')}
+                visible={validObj.volume}
+                errText={I18n.t('field_not_be_empty')}
+              />
               <TextInput
                 label={I18n.t('capacity')}
                 mode="outlined"
-                value={state[3].valString}
+                value={stMain.volume}
                 style={styles.textInput}
-                onChangeText={val => onChangeCalculator(val, 'volume')}
+                keyboardType="decimal-pad"
+                onChangeText={val => seTstMain({ ...stMain, volume: val })}
               />
               <Button onPress={() => onButtonCalculate()} style={styles.button}>
                 <Text style={styles.buttonText}>{I18n.t('сalculate')}</Text>

@@ -68,7 +68,6 @@ const MyShipmentsScreen = props => {
             data={state}
             keyExtractor={state => (Math.random(100) * 10).toString()}
             renderItem={({ item }) => {
-              console.log('statesss: ', item);
               return (
                 <Card
                   style={{
@@ -88,7 +87,9 @@ const MyShipmentsScreen = props => {
                       />
                        <Text style={{ paddingLeft: 3 }}>{item.Status}</Text>*/}
                     </View>
-                    <Title style={{ fontSize: 16 }}>№ {item.trackid}</Title>
+                    <Title style={{ fontSize: 16 }}>
+                      № {item.transactionId}
+                    </Title>
                     <Paragraph>
                       {item.city_From} — {item.city_To}
                     </Paragraph>

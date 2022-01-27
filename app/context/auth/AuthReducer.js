@@ -77,7 +77,7 @@ export default (state, action) => {
       return { ...state, modalBalanceErr: false };
     case REGISTER_SUCCESS:
       const { file: files, navigation } = action.payload;
-      console.log("fileeee: ",files);
+      console.log('fileeee: ', files);
       utility.setItemObject('wkeys', files);
       navigation.goBack();
       return {
@@ -128,6 +128,7 @@ export default (state, action) => {
     case LOGOUT:
       utility.removeItem('token');
       utility.removeItem('user');
+      utility.removeItem('wkeys');
       console.log('LOGOUT : ');
       return {
         ...state,

@@ -8,7 +8,6 @@ import Base64 from 'base64-js';
 import utility from '../../utils/Utility';
 import GoodsContext from './GoodsContext';
 import GoodsReducer from './GoodsReducer';
-import { CLEAR_ERRORS } from '../types';
 import { doPost, doGetByBody } from '../../utils/apiActions';
 
 export const LOGOUT = 'LOGOUT';
@@ -29,24 +28,6 @@ export const PRODUCT_SAVED = 'PRODUCT_SAVED';
 const GoodsState = props => {
   const toast = useToast();
   const initialState = {
-    good: [
-      {
-        name: 'city_From',
-        valString: '',
-      },
-      {
-        name: 'city_To',
-        valString: '',
-      },
-      {
-        name: 'weight',
-        valString: '',
-      },
-      {
-        name: 'volume',
-        valString: '',
-      },
-    ],
     allGoods: utility.getItemObject('allGoods'),
     loading: false,
     modalSaveGood: false,
@@ -120,10 +101,9 @@ const GoodsState = props => {
         console.log('data resp execute: ', data);
         dispatch({ type: LOADING, payload: false });
         if (data.success) {
-          console.log('successs: ', data);
           dispatch({
             type: PRODUCT_SAVED,
-            payload: { FormData, arr },
+            payload: { FormData, arr, data },
           });
         } else {
           dispatch({ type: LOADING, payload: false });
@@ -188,33 +168,9 @@ const GoodsState = props => {
           animationType: 'zoom-in',
         });
       });
-    /* dispatch({ type: LOADING, payload: true });
-    doPost(`v1/post/b/qwe/`, FormData)
-      .then(({ data }) => {
-        FormData['trackid'] = data.trackid;
-        console.log('data::: 555', data);
-        dispatch({ type: LOADING, payload: false });
-        let newType1 = Object.assign([], arr);
-        console.log('FormData:::: ', FormData);
-        newType1.push(FormData);
-        dispatch({
-          type: PRODUCT_SAVED,
-          payload: newType1,
-        });
-      })
-      .catch(error => {
-        console.log('error.response ', error.response);
-        toast.show(error.response.request._response, {
-          type: 'warning',
-          duration: 4000,
-          animationType: 'zoom-in',
-        });
-        dispatch({ type: LOADING, payload: false });
-      });*/
   };
 
   const setMainGood = form => {
-    console.log('form: ', form);
     dispatch({ type: MAIN_PAGE_GOOD, payload: form });
   };
 
@@ -231,7 +187,6 @@ const GoodsState = props => {
       value={{
         error: state.error,
         modalSaveGood: state.modalSaveGood,
-        good: state.good,
         allGoods: state.allGoods,
         loading: state.loading,
         calculatPriceGood,
