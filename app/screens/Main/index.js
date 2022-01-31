@@ -21,10 +21,8 @@ import * as encoding from 'text-encoding';
 import basex from 'bs58-rn';
 import Buffer from 'buffer';
 
-import AuthContext from '../../context/auth/AuthContext';
 import styles from './styles';
 import I18n from '../../../i18';
-import GoodsContext from '../../context/goods/GoodsContext';
 import Validation from '../../components/validation';
 
 const MainScreen = props => {
@@ -45,13 +43,6 @@ const MainScreen = props => {
     volume: false,
   };
   const [validObj, seTvalidObj] = useState({ ...validationElements });
-
-  const authContext = useContext(AuthContext);
-  const goodsContext = useContext(GoodsContext);
-
-  const { calculateArray, signOut, user } = authContext;
-  const { calculatPriceGood, setMainGood, fetchAllGoods, good, allGoods } =
-    goodsContext;
 
   const [scan, setScan] = useState(false);
   const [calculated, seTcalculated] = useState('');
@@ -85,8 +76,18 @@ const MainScreen = props => {
   const hideDialog = () => seTvisible(false);
   const redirectButton = () => {
     seTvisible(false);
-    // calculatPriceGood(calculated);
-    props.navigation.navigate('Calculator', stMain);
+
+    let main = stMain;
+    console.log('main', main);
+    props.navigation.navigate('Calculator', main);
+    seTstMain({
+      ...stMain,
+      city_From: '',
+      city_To: '',
+      Price: '',
+      volume: '',
+      weight: '',
+    });
   };
   /*
   useEffect(() => {

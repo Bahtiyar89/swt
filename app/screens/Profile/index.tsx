@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useRef, useContext, useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, View, Text } from 'react-native';
 import { Button, Avatar, IconButton, Badge } from 'react-native-paper';
 //import { useDispatch } from 'react-redux';
+import Spinner from 'react-native-loading-spinner-overlay';
 import Modal from 'react-native-modal';
-import { useFocusEffect } from '@react-navigation/native';
+import Toast from 'react-native-toast-notifications';
 
 import AuthContext from '../../context/auth/AuthContext';
 import Login from '../Login';
@@ -19,7 +20,8 @@ import AdressBookModal from './adressBookModal';
 import DraftModal from './draftModal';
 import KeysModal from './keys';
 import ArchiveModal from './archiveModal';
-import { IThemeState } from 'app/models/reducers/theme';
+import GoodsContext from '../../context/goods/GoodsContext';
+
 interface IState {
   navigation: any;
 }
@@ -28,8 +30,11 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
   //const dispatch = useDispatch();
   //const logout = () => dispatch(loginActions.logOut());
   const authContext = useContext(AuthContext);
-  const { signOut, user, isSigned } = authContext;
+  const { signOut, file, user, isSigned } = authContext;
 
+  const goodsContext = useContext(GoodsContext);
+  const { postBalanceToCheck, addBalance, userBalance, loading } = goodsContext;
+  const toastRef = useRef<any>();
   const [lang, seTlang] = useState('');
 
   useEffect(() => {
@@ -52,11 +57,8 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
   const [modelAdressBook, seTmodelAdressBook] = useState(false);
   const [modelDraft, seTmodelDraft] = useState(false);
   const [modelArchive, seTmodelArchive] = useState(false);
+  const [modelBalance, seTmodelBalance] = useState(false);
   const [modelWallet, seTmodelWallet] = useState(false);
-
-  const modelOpen = () => {
-    setmodel(!model);
-  };
 
   const onLogout = () => {
     setmodel(true);
@@ -81,12 +83,37 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
     seTlang(language);
   };
 
+  const replenishBalance = () => {
+    if (userBalance.balance > 0.5) {
+      toastRef.current.show(
+        'Вы не можете пополнить баланс так как у вас больше 0.5$',
+        {
+          type: 'warning',
+          duration: 4000,
+          animationType: 'zoom-in',
+        },
+      );
+    } else {
+      seTmodelBalance(false);
+      addBalance(file);
+    }
+  };
+  const getBalance = () => {
+    postBalanceToCheck(file);
+    seTmodelBalance(!modelBalance);
+  };
+
   return (
     <>
       {isSigned ? (
         <SafeAreaView>
           <ScrollView contentInsetAdjustmentBehavior="automatic">
             <View style={styles.container}>
+              <Spinner
+                visible={loading}
+                textContent={'Загружается...'}
+                textStyle={{ color: '#3498db' }}
+              />
               <View style={styles.mainHeader}>
                 <Text style={styles.profileHeaderText}>
                   {I18n.t('profile')}
@@ -152,6 +179,15 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                   icon="chevron-right"
                   contentStyle={{ flexDirection: 'row-reverse' }}>
                   {I18n.t('drafts')}
+                </Button>
+                <Button
+                  color="#000"
+                  onPress={getBalance}
+                  uppercase={false}
+                  style={{}}
+                  icon="chevron-right"
+                  contentStyle={{ flexDirection: 'row-reverse' }}>
+                  {I18n.t('balance')}
                 </Button>
                 <Button
                   color="#000"
@@ -226,6 +262,49 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                 model={modelArchive}
                 noPressed={() => seTmodelArchive(false)}
               />
+
+              <Modal isVisible={modelBalance}>
+                <Toast placement="top" ref={toastRef} />
+                <View
+                  style={{
+                    backgroundColor: 'white',
+                    padding: 10,
+                  }}>
+                  <Text style={{ fontWeight: 'bold', textAlign: 'center' }}>
+                    {'Ваш Баланс:'}
+                  </Text>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                      fontSize: 16,
+                      marginTop: 5,
+                    }}>
+                    {userBalance?.balance}
+                  </Text>
+                  <Button
+                    style={{
+                      marginTop: 10,
+                      backgroundColor: '#333333',
+                    }}
+                    mode="contained"
+                    onPress={replenishBalance}>
+                    <Text style={{ color: '#d9d9d9' }}>
+                      {'Пополнить баланс'}
+                    </Text>
+                  </Button>
+                  <View
+                    style={{
+                      marginTop: 5,
+                      flexDirection: 'row',
+                      justifyContent: 'flex-end',
+                    }}>
+                    <Button onPress={() => seTmodelBalance(false)}>
+                      <Text>{I18n.t('discard')}</Text>
+                    </Button>
+                  </View>
+                </View>
+              </Modal>
 
               <Modal isVisible={model}>
                 <View

@@ -31,7 +31,7 @@
     "react-native-gesture-handler": "^1.10.3",
     "react-native-i18n": "^2.0.15",
     "react-native-loading-spinner-overlay": "^2.0.0",
-    "react-native-mask-text": "^0.7.0",
+    "react-native-mask-input": "^1.1.1",
     "react-native-modal": "^13.0.0",
     "react-native-paper": "^4.8.1",
     "react-native-permissions": "^3.0.6",

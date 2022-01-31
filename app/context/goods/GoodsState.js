@@ -10,52 +10,20 @@ import GoodsContext from './GoodsContext';
 import GoodsReducer from './GoodsReducer';
 import { doPost, doGetByBody } from '../../utils/apiActions';
 
-export const LOGOUT = 'LOGOUT';
-export const REGISTER_FAIL = 'REGISTER_FAIL';
-export const AUTH_ERROR = 'AUTH_ERROR';
-
-export const LOGIN_FAIL = 'LOGIN_FAIL';
-export const FALSE_REDIRECT = 'FALSE_REDIRECT';
-export const VARIFY_OK = 'VARIFY_OK';
 export const LOADING = 'LOADING';
-export const CALCULATED = 'CALCULATED';
-export const CHECKOUT_ORDER = 'CHECKOUT_ORDER';
-export const GET_CHECKOUT_ORDER = 'GET_CHECKOUT_ORDER';
-export const MAIN_PAGE_GOOD = 'MAIN_PAGE_GOOD';
 export const HIDE_MODAL = 'HIDE_MODAL';
 export const PRODUCT_SAVED = 'PRODUCT_SAVED';
+export const BALANCE_CHECK = 'BALANCE_CHECK';
 
 const GoodsState = props => {
   const toast = useToast();
   const initialState = {
-    allGoods: utility.getItemObject('allGoods'),
+    userBalance: {},
     loading: false,
     modalSaveGood: false,
     error: [],
   };
   const [state, dispatch] = useReducer(GoodsReducer, initialState);
-
-  //Fetch All Goods
-  const fetchAllGoods = async FormData => {
-    console.log('3333 33', FormData);
-    dispatch({ type: LOADING, payload: true });
-
-    doGetByBody(`v1/post/`, FormData)
-      .then(({ data }) => {
-        dispatch({ type: LOADING, payload: false });
-        console.log('444 444 444:', data);
-      })
-      .catch(error => {
-        console.log('error: ', error.response);
-        toast.show(error.message, {
-          type: 'warning',
-          duration: 4000,
-          animationType: 'zoom-in',
-        });
-        dispatch({ type: LOADING, payload: false });
-      });
-    dispatch({ type: LOADING, payload: false });
-  };
 
   const transactionExecute = async (
     FormData,
@@ -170,16 +138,152 @@ const GoodsState = props => {
       });
   };
 
-  const setMainGood = form => {
-    dispatch({ type: MAIN_PAGE_GOOD, payload: form });
-  };
-
-  const calculatPriceGood = calc => {
-    dispatch({ type: CALCULATED, payload: calc });
+  const postBalanceToCheck = async file => {
+    dispatch({ type: LOADING, payload: true });
+    doPost('api/Monitor/GetBalance/', {
+      PublicKey: file?.pk,
+      networkAlias: 'MainNet',
+    })
+      .then(({ data }) => {
+        console.log('data: 2', data);
+        dispatch({ type: LOADING, payload: false });
+        if (data.success) {
+          if (data.balance >= 0.1) {
+            console.log('moree www', data);
+            dispatch({
+              type: BALANCE_CHECK,
+              payload: data,
+            });
+          } else if (data != 0 && data.balance < 0.5) {
+            toast.show(
+              'Ваш баланс скоро закончиться. Пополните пожалуйста свой баланс!',
+              {
+                type: 'warning',
+                duration: 3000,
+                animationType: 'zoom-in',
+              },
+            );
+          } else if (data.balance === 0) {
+            dispatch({
+              type: BALANCE_CHECK,
+              payload: data,
+            });
+            console.log('data.balance === 0', data.balance === 0);
+          } else {
+            dispatch({ type: LOADING, payload: false });
+          }
+        }
+      })
+      .catch(error => {
+        dispatch({ type: LOADING, payload: false });
+        toast.show(error.message, {
+          type: 'warning',
+          duration: 3000,
+          animationType: 'zoom-in',
+        });
+      });
   };
 
   const modalSaveGoodHide = hideModal => {
     dispatch({ type: HIDE_MODAL, payload: hideModal });
+  };
+
+  const balanceExecute = async (transactionPackagedStr, file) => {
+    console.log('transactionPackagedStr', transactionPackagedStr);
+    console.log('file exx', file);
+    const ALPHABET =
+      '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+    const base58 = basex(ALPHABET);
+
+    let decodedFoBase58 = base58.decode(
+      '43b7AeXY6zHDv8tK2PqZCbXH3CcvygEWxKQxzw6SEmX8u6xqCAHr5BbEekSwkpVJCw1CTAs38M2i5myox7tyU3SA',
+    );
+    const decryptedMessageFromByteArray = Base64.fromByteArray(decodedFoBase58);
+    console.log('dec', decryptedMessageFromByteArray);
+
+    let decoded = base58.decode(transactionPackagedStr);
+    const decrypted = Base64.fromByteArray(decoded);
+    console.log('dec 333', decrypted);
+
+    let dt = await Sodium.crypto_sign_detached(
+      decrypted,
+      decryptedMessageFromByteArray,
+    );
+    console.log('dt 333: ', dt);
+
+    let signature = base58.encode(Buffer.Buffer.from(dt, 'base64'));
+    console.log('signature:: ', signature);
+    doPost('api/transaction/Execute', {
+      authKey: '',
+      NetworkAlias: 'MainNet',
+      MethodApi: 'TransferCs',
+      PublicKey: 'DjUaijUD1tavJyryfhngbvrJpgEdHjihtfK95yhteNWN',
+      ReceiverPublicKey: file.pk,
+      Amount: 1,
+      Fee: 0.2,
+      UserData: '',
+      TransactionSignature: signature,
+    })
+      .then(({ data }) => {
+        console.log('daaattaaa:', data);
+        dispatch({ type: LOADING, payload: false });
+        if (data.success) {
+          toast.show(`${1} Баланс добавлен усрешно`, {
+            type: 'success',
+            duration: 6000,
+            animationType: 'zoom-in',
+          });
+        } else {
+          toast.show(data.message, {
+            type: 'warning',
+            duration: 3000,
+            animationType: 'zoom-in',
+          });
+        }
+      })
+      .catch(error => {
+        dispatch({ type: LOADING, payload: false });
+        toast.show(error.message, {
+          type: 'warning',
+          duration: 3000,
+          animationType: 'zoom-in',
+        });
+      });
+  };
+
+  const addBalance = file => {
+    dispatch({ type: LOADING, payload: true });
+    doPost('api/transaction/pack', {
+      PublicKey: 'DjUaijUD1tavJyryfhngbvrJpgEdHjihtfK95yhteNWN',
+      ReceiverPublicKey: file.pk,
+      networkAlias: 'MainNet',
+      authKey: '',
+      MethodApi: 'TransferCs',
+      Amount: 1,
+      Fee: 0.2,
+      UserDat: '',
+    })
+      .then(({ data }) => {
+        console.log('data:Pack ', data);
+        if (data.success) {
+          balanceExecute(data.dataResponse.transactionPackagedStr, file);
+        } else {
+          dispatch({ type: LOADING, payload: false });
+          toast.show(data.message, {
+            type: 'warning',
+            duration: 3000,
+            animationType: 'zoom-in',
+          });
+        }
+      })
+      .catch(error => {
+        dispatch({ type: LOADING, payload: false });
+        toast.show(error.message, {
+          type: 'warning',
+          duration: 3000,
+          animationType: 'zoom-in',
+        });
+      });
   };
 
   return (
@@ -187,13 +291,12 @@ const GoodsState = props => {
       value={{
         error: state.error,
         modalSaveGood: state.modalSaveGood,
-        allGoods: state.allGoods,
         loading: state.loading,
-        calculatPriceGood,
-        fetchAllGoods,
+        userBalance: state.userBalance,
+        postBalanceToCheck,
         postAGood,
-        setMainGood,
         modalSaveGoodHide,
+        addBalance,
       }}>
       {props.children}
     </GoodsContext.Provider>

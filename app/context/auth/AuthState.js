@@ -42,7 +42,6 @@ const AuthState = props => {
     user: utility.getItemObject('user'),
     calculateArray: [],
     modalBalanceErr: false,
-    balance: '',
     error: [],
     file: {},
   };
@@ -65,6 +64,15 @@ const AuthState = props => {
               type: F4_POST_SUCC_BALANCE,
               payload: { data, file },
             });
+          } else if (data.balance != 0 && data.balance < 0.5) {
+            toast.show(
+              'Ваш баланс скоро закончиться. Пополните пожалуйста свой баланс!',
+              {
+                type: 'warning',
+                duration: 3000,
+                animationType: 'zoom-in',
+              },
+            );
           } else if (data.balance === 0) {
             dispatch({
               type: BALANCE_0,
@@ -346,7 +354,6 @@ const AuthState = props => {
         file: state.file,
         //balance
         modalBalanceErr: state.modalBalanceErr,
-        balance: state.balance,
         token: state.token,
         error: state.error,
 

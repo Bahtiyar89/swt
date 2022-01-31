@@ -86,5 +86,6 @@
   "ok":"ok",
   "restore_account ":"Restore account",
   "choose_file":"Choose file",
-  "upload":"Upload"
+  "upload":"Upload",
+  "balance":"Balance"
 }

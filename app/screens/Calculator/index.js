@@ -4,13 +4,12 @@ import {
   Button,
   TextInput,
   Checkbox,
-  HelperText,
   Portal,
   Dialog,
 } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { MaskedTextInput } from 'react-native-mask-text';
+import MaskInput from 'react-native-mask-input';
 
 import AuthContext from '../../context/auth/AuthContext';
 import GoodsContext from '../../context/goods/GoodsContext';
@@ -22,6 +21,25 @@ import CustomAlert from '../../components/customAlert';
 
 const CalculatorScreen = props => {
   const { navigation } = props;
+  const maskDigits = [
+    '+',
+    /\d/,
+    /\d/,
+    ' ',
+    /\d/,
+    /\d/,
+    /\d/,
+    ' ',
+    /\d/,
+    /\d/,
+    /\d/,
+    ' ',
+    /\d/,
+    /\d/,
+    ' ',
+    /\d/,
+    /\d/,
+  ];
   const elements = {
     sender_FIO: '',
     sender_EMail: '',
@@ -45,37 +63,19 @@ const CalculatorScreen = props => {
   };
 
   const [stMain, seTstMain] = useState({ ...elements });
-  const calculated = props?.route?.params?.state
-    ? props?.route?.params?.state
-    : [
-        {
-          name: 'city_From',
-          valString: '',
-        },
-        {
-          name: 'city_To',
-          valString: '',
-        },
-        {
-          name: 'weight',
-          valString: '',
-        },
-        {
-          name: 'volume',
-          valString: '',
-        },
-        {
-          name: 'Price',
-          valString: '',
-        },
-      ];
+
   const authContext = useContext(AuthContext);
   const goodsContext = useContext(GoodsContext);
   const { user, isSigned, file } = authContext;
-  const { modalSaveGood, loading, postAGood, modalSaveGoodHide } = goodsContext;
+  const {
+    postBalanceToCheck,
+    userBalance,
+    modalSaveGood,
+    loading,
+    postAGood,
+    modalSaveGoodHide,
+  } = goodsContext;
   const [checked, setChecked] = useState(false);
-
-  const [stateColumns, seTstateColumns] = useState();
 
   const validationElements = {
     sender_FIO: false,
@@ -100,11 +100,10 @@ const CalculatorScreen = props => {
     pk: '',
   });
 
-  const [focusSender, seTfocusSender] = useState(false);
-  const [focusReceiver, seTfocusReceiver] = useState(false);
   const [cantSaveAlert, seTcantSaveAlert] = useState(false);
+  const [balanceAlert, seTbalanceAlert] = useState(false);
 
-  const fetchUser = async () => {
+  const fetchCalculator = async () => {
     seTarr([]);
     const userData = await utility.getItemObject('calculator');
 
@@ -116,6 +115,7 @@ const CalculatorScreen = props => {
   async function encrypData() {
     await utility.getItemObject('wkeys').then(keys => {
       if (keys) {
+        postBalanceToCheck(keys);
         seTwalletKeys({ ...walletKeys, sk: keys?.sk, pk: keys?.pk });
       } else {
         seTwalletKeys({ ...walletKeys, sk: file?.sk, pk: file?.pk });
@@ -131,18 +131,8 @@ const CalculatorScreen = props => {
     React.useCallback(
       () => {
         // Do something when the screen is focused
-        fetchUser();
-        /*
-      if (user) {
-        seTstate({
-          ...state,
-          Price: good.Price,
-          city_From: good.city_From,
-          city_To: good.city_To,
-          volume: good.volume,
-          weight: good.weight,
-        });
-      }*/
+        fetchCalculator();
+
         return () => {
           // Do something when the screen is unfocused
           // Useful for cleanup functions
@@ -272,6 +262,8 @@ const CalculatorScreen = props => {
     }
     return err;
   };
+  console.log('userBalance: ', userBalance);
+
   const onButtonPressed = () => {
     if (stMain.city_From.length < 3) {
       seTcantSaveAlert(true);
@@ -285,87 +277,113 @@ const CalculatorScreen = props => {
       const err = validation();
       if (err) {
       } else {
-        const columns = [
-          {
-            name: 'city_From',
-            valString: stMain.city_From,
-          },
-          {
-            name: 'city_To',
-            valString: stMain.city_To,
-          },
-          {
-            name: 'weight',
-            valString: stMain.weight,
-          },
-          {
-            name: 'volume',
-            valString: stMain.volume,
-          },
-          {
-            name: 'Price',
-            valString: stMain.Price,
-          },
-          {
-            name: 'sender_FIO',
-            valString: stMain.sender_FIO,
-          },
-          {
-            name: 'sender_EMail',
-            valString: stMain.sender_EMail,
-          },
-          {
-            name: 'sender_Tel',
-            valString: stMain.sender_Tel,
-          },
-          {
-            name: 'sender_DocID',
-            valString: stMain.sender_DocID,
-          },
-          {
-            name: 'sender_INN',
-            valString: stMain.sender_INN,
-          },
-          {
-            name: 'sender_Addr',
-            valString: stMain.sender_Addr,
-          },
-          {
-            name: 'recip_FIO',
-            valString: stMain.recip_FIO,
-          },
-          {
-            name: 'recip_EMail',
-            valString: stMain.recip_EMail,
-          },
-          {
-            name: 'recip_Tel',
-            valString: stMain.recip_Tel,
-          },
-          {
-            name: 'recip_DocID',
-            valString: stMain.recip_DocID,
-          },
-          {
-            name: 'recip_INN',
-            valString: stMain.recip_INN,
-          },
-          {
-            name: 'recip_Addr',
-            valString: stMain.recip_Addr,
-          },
-          {
-            name: 'LinkOnGood',
-            valString: stMain.LinkOnGood,
-          },
-          {
-            name: 'DescrGood',
-            valString: stMain.DescrGood,
-          },
-        ];
+        if (userBalance.balance < 0.5) {
+          seTbalanceAlert(true);
+        } else {
+          const columns = [
+            {
+              name: 'city_From',
+              valString: stMain.city_From,
+            },
+            {
+              name: 'city_To',
+              valString: stMain.city_To,
+            },
+            {
+              name: 'weight',
+              valString: stMain.weight,
+            },
+            {
+              name: 'volume',
+              valString: stMain.volume,
+            },
+            {
+              name: 'Price',
+              valString: stMain.Price,
+            },
+            {
+              name: 'sender_FIO',
+              valString: stMain.sender_FIO,
+            },
+            {
+              name: 'sender_EMail',
+              valString: stMain.sender_EMail,
+            },
+            {
+              name: 'sender_Tel',
+              valString: stMain.sender_Tel,
+            },
+            {
+              name: 'sender_DocID',
+              valString: stMain.sender_DocID,
+            },
+            {
+              name: 'sender_INN',
+              valString: stMain.sender_INN,
+            },
+            {
+              name: 'sender_Addr',
+              valString: stMain.sender_Addr,
+            },
+            {
+              name: 'recip_FIO',
+              valString: stMain.recip_FIO,
+            },
+            {
+              name: 'recip_EMail',
+              valString: stMain.recip_EMail,
+            },
+            {
+              name: 'recip_Tel',
+              valString: stMain.recip_Tel,
+            },
+            {
+              name: 'recip_DocID',
+              valString: stMain.recip_DocID,
+            },
+            {
+              name: 'recip_INN',
+              valString: stMain.recip_INN,
+            },
+            {
+              name: 'recip_Addr',
+              valString: stMain.recip_Addr,
+            },
+            {
+              name: 'LinkOnGood',
+              valString: stMain.LinkOnGood,
+            },
+            {
+              name: 'DescrGood',
+              valString: stMain.DescrGood,
+            },
+          ];
 
-        arr.push(stMain);
-        postAGood(columns, walletKeys, arr);
+          arr.push(stMain);
+          postAGood(columns, walletKeys, arr);
+          seTstMain({
+            ...stMain,
+            sender_FIO: '',
+            sender_EMail: '',
+            sender_Tel: '',
+            sender_DocID: '',
+            sender_INN: '',
+            sender_Addr: '',
+            recip_FIO: '',
+            recip_EMail: '',
+            recip_Tel: '',
+            recip_DocID: '',
+            recip_INN: '',
+            recip_Addr: '',
+            LinkOnGood: '',
+            DescrGood: '',
+            city_From: '',
+            city_To: '',
+            weight: '',
+            volume: '',
+            Price: '',
+          });
+        }
       }
     }
   };
@@ -389,7 +407,7 @@ const CalculatorScreen = props => {
   };
   useEffect(() => {
     fetchFromMainScreen();
-  }, [props?.route?.params]);
+  }, [props?.route?.params, isSigned]);
   return (
     <Fragment>
       {isSigned ? (
@@ -397,7 +415,7 @@ const CalculatorScreen = props => {
           <ScrollView contentInsetAdjustmentBehavior="automatic">
             <Spinner
               visible={loading}
-              textContent={'Сохраняется...'}
+              textContent={'Загружается...'}
               textStyle={{ color: '#3498db' }}
             />
             <View
@@ -460,26 +478,26 @@ const CalculatorScreen = props => {
                 visible={validObj.sender_Tel}
                 errText={I18n.t('field_not_be_empty')}
               />
-              <MaskedTextInput
-                mask="+9 (999) 999 99 99"
-                placeholder="+9 (999) 999 99 99"
-                onChangeText={(text, rawText) => {
-                  seTstMain({ ...stMain, sender_Tel: rawText });
-                }}
-                onFocus={() => seTfocusSender(true)}
-                onBlur={() => seTfocusSender(false)}
+
+              <TextInput
+                style={{ width: '90%' }}
+                mode="outlined"
                 value={stMain.sender_Tel}
-                style={{
-                  backgroundColor: '#F5F5F5',
-                  width: '90%',
-                  borderWidth: 1,
-                  borderRadius: 5,
-                  paddingLeft: 10,
-                  borderColor: focusSender ? '#3498db' : '#808080',
-                  color: 'black',
+                render={props => {
+                  return (
+                    <MaskInput
+                      style={{ paddingLeft: 10 }}
+                      onChangeText={(masked, unmasked) => {
+                        seTstMain({ ...stMain, sender_Tel: unmasked });
+                      }}
+                      keyboardType="decimal-pad"
+                      value={props.value}
+                      mask={maskDigits}
+                    />
+                  );
                 }}
-                keyboardType="number-pad"
               />
+
               <Validation
                 text={I18n.t('pasport')}
                 visible={validObj.sender_DocID}
@@ -589,25 +607,25 @@ const CalculatorScreen = props => {
                 visible={validObj.recip_Tel}
                 errText={I18n.t('field_not_be_empty')}
               />
-              <MaskedTextInput
-                mask="+9 (999) 999 99 99"
-                placeholder="+9 (999) 999 99 99"
-                onChangeText={(text, rawText) => {
-                  seTstMain({ ...stMain, recip_Tel: rawText });
+              <TextInput
+                style={{ width: '90%' }}
+                mode="outlined"
+                value={stMain.recip_Tel}
+                render={props => {
+                  return (
+                    <MaskInput
+                      style={{ paddingLeft: 10 }}
+                      onChangeText={(masked, unmasked) => {
+                        seTstMain({ ...stMain, recip_Tel: unmasked });
+                      }}
+                      keyboardType="number-pad"
+                      value={props.value}
+                      mask={maskDigits}
+                    />
+                  );
                 }}
-                onFocus={() => seTfocusReceiver(true)}
-                onBlur={() => seTfocusReceiver(false)}
-                value={stMain.sender_Tel}
-                style={{
-                  width: '90%',
-                  borderWidth: 1,
-                  borderRadius: 5,
-                  paddingLeft: 10,
-                  borderColor: focusReceiver ? '#3498db' : '#808080',
-                  color: 'black',
-                }}
-                keyboardType="number-pad"
               />
+
               <Validation
                 text={I18n.t('pasport')}
                 visible={validObj.recip_DocID}
@@ -770,6 +788,20 @@ const CalculatorScreen = props => {
               negativeButtonText={'CANCEL'}
               onPressNegativeButton={() => seTcantSaveAlert(false)}
               onPressPositiveButton={() => seTcantSaveAlert(false)}
+            />
+            <CustomAlert
+              displayAlert={balanceAlert}
+              displayAlertIcon={true}
+              alertTitleText={'Оформление заказа откланено!'}
+              alertMessageText={
+                'У вас не достаточно балансa, пожалуйста пополните баланс!'
+              }
+              displayPositiveButton={true}
+              positiveButtonText={I18n.t('ok')}
+              displayNegativeButton={false}
+              negativeButtonText={'CANCEL'}
+              onPressNegativeButton={() => seTbalanceAlert(false)}
+              onPressPositiveButton={() => seTbalanceAlert(false)}
             />
             <Portal>
               <Dialog visible={modalSaveGood} onDismiss={hideDialog}>

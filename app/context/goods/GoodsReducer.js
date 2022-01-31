@@ -1,13 +1,10 @@
 import utility from '../../utils/Utility';
-import { CommonActions } from '@react-navigation/native';
 import { CLEAR_ERRORS } from '../types';
 import {
-  LOGOUT,
   PRODUCT_SAVED,
-  CALCULATED,
   HIDE_MODAL,
-  MAIN_PAGE_GOOD,
   LOADING,
+  BALANCE_CHECK,
 } from './GoodsState';
 
 export default (state, action) => {
@@ -36,14 +33,12 @@ export default (state, action) => {
       utility.setItemObject('calculator', newType1);
       return { ...state, modalSaveGood: true };
     case LOADING:
-      console.log('loading red', action.payload);
       return { ...state, loading: action.payload };
     case HIDE_MODAL:
       return { ...state, modalSaveGood: action.payload };
-    case CALCULATED:
-      return { ...state };
-    case MAIN_PAGE_GOOD:
-      return { ...state };
+    case BALANCE_CHECK:
+      console.log('balance red', action.payload);
+      return { ...state, userBalance: action.payload };
     case CLEAR_ERRORS:
       return { ...state, error: null };
 

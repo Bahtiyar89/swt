@@ -7,10 +7,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   mainHeader: {
-    marginTop: 20,
+    marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center',
+    alignItems: 'center', 
     width: '90%',
   },
   profileHeaderText: {
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   profileHeaderContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 10,
     width: '90%',
   },
   profileNameSurname: {
@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
   },
   buttonMenuContainer: {
     justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    marginTop: 20,
+    alignItems: 'flex-start', 
+    marginTop: 10,
     flexDirection: 'column',
     width: '90%',
   },
