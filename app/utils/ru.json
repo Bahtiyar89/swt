@@ -87,5 +87,17 @@
   "restore_account":"Восст-ть аккаунт",
   "choose_file":"Выберите файл",
   "upload":"Загрузить",
-  "balance":"Баланс"
+  "balance":"Баланс",
+  "about":"Примерно",
+  "exactly":"Точно",
+  "you_did_not_specify_the_length_of_the_item": "Вы не указали длину товара!",
+  "you_did_not_specify_the_height_of_the_item": "Вы не указали высоту товара!",
+  "you_did_not_specify_the_width_of_the_item": "Вы не указали ширину товара!",
+  "name":"Имя",
+  "surname":"Фамилия",
+  "middlename":"Отчество",
+  "index":"Индекс",
+  "town":"Город",
+  "street":"Улица",
+  "home":"Дом"
 }

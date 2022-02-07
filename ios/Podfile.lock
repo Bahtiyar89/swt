@@ -264,6 +264,8 @@ PODS:
     - React-Core
   - react-native-document-picker (7.1.3):
     - React-Core
+  - react-native-floating-label-input (1.3.11):
+    - React-Core
   - react-native-safe-area-context (3.2.0):
     - React-Core
   - react-native-sodium (0.4.0):
@@ -423,6 +425,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-document-picker (from `../node_modules/react-native-document-picker`)
+  - react-native-floating-label-input (from `../node_modules/react-native-floating-label-input`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-sodium (from `../node_modules/react-native-sodium`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -501,6 +504,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-camera"
   react-native-document-picker:
     :path: "../node_modules/react-native-document-picker"
+  react-native-floating-label-input:
+    :path: "../node_modules/react-native-floating-label-input"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-sodium:
@@ -557,7 +562,7 @@ SPEC CHECKSUMS:
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 7b423f9e248eae65987838148c36eec1dbfe0b53
-  FBReactNativeSpec: 66d7604e01e6d635cdefdbef2a55c833874af981
+  FBReactNativeSpec: 277d7c38f172be59250ff5945536431de78f4b54
   Flipper: d3da1aa199aad94455ae725e9f3aa43f3ec17021
   Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
   Flipper-Folly: 755929a4f851b2fb2c347d533a23f191b008554c
@@ -582,6 +587,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 500a59626037be5b3b3d89c5151bc3baa9abf1a9
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-document-picker: ec07866a30707f23660c0f3ae591d669d3e89096
+  react-native-floating-label-input: b01fd3e7e0240b4577a0d6b9ccfd2b024e69cbae
   react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
   react-native-sodium: 274874541aa6bd00040f28c2e1e5118cbf113c0e
   React-perflogger: aad6d4b4a267936b3667260d1f649b6f6069a675

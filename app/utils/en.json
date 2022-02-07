@@ -87,5 +87,17 @@
   "restore_account ":"Restore account",
   "choose_file":"Choose file",
   "upload":"Upload",
-  "balance":"Balance"
+  "balance":"Balance",
+  "about":"About",
+  "exactly":"Exactly",
+  "you_did_not_specify_the_length_of_the_item": "You did not specify the length of the item!",
+  "you_did_not_specify_the_height_of_the_item": "You did not specify the height of the item!",
+  "you_did_not_specify_the_width_of_the_item": "You did not specify the width of the item!",
+  "name":"Name",
+  "surname":"Surname",
+  "middlename":"Middlename",
+  "index":"Index",
+  "town":"Town",
+  "street":"Street",
+  "home":"Home"
 }

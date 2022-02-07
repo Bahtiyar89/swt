@@ -64,6 +64,23 @@ const CalculatorScreen = props => {
 
   const [stMain, seTstMain] = useState({ ...elements });
 
+  const [fioAdress, seTfioAdress] = useState({
+    sender_name: '',
+    sender_surname: '',
+    sender_middlename: '',
+    sender_index: '',
+    sender_town: '',
+    sender_street: '',
+    sender_home: '',
+    recip_name: '',
+    recip_surname: '',
+    recip_middlename: '',
+    recip_index: '',
+    recip_town: '',
+    recip_street: '',
+    recip_home: '',
+  });
+
   const authContext = useContext(AuthContext);
   const goodsContext = useContext(GoodsContext);
   const { user, isSigned, file } = authContext;
@@ -75,16 +92,22 @@ const CalculatorScreen = props => {
     postAGood,
     modalSaveGoodHide,
   } = goodsContext;
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(true);
 
   const validationElements = {
-    sender_FIO: false,
+    sender_name: false,
+    sender_surname: false,
+    sender_middlename: false,
+    sender_index: false,
+    sender_town: false,
+    sender_street: false,
+    sender_home: false,
     sender_Tel: false,
     sender_DocID: false,
     sender_INN: false,
     sender_EMail: false,
-    sender_Addr: false,
-    recip_FIO: false,
+    //sender_Addr: false,
+    //recip_FIO: false,
     recip_Tel: false,
     recip_DocID: false,
     recip_INN: false,
@@ -92,6 +115,13 @@ const CalculatorScreen = props => {
     recip_Addr: false,
     DescrGood: false,
     LinkOnGood: false,
+    recip_name: false,
+    recip_surname: false,
+    recip_middlename: false,
+    recip_index: false,
+    recip_town: false,
+    recip_street: false,
+    recip_home: false,
   };
   const [validObj, seTvalidObj] = useState({ ...validationElements });
   const [arr, seTarr] = useState([]);
@@ -105,10 +135,10 @@ const CalculatorScreen = props => {
 
   const fetchCalculator = async () => {
     seTarr([]);
-    const userData = await utility.getItemObject('calculator');
+    const calculator = await utility.getItemObject('calculator');
 
-    if (userData) {
-      seTarr(userData);
+    if (calculator) {
+      seTarr(calculator);
     }
   };
 
@@ -146,14 +176,39 @@ const CalculatorScreen = props => {
 
   const validation = () => {
     let err = false;
-    if (stMain.sender_FIO.length < 3) {
+    if (fioAdress.sender_name.length < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, sender_name: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, sender_name: false });
+      }, 10000);
+      return err;
+    }
+    if (fioAdress.sender_surname.length < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, sender_surname: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, sender_surname: false });
+      }, 10000);
+      return err;
+    }
+    if (fioAdress.sender_middlename.length < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, sender_middlename: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, sender_middlename: false });
+      }, 10000);
+      return err;
+    }
+
+    /*  if (stMain.sender_FIO.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, sender_FIO: true });
       setTimeout(() => {
         seTvalidObj({ ...validObj, sender_FIO: false });
       }, 10000);
       return err;
-    }
+    }*/
     if (stMain.sender_Tel.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, sender_Tel: true });
@@ -186,22 +241,78 @@ const CalculatorScreen = props => {
       }, 1000);
       return err;
     }
-    if (stMain.sender_Addr < 3) {
+    if (fioAdress.sender_index.length < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, sender_index: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, sender_index: false });
+      }, 10000);
+      return err;
+    }
+    if (fioAdress.sender_town.length < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, sender_town: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, sender_town: false });
+      }, 10000);
+      return err;
+    }
+    if (fioAdress.sender_street.length < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, sender_street: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, sender_street: false });
+      }, 10000);
+      return err;
+    }
+    if (fioAdress.sender_home.length < 1) {
+      err = true;
+      seTvalidObj({ ...validObj, sender_home: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, sender_home: false });
+      }, 10000);
+      return err;
+    }
+    /*if (stMain.sender_Addr < 3) {
       err = true;
       seTvalidObj({ ...validObj, sender_Addr: true });
       setTimeout(() => {
         seTvalidObj({ ...validObj, sender_Addr: false });
       }, 3000);
       return err;
+    }*/
+    if (fioAdress.recip_name.length < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, recip_name: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, recip_name: false });
+      }, 1000);
+      return err;
     }
-    if (stMain.recip_FIO.length < 3) {
+    if (fioAdress.recip_surname.length < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, recip_surname: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, recip_surname: false });
+      }, 1000);
+      return err;
+    }
+    if (fioAdress.recip_middlename.length < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, recip_middlename: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, recip_middlename: false });
+      }, 1000);
+      return err;
+    }
+    /* if (stMain.recip_FIO.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, recip_FIO: true });
       setTimeout(() => {
         seTvalidObj({ ...validObj, recip_FIO: false });
       }, 1000);
       return err;
-    }
+    }*/
     if (stMain.recip_Tel.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, recip_Tel: true });
@@ -235,15 +346,46 @@ const CalculatorScreen = props => {
       }, 1000);
       return err;
     }
-
-    if (stMain.recip_Addr.length < 3) {
+    if (fioAdress.recip_index.length < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, recip_index: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, recip_index: false });
+      }, 1000);
+      return err;
+    }
+    if (fioAdress.recip_town.length < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, recip_town: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, recip_town: false });
+      }, 1000);
+      return err;
+    }
+    if (fioAdress.recip_street.length < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, recip_street: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, recip_street: false });
+      }, 1000);
+      return err;
+    }
+    if (fioAdress.recip_home.length < 1) {
+      err = true;
+      seTvalidObj({ ...validObj, recip_home: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, recip_home: false });
+      }, 1000);
+      return err;
+    }
+    /* if (stMain.recip_Addr.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, recip_Addr: true });
       setTimeout(() => {
         seTvalidObj({ ...validObj, recip_Addr: false });
       }, 1000);
       return err;
-    }
+    }*/
     if (stMain.DescrGood.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, DescrGood: true });
@@ -262,7 +404,6 @@ const CalculatorScreen = props => {
     }
     return err;
   };
-  console.log('userBalance: ', userBalance);
 
   const onButtonPressed = () => {
     if (stMain.city_From.length < 3) {
@@ -271,12 +412,42 @@ const CalculatorScreen = props => {
       seTcantSaveAlert(true);
     } else if (stMain.weight.length < 1) {
       seTcantSaveAlert(true);
-    } else if (stMain.volume.length < 1) {
-      seTcantSaveAlert(true);
     } else {
       const err = validation();
       if (err) {
       } else {
+        console.log('22: ', arr);
+        seTstMain({
+          ...stMain,
+          sender_FIO:
+            fioAdress.sender_name +
+            ' ' +
+            fioAdress.sender_surname +
+            ' ' +
+            fioAdress.sender_middlename,
+          sender_Addr:
+            fioAdress.sender_index +
+            ' ' +
+            fioAdress.sender_town +
+            ' ' +
+            fioAdress.sender_street +
+            ' ' +
+            fioAdress.sender_home,
+          recip_FIO:
+            fioAdress.recip_name +
+            ' ' +
+            fioAdress.recip_surname +
+            ' ' +
+            fioAdress.recip_middlename,
+          recip_Addr:
+            fioAdress.recip_index +
+            ' ' +
+            fioAdress.recip_town +
+            ' ' +
+            fioAdress.recip_street +
+            ' ' +
+            fioAdress.recip_home,
+        });
         if (userBalance.balance < 0.5) {
           seTbalanceAlert(true);
         } else {
@@ -303,7 +474,12 @@ const CalculatorScreen = props => {
             },
             {
               name: 'sender_FIO',
-              valString: stMain.sender_FIO,
+              valString:
+                fioAdress.sender_name +
+                ' ' +
+                fioAdress.sender_surname +
+                ' ' +
+                fioAdress.sender_middlename,
             },
             {
               name: 'sender_EMail',
@@ -323,11 +499,23 @@ const CalculatorScreen = props => {
             },
             {
               name: 'sender_Addr',
-              valString: stMain.sender_Addr,
+              valString:
+                fioAdress.sender_index +
+                ' ' +
+                fioAdress.sender_town +
+                ' ' +
+                fioAdress.sender_street +
+                ' ' +
+                fioAdress.sender_home,
             },
             {
               name: 'recip_FIO',
-              valString: stMain.recip_FIO,
+              valString:
+                fioAdress.recip_name +
+                ' ' +
+                fioAdress.recip_surname +
+                ' ' +
+                fioAdress.recip_middlename,
             },
             {
               name: 'recip_EMail',
@@ -347,7 +535,14 @@ const CalculatorScreen = props => {
             },
             {
               name: 'recip_Addr',
-              valString: stMain.recip_Addr,
+              valString:
+                fioAdress.recip_index +
+                ' ' +
+                fioAdress.recip_town +
+                ' ' +
+                fioAdress.recip_street +
+                ' ' +
+                fioAdress.recip_home,
             },
             {
               name: 'LinkOnGood',
@@ -359,7 +554,8 @@ const CalculatorScreen = props => {
             },
           ];
 
-          arr.push(stMain);
+          // arr.push(stMain);
+          console.log('arr push: ', arr);
           postAGood(columns, walletKeys, arr);
           seTstMain({
             ...stMain,
@@ -382,6 +578,22 @@ const CalculatorScreen = props => {
             weight: '',
             volume: '',
             Price: '',
+          });
+          seTfioAdress({
+            sender_name: '',
+            sender_surname: '',
+            sender_middlename: '',
+            sender_index: '',
+            sender_town: '',
+            sender_street: '',
+            sender_home: '',
+            recip_name: '',
+            recip_surname: '',
+            recip_middlename: '',
+            recip_index: '',
+            recip_town: '',
+            recip_street: '',
+            recip_home: '',
           });
         }
       }
@@ -408,6 +620,7 @@ const CalculatorScreen = props => {
   useEffect(() => {
     fetchFromMainScreen();
   }, [props?.route?.params, isSigned]);
+
   return (
     <Fragment>
       {isSigned ? (
@@ -448,10 +661,10 @@ const CalculatorScreen = props => {
                   justifyContent: 'space-between',
                 }}>
                 <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
-                  Россия, Кемерово
+                  {stMain.city_From}
                 </Text>
                 <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
-                  США, Лос-Анджелес
+                  {stMain.city_To}
                 </Text>
               </View>
 
@@ -460,11 +673,51 @@ const CalculatorScreen = props => {
               </Text>
 
               <Validation
-                text={I18n.t('nsl')}
-                visible={validObj.sender_FIO}
+                text={I18n.t('name')}
+                visible={validObj.sender_name}
                 errText={I18n.t('field_not_be_empty')}
               />
+              <TextInput
+                label={I18n.t('name')}
+                mode="outlined"
+                style={{ width: '90%' }}
+                onChangeText={val =>
+                  seTfioAdress({ ...fioAdress, sender_name: val })
+                }
+                value={fioAdress.sender_name}
+              />
 
+              <Validation
+                text={I18n.t('surname')}
+                visible={validObj.sender_surname}
+                errText={I18n.t('field_not_be_empty')}
+              />
+              <TextInput
+                label={I18n.t('surname')}
+                mode="outlined"
+                style={{ width: '90%' }}
+                onChangeText={val =>
+                  seTfioAdress({ ...fioAdress, sender_surname: val })
+                }
+                value={fioAdress.sender_surname}
+              />
+
+              <Validation
+                text={I18n.t('middlename')}
+                visible={validObj.sender_middlename}
+                errText={I18n.t('field_not_be_empty')}
+              />
+              <TextInput
+                label={I18n.t('middlename')}
+                mode="outlined"
+                style={{ width: '90%' }}
+                onChangeText={val =>
+                  seTfioAdress({ ...fioAdress, sender_middlename: val })
+                }
+                value={fioAdress.sender_middlename}
+              />
+
+              {/*
               <TextInput
                 label={'Иванов Иван Иванович'}
                 mode="outlined"
@@ -472,7 +725,7 @@ const CalculatorScreen = props => {
                 onChangeText={val => seTstMain({ ...stMain, sender_FIO: val })}
                 value={stMain.sender_FIO}
               />
-
+*/}
               <Validation
                 text={I18n.t('phone')}
                 visible={validObj.sender_Tel}
@@ -542,17 +795,72 @@ const CalculatorScreen = props => {
               />
 
               <Validation
-                text={I18n.t('adress')}
-                visible={validObj.sender_Addr}
+                text={I18n.t('index')}
+                visible={validObj.sender_index}
                 errText={I18n.t('field_not_be_empty')}
               />
+              <TextInput
+                label={I18n.t('index')}
+                mode="outlined"
+                style={{ width: '90%' }}
+                onChangeText={val =>
+                  seTfioAdress({ ...fioAdress, sender_index: val })
+                }
+                value={fioAdress.sender_index}
+              />
+
+              <Validation
+                text={I18n.t('town')}
+                visible={validObj.sender_town}
+                errText={I18n.t('field_not_be_empty')}
+              />
+              <TextInput
+                label={I18n.t('town')}
+                mode="outlined"
+                style={{ width: '90%' }}
+                onChangeText={val =>
+                  seTfioAdress({ ...fioAdress, sender_town: val })
+                }
+                value={fioAdress.sender_town}
+              />
+
+              <Validation
+                text={I18n.t('street')}
+                visible={validObj.sender_street}
+                errText={I18n.t('field_not_be_empty')}
+              />
+              <TextInput
+                label={I18n.t('street')}
+                mode="outlined"
+                style={{ width: '90%' }}
+                onChangeText={val =>
+                  seTfioAdress({ ...fioAdress, sender_street: val })
+                }
+                value={fioAdress.sender_street}
+              />
+
+              <Validation
+                text={I18n.t('home')}
+                visible={validObj.sender_home}
+                errText={I18n.t('field_not_be_empty')}
+              />
+              <TextInput
+                label={I18n.t('home')}
+                mode="outlined"
+                style={{ width: '90%' }}
+                onChangeText={val =>
+                  seTfioAdress({ ...fioAdress, sender_home: val })
+                }
+                value={fioAdress.sender_home}
+              />
+              {/*
               <TextInput
                 label={'Москва, ул. Леонова, д. 35'}
                 mode="outlined"
                 style={{ width: '90%' }}
                 onChangeText={val => seTstMain({ ...stMain, sender_Addr: val })}
                 value={stMain.sender_Addr}
-              />
+               />*/}
               <View
                 style={{
                   width: '90%',
@@ -589,19 +897,56 @@ const CalculatorScreen = props => {
                 {I18n.t('reciver')}
               </Text>
               <Validation
-                text={I18n.t('nsl')}
-                visible={validObj.recip_FIO}
+                text={I18n.t('name')}
+                visible={validObj.recip_name}
                 errText={I18n.t('field_not_be_empty')}
               />
-
               <TextInput
+                label={I18n.t('name')}
+                mode="outlined"
+                style={{ width: '90%' }}
+                onChangeText={val =>
+                  seTfioAdress({ ...fioAdress, recip_name: val })
+                }
+                value={fioAdress.recip_name}
+              />
+
+              <Validation
+                text={I18n.t('surname')}
+                visible={validObj.recip_surname}
+                errText={I18n.t('field_not_be_empty')}
+              />
+              <TextInput
+                label={I18n.t('surname')}
+                mode="outlined"
+                style={{ width: '90%' }}
+                onChangeText={val =>
+                  seTfioAdress({ ...fioAdress, recip_surname: val })
+                }
+                value={fioAdress.recip_surname}
+              />
+              <Validation
+                text={I18n.t('middlename')}
+                visible={validObj.recip_middlename}
+                errText={I18n.t('field_not_be_empty')}
+              />
+              <TextInput
+                label={I18n.t('middlename')}
+                mode="outlined"
+                style={{ width: '90%' }}
+                onChangeText={val =>
+                  seTfioAdress({ ...fioAdress, recip_middlename: val })
+                }
+                value={fioAdress.recip_middlename}
+              />
+              {/*<TextInput
                 label={'Иванов Иван Иванович'}
                 mode="outlined"
                 style={{ width: '90%' }}
                 onChangeText={val => seTstMain({ ...stMain, recip_FIO: val })}
                 value={stMain.recip_FIO}
               />
-
+            */}
               <Validation
                 text={I18n.t('phone')}
                 visible={validObj.recip_Tel}
@@ -662,18 +1007,73 @@ const CalculatorScreen = props => {
                 onChangeText={val => seTstMain({ ...stMain, recip_EMail: val })}
                 value={stMain.recip_EMail}
               />
+
               <Validation
-                text={I18n.t('adress')}
-                visible={validObj.recip_Addr}
+                text={I18n.t('index')}
+                visible={validObj.recip_index}
                 errText={I18n.t('field_not_be_empty')}
               />
               <TextInput
+                label={I18n.t('index')}
+                mode="outlined"
+                style={{ width: '90%' }}
+                onChangeText={val =>
+                  seTfioAdress({ ...fioAdress, recip_index: val })
+                }
+                value={fioAdress.recip_index}
+              />
+
+              <Validation
+                text={I18n.t('town')}
+                visible={validObj.recip_town}
+                errText={I18n.t('field_not_be_empty')}
+              />
+              <TextInput
+                label={I18n.t('town')}
+                mode="outlined"
+                style={{ width: '90%' }}
+                onChangeText={val =>
+                  seTfioAdress({ ...fioAdress, recip_town: val })
+                }
+                value={fioAdress.recip_town}
+              />
+
+              <Validation
+                text={I18n.t('street')}
+                visible={validObj.recip_street}
+                errText={I18n.t('field_not_be_empty')}
+              />
+              <TextInput
+                label={I18n.t('street')}
+                mode="outlined"
+                style={{ width: '90%' }}
+                onChangeText={val =>
+                  seTfioAdress({ ...fioAdress, recip_street: val })
+                }
+                value={fioAdress.recip_street}
+              />
+
+              <Validation
+                text={I18n.t('home')}
+                visible={validObj.recip_home}
+                errText={I18n.t('field_not_be_empty')}
+              />
+              <TextInput
+                label={I18n.t('home')}
+                mode="outlined"
+                style={{ width: '90%' }}
+                onChangeText={val =>
+                  seTfioAdress({ ...fioAdress, recip_home: val })
+                }
+                value={fioAdress.recip_home}
+              />
+              {/* <TextInput
                 label={'Москва, ул. Леонова, д. 35'}
                 mode="outlined"
                 style={{ width: '90%' }}
                 onChangeText={val => seTstMain({ ...stMain, recip_Addr: val })}
                 value={stMain.recip_Addr}
-              />
+             />*/}
               <View
                 style={{
                   width: '90%',
