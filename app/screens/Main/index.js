@@ -105,16 +105,41 @@ const MainScreen = props => {
       // let weight = parseFloat(stMain.weight);
       // seTstMain({ ...stMain, Price: (weight * 20.75).toString() });
       let sum;
-      let weight = parseFloat(stMain.weight);
-      if (weight < 0.5) {
+      let weight = parseFloat(stMain.weight.replace(',', '.'));
+      console.log('weight: ', weight);
+      console.log(
+        'dimensions.length.length > 1: ',
+        dimensions.length.length > 1 &&
+          dimensions.height.length > 1 &&
+          dimensions.width.length > 1,
+      );
+      if (
+        dimensions.length.length >= 1 &&
+        dimensions.height.length >= 1 &&
+        dimensions.width.length >= 1
+      ) {
+        console.log('ifff: ');
         let price = parseFloat(
-          parseFloat(parseFloat(17 * 12 * 9) / 1000000) * 200,
+          parseFloat(
+            parseFloat(
+              dimensions.length * dimensions.width * dimensions.height,
+            ) / 1000000,
+          ) * 200,
         );
-        sum = parseFloat(parseFloat(price * 13.25) + 7.5);
+        if (weight > price) {
+          sum = parseFloat(parseFloat(weight * 13.25) + 7.5);
+        } else {
+          sum = parseFloat(parseFloat(price * 13.25) + 7.5);
+        }
+        seTstMain({ ...stMain, Price: Number.parseFloat(sum).toFixed(1) });
       } else {
-        sum = parseFloat(parseFloat(weight * 13.25) + 7.5 + 7.5);
+        console.log('else: ');
+        seTstMain({
+          ...stMain,
+          Price: Number.parseFloat(approximatePrice).toFixed(1),
+        });
       }
-      seTstMain({ ...stMain, Price: Number.parseFloat(sum).toFixed(1) });
+
       showDialog();
     }
   };
@@ -286,21 +311,78 @@ const MainScreen = props => {
   };
 
   const countOpt = async (value, fieldName) => {
-    let sum;
-    if (fieldName === 'sizeXs') {
-      let price = parseFloat(
-        parseFloat(parseFloat(17 * 12 * 9) / 1000000) * 200,
-      );
-      sum = parseFloat(parseFloat(price * 13.25) + 7.5);
-      seTsizeXs(true);
+    console.log('fieldName: ', fieldName);
+    if (stMain.weight.length < 1) {
+      toast.show('Введите вес пожалуйста', {
+        type: 'warning',
+        duration: 4000,
+        animationType: 'zoom-in',
+      });
     } else {
+      let sum;
+      switch (fieldName) {
+        case 'sizeXs':
+          let price = parseFloat(
+            parseFloat(parseFloat(17 * 12 * 9) / 1000000) * 200,
+          );
+          console.log('price: ', price);
+          console.log('stMain.weight: ', stMain.weight.replace(',', '.'));
+          if (stMain.weight.replace(',', '.') <= 0.5) {
+            sum = parseFloat(parseFloat(0.5 * 13.25) + 7.5);
+            seTapproximatePrice(Number.parseFloat(sum).toFixed(1));
+          } else {
+            sum = 'Вы ввели не тот вес';
+            seTapproximatePrice(sum);
+          }
+          seTsizeXs(true);
+          break;
+
+        case 'sizeS':
+          if (stMain.weight.replace(',', '.') <= 2) {
+            sum = parseFloat(2 * 13.25 + 7.5);
+            seTapproximatePrice(Number.parseFloat(sum).toFixed(1));
+          } else {
+            sum = 'Вы ввели не тот вес';
+            seTapproximatePrice(sum);
+          }
+          seTsizeXs(true);
+          break;
+        case 'sizeM':
+          if (stMain.weight.replace(',', '.') <= 5) {
+            sum = parseFloat(5 * 13.25 + 7.5);
+            seTapproximatePrice(Number.parseFloat(sum).toFixed(1));
+          } else {
+            sum = 'Вы ввели не тот вес';
+            seTapproximatePrice(sum);
+          }
+          seTsizeXs(true);
+          break;
+        case 'sizeL':
+          if (stMain.weight.replace(',', '.') <= 12) {
+            sum = parseFloat(12 * 13.25 + 7.5);
+            seTapproximatePrice(Number.parseFloat(sum).toFixed(1));
+          } else {
+            sum = 'Вы ввели не тот вес';
+            seTapproximatePrice(sum);
+          }
+          seTsizeXs(true);
+          break;
+        case 'sizeTr':
+          if (stMain.weight.replace(',', '.') <= 50) {
+            sum = parseFloat(50 * 13.25 + 7.5);
+            seTapproximatePrice(Number.parseFloat(sum).toFixed(1));
+          } else {
+            sum = 'Вы ввели не тот вес';
+            seTapproximatePrice(sum);
+          }
+          seTsizeXs(true);
+          break;
+        default:
+          break;
+      }
+
       sum = parseFloat(parseFloat(value * 13.25) + 7.5 + 7.5);
-      if (fieldName === 'sizeS') {
-        seTsizeS(true);
-      }
-      if (fieldName === 'sizeM') {
-        seTsizeM(true);
-      }
+
       if (fieldName === 'sizeL') {
         seTsizeL(true);
       }
@@ -308,7 +390,6 @@ const MainScreen = props => {
         seTsizeTr(true);
       }
     }
-    seTapproximatePrice(Number.parseFloat(sum).toFixed(1));
   };
   return (
     <SafeAreaView>
@@ -847,7 +928,11 @@ const MainScreen = props => {
           {/* //////////////////////////////////////////////////////////////////////// PORTRAL XS */}
           <Portal>
             <Dialog visible={sizeXs} onDismiss={() => seTsizeXs(false)}>
-              <Dialog.Title>Цена: {approximatePrice}$</Dialog.Title>
+              <Dialog.Title>
+                {approximatePrice.length < 10 ? 'Цена: ' : ''}
+                {approximatePrice}
+                {approximatePrice.length < 10 ? '$' : ''}
+              </Dialog.Title>
               <Dialog.Actions>
                 <Button onPress={() => seTsizeXs(false)}>Хорошо</Button>
               </Dialog.Actions>
@@ -865,7 +950,11 @@ const MainScreen = props => {
 
           <Portal>
             <Dialog visible={sizeS} onDismiss={() => seTsizeS(false)}>
-              <Dialog.Title>Цена: {approximatePrice}$</Dialog.Title>
+              <Dialog.Title>
+                {approximatePrice.length < 10 ? 'Цена: ' : ''}
+                {approximatePrice}
+                {approximatePrice.length < 10 ? '$' : ''}
+              </Dialog.Title>
               <Dialog.Actions>
                 <Button onPress={() => seTsizeS(false)}>Хорошо</Button>
               </Dialog.Actions>
@@ -883,7 +972,11 @@ const MainScreen = props => {
 
           <Portal>
             <Dialog visible={sizeM} onDismiss={() => seTsizeM(false)}>
-              <Dialog.Title>Цена: {approximatePrice}$</Dialog.Title>
+              <Dialog.Title>
+                {approximatePrice.length < 10 ? 'Цена: ' : ''}
+                {approximatePrice}
+                {approximatePrice.length < 10 ? '$' : ''}
+              </Dialog.Title>
               <Dialog.Actions>
                 <Button onPress={() => seTsizeM(false)}>Хорошо</Button>
               </Dialog.Actions>
@@ -901,7 +994,11 @@ const MainScreen = props => {
 
           <Portal>
             <Dialog visible={sizeL} onDismiss={() => seTsizeL(false)}>
-              <Dialog.Title>Цена: {approximatePrice}$</Dialog.Title>
+              <Dialog.Title>
+                {approximatePrice.length < 10 ? 'Цена: ' : ''}
+                {approximatePrice}
+                {approximatePrice.length < 10 ? '$' : ''}
+              </Dialog.Title>
               <Dialog.Actions>
                 <Button onPress={() => seTsizeL(false)}>Хорошо</Button>
               </Dialog.Actions>
@@ -919,7 +1016,11 @@ const MainScreen = props => {
 
           <Portal>
             <Dialog visible={sizeTr} onDismiss={() => seTsizeTr(false)}>
-              <Dialog.Title>Цена: {approximatePrice}$</Dialog.Title>
+              <Dialog.Title>
+                {approximatePrice.length < 10 ? 'Цена: ' : ''}
+                {approximatePrice}
+                {approximatePrice.length < 10 ? '$' : ''}
+              </Dialog.Title>
               <Dialog.Actions>
                 <Button onPress={() => seTsizeTr(false)}>Хорошо</Button>
               </Dialog.Actions>
