@@ -48,16 +48,15 @@ const Login: React.FC<IProps> = (props: IProps) => {
   //const onForgot = () => NavigationService.navigate('RestoreAccount');
   // const onRegistration = () => NavigationService.navigate('Registration');
 
-  /*
   const handleChange = (val: string, fieldName: string) => {
     seTuserState(prev => {
       const varPr = { ...prev };
       switch (fieldName) {
         case 'username':
-          varPr.data.username = val;
+          varPr.pk = val;
           break;
         case 'password':
-          varPr.data.password = val;
+          varPr.sk = val;
           break;
       }
       return varPr;
@@ -66,7 +65,7 @@ const Login: React.FC<IProps> = (props: IProps) => {
 
   const validation = () => {
     let err = false;
-    if (userState.data.username.length < 3) {
+    if (userState.pk.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, username: true });
       setTimeout(() => {
@@ -74,7 +73,7 @@ const Login: React.FC<IProps> = (props: IProps) => {
       }, 1000);
       return err;
     }
-    if (userState.data.password.length < 3) {
+    if (userState.sk.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, password: true });
       setTimeout(() => {
@@ -83,7 +82,7 @@ const Login: React.FC<IProps> = (props: IProps) => {
     }
     return err;
   };
-*/
+
   const onRegistration = () => navigation.navigate('Registration');
   const onRestoreAccount = () => navigation.navigate('RestoreAccount');
 
@@ -107,10 +106,8 @@ const Login: React.FC<IProps> = (props: IProps) => {
   };
 
   const [userState, seTuserState] = useState({
-    data: {
-      username: '',
-      password: '',
-    },
+    pk: '',
+    sk: '',
   });
   const [validObj, seTvalidObj] = useState({ ...validationElements });
   const [passwordShow, seTpasswordShow] = useState(true);
@@ -148,6 +145,8 @@ const Login: React.FC<IProps> = (props: IProps) => {
   };
 
   const submit = async () => {
+    console.log('userState: ', userState);
+
     /* const err = validation();
     console.log(userState);
 
@@ -167,6 +166,12 @@ const Login: React.FC<IProps> = (props: IProps) => {
           animationType: 'zoom-in',
         });
       });
+    const err = validation();
+    if (err) {
+      toast.show('Было ошибка повторите заново');
+    } else {
+      postFileBalanceToCheck(userState);
+    }
   };
 
   const navigateToRegistration = () => {
@@ -183,45 +188,37 @@ const Login: React.FC<IProps> = (props: IProps) => {
             textStyle={{ color: '#3498db' }}
           />
           <Text style={styles.signInText}>{I18n.t('authorization')}</Text>
-          {/*
-          <View style={{width: '90%'}}>
+
+          <View style={{ width: '90%' }}>
             <Validation
-              text={'Имя пользователя'}
+              text={I18n.t('pkey')}
               visible={validObj.username}
               errText={I18n.t('incorrect_username')}
             />
           </View>
 
           <TextInput
-            placeholder="Максим"
+            placeholder="FLSXfhuXoZb8azzHgUN9Dt3HEup4FYndbwEHx7jmGpht"
             mode="outlined"
             style={styles.textInput}
             onChangeText={val => handleChange(val, 'username')}
-            right={<TextInput.Icon name={require('../../assets/email.png')} />}
-            value={userState.data.username}
+            value={userState.pk}
           />
-          <View style={{width: '90%', marginTop: 20}}>
+          <View style={{ width: '90%', marginTop: 20 }}>
             <Validation
-              text={I18n.t('password')}
+              text={I18n.t('skey')}
               visible={validObj.password}
               errText={I18n.t('password_wrong')}
             />
           </View>
           <TextInput
             mode="outlined"
-            placeholder={I18n.t('password_enter')}
+            placeholder={I18n.t('skeyplaceholder')}
             style={styles.textInput}
             onChangeText={val => handleChange(val, 'password')}
-            right={
-              <TextInput.Icon
-                onPress={() => seTpasswordShow(!passwordShow)}
-                name={require('../../assets/padlock.png')}
-              />
-            }
-            secureTextEntry={passwordShow}
-            value={userState.data.password}
+            value={userState.sk}
           />
-          */}
+
           <Button
             icon="upload"
             style={{

@@ -99,5 +99,9 @@
   "index":"Index",
   "town":"Town",
   "street":"Street",
-  "home":"Home"
+  "home":"Home",
+  "pkey":"Public key",
+  "skey": "Secret key",
+  "pkeyplaceholder":"FLSXfhuXoZb8azzHgUN9Dt3HEup4FYndbwEHx7jmGpht",
+  "skeyplaceholder":"3i8tu4DsTrZKUAZRUjqxvpVT4Xycve8doNbwyGVuBJ8nRtZxEMBbNBD5PfBpTdgV36uPPKtkoCG3EwgoVdPuFsm8"
 }

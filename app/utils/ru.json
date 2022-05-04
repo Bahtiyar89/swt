@@ -99,5 +99,9 @@
   "index":"Индекс",
   "town":"Город",
   "street":"Улица",
-  "home":"Дом"
+  "home":"Дом",
+  "pkey":"Публичный ключ",
+  "skey": "Секретный ключ",
+  "pkeyplaceholder":"FLSXfhuXoZb8azzHgUN9Dt3HEup4FYndbwEHx7jmGpht",
+  "skeyplaceholder":"3i8tu4DsTrZKUAZRUjqxvpVT4Xycve8doNbwyGVuBJ8nRtZxEMBbNBD5PfBpTdgV36uPPKtkoCG3EwgoVdPuFsm8"
 }
