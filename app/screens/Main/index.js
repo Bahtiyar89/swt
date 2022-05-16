@@ -530,7 +530,7 @@ const MainScreen = props => {
                       </TouchableOpacity>
                       <View style={{ padding: 5 }}>
                         <Text onPress={() => countOpt(0.5, 'sizeXs')}>
-                          Размер XS
+                          {I18n.t('size') + ' XS'}
                         </Text>
                         <Text
                           onPress={() => countOpt(0.5, 'sizeXs')}
@@ -541,7 +541,7 @@ const MainScreen = props => {
                     </View>
                     <View style={{ justifyContent: 'center' }}>
                       <Text style={{ color: '#00000088', marginRight: 3 }}>
-                        До 0.5кг
+                        {I18n.t('up_to')} 0.5{I18n.t('kg')}
                       </Text>
                       <TouchableOpacity onPress={() => seTnotiXs(true)}>
                         <Image
@@ -577,7 +577,7 @@ const MainScreen = props => {
 
                       <View style={{ padding: 5 }}>
                         <Text onPress={() => countOpt(2, 'sizeS')}>
-                          Размер S
+                          {I18n.t('size') + ' S'}
                         </Text>
                         <Text
                           onPress={() => countOpt(2, 'sizeS')}
@@ -587,7 +587,9 @@ const MainScreen = props => {
                       </View>
                     </View>
                     <View style={{ justifyContent: 'center', padding: 5 }}>
-                      <Text style={{ color: '#00000088' }}>До 2кг</Text>
+                      <Text style={{ color: '#00000088' }}>
+                        Д{I18n.t('up_to')}о 2{I18n.t('kg')}
+                      </Text>
                       <TouchableOpacity onPress={() => seTnotiS(true)}>
                         <Image
                           source={require('../../assets/exclamation-mark.png')} //Change your icon image here
@@ -622,7 +624,7 @@ const MainScreen = props => {
                       </TouchableOpacity>
                       <View style={{ padding: 5 }}>
                         <Text onPress={() => countOpt(5, 'sizeM')}>
-                          Размер M
+                          {I18n.t('size') + ' M'}
                         </Text>
                         <Text
                           onPress={() => countOpt(5, 'sizeM')}
@@ -632,7 +634,9 @@ const MainScreen = props => {
                       </View>
                     </View>
                     <View style={{ justifyContent: 'center', padding: 5 }}>
-                      <Text style={{ color: '#00000088' }}>До 5кг</Text>
+                      <Text style={{ color: '#00000088' }}>
+                        {I18n.t('up_to')} 5{I18n.t('kg')}
+                      </Text>
                       <TouchableOpacity onPress={() => seTnotiM(true)}>
                         <Image
                           source={require('../../assets/exclamation-mark.png')} //Change your icon image here
@@ -667,7 +671,7 @@ const MainScreen = props => {
                       </TouchableOpacity>
                       <View style={{ padding: 5 }}>
                         <Text onPress={() => countOpt(12, 'sizeL')}>
-                          Размер L
+                          {I18n.t('size') + ' L'}
                         </Text>
                         <Text
                           onPress={() => countOpt(12, 'sizeL')}
@@ -677,7 +681,9 @@ const MainScreen = props => {
                       </View>
                     </View>
                     <View style={{ justifyContent: 'center', padding: 5 }}>
-                      <Text style={{ color: '#00000088' }}>До 12кг</Text>
+                      <Text style={{ color: '#00000088' }}>
+                        {I18n.t('up_to')} 12{I18n.t('kg')}
+                      </Text>
                       <TouchableOpacity onPress={() => seTnotiL(true)}>
                         <Image
                           source={require('../../assets/exclamation-mark.png')} //Change your icon image here
@@ -713,7 +719,7 @@ const MainScreen = props => {
 
                       <View style={{ padding: 5 }}>
                         <Text onPress={() => countOpt(50, 'sizeTr')}>
-                          Тележка
+                          {I18n.t('cart')}
                         </Text>
                         <Text
                           onPress={() => countOpt(50, 'sizeTr')}
@@ -723,7 +729,9 @@ const MainScreen = props => {
                       </View>
                     </View>
                     <View style={{ justifyContent: 'center', padding: 5 }}>
-                      <Text style={{ color: '#00000088' }}>До 50кг</Text>
+                      <Text style={{ color: '#00000088' }}>
+                        {I18n.t('up_to')} 50{I18n.t('kg')}
+                      </Text>
                       <TouchableOpacity onPress={() => seTnotiTr(true)}>
                         <Image
                           source={require('../../assets/exclamation-mark.png')} //Change your icon image here

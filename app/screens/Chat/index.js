@@ -1,8 +1,9 @@
 import React, { useEffect, useContext } from 'react';
 import { View, Text, Image } from 'react-native';
-import { Button } from 'react-native-paper';
+
 import AuthContext from '../../context/auth/AuthContext';
 import Login from '../Login';
+import I18n from '../../../i18';
 
 const ChatScreen = props => {
   const { navigation } = props;
@@ -14,7 +15,7 @@ const ChatScreen = props => {
       {isSigned ? (
         <View
           style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text>В разработке !</Text>
+          <Text>{I18n.t('inprogress')} !</Text>
         </View>
       ) : (
         <Login navigation={navigation} />

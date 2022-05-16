@@ -103,5 +103,10 @@
   "pkey":"Public key",
   "skey": "Secret key",
   "pkeyplaceholder":"FLSXfhuXoZb8azzHgUN9Dt3HEup4FYndbwEHx7jmGpht",
-  "skeyplaceholder":"3i8tu4DsTrZKUAZRUjqxvpVT4Xycve8doNbwyGVuBJ8nRtZxEMBbNBD5PfBpTdgV36uPPKtkoCG3EwgoVdPuFsm8"
+  "skeyplaceholder":"3i8tu4DsTrZKUAZRUjqxvpVT4Xycve8doNbwyGVuBJ8nRtZxEMBbNBD5PfBpTdgV36uPPKtkoCG3EwgoVdPuFsm8",
+  "size":"Size",
+  "cart":"Cart",
+  "up_to":"Up to",
+  "kg":"kg",
+  "inprogress":"in progress"
 }

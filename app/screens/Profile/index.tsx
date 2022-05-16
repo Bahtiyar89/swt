@@ -40,6 +40,8 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
   useEffect(() => {
     Utility.getDeviceLanguageFromStorage()
       .then(lang => {
+        console.log('lang:: ', lang);
+
         I18n.locale = lang;
         seTlang(lang);
       })
@@ -134,7 +136,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                 />
                 <View style={styles.profileNameSurname}>
                   <Text>{user?.fio}</Text>
-                  <Text>Москва, Россия</Text>
+                  <Text>city, Country</Text>
                 </View>
               </View>
               <View style={styles.buttonMenuContainer}>
