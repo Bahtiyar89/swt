@@ -42,7 +42,7 @@ const RootNavigation: React.FC = () => {
 
 const EntryPoint: React.FC = () => {
   return (
-    <ToastProvider placement="top">
+    <ToastProvider placement="top" offsetTop={40}>
       <Provider store={store}>
         <AuthState>
           <GoodsState>

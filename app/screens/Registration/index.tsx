@@ -12,6 +12,7 @@ import Modal from 'react-native-modal';
 import basex from 'bs58-rn';
 import Sodium from 'react-native-sodium';
 import Buffer from 'buffer';
+import { useToast } from 'react-native-toast-notifications';
 
 //import * as loginActions from 'app/store/actions/loginActions';
 import styles from './styles';
@@ -32,6 +33,7 @@ const Registration: React.FC<IProps> = (props: IProps) => {
   const { navigation } = props;
   const authContext = useContext(AuthContext);
   const { register, postRegisterBalanceToCheck } = authContext;
+  const toast = useToast();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   //const id = useSelector((state: IState) => state.loginReducer.id);
   //const dispatch = useDispatch();
@@ -52,7 +54,21 @@ const Registration: React.FC<IProps> = (props: IProps) => {
   });
 
   const submit = () => {
-    postRegisterBalanceToCheck(walletKeys, navigation);
+    if (!checked) {
+      toast.show(I18n.t('agreement_checked'), {
+        type: 'warning',
+        duration: 4000,
+        animationType: 'zoom-in',
+      });
+    } else if (walletKeys.pk.length < 10 || walletKeys.sk.length < 10) {
+      toast.show(I18n.t('generate_keys'), {
+        type: 'warning',
+        duration: 4000,
+        animationType: 'zoom-in',
+      });
+    } else {
+      postRegisterBalanceToCheck(walletKeys, navigation);
+    }
   };
 
   const generateKeys = async () => {
@@ -77,7 +93,7 @@ const Registration: React.FC<IProps> = (props: IProps) => {
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={styles.container}>
-          <Text style={styles.signInText}>Регистрация</Text>
+          <Text style={styles.signInText}>{I18n.t('register')}</Text>
           <Button
             icon="lead-pencil"
             style={{
@@ -91,26 +107,26 @@ const Registration: React.FC<IProps> = (props: IProps) => {
             onPress={generateKeys}
             mode="contained">
             <Text style={{ textAlign: 'center', color: '#000' }}>
-              {'Сгенирировать Ключи'}
+              {I18n.t('generateKeys')}
             </Text>
           </Button>
 
           <View style={{ marginTop: 5, flexDirection: 'row', width: '90%' }}>
-            <Text style={{ flex: 1 }}>Публичный ключ</Text>
+            <Text style={{ flex: 1 }}>{I18n.t('pkey')}</Text>
           </View>
           <TextInput
             editable={false}
-            placeholder="Публичный ключ"
+            placeholder={I18n.t('skey')}
             mode="outlined"
             style={styles.textInput}
             value={walletKeys.pk}
           />
           <View style={{ marginTop: 5, flexDirection: 'row', width: '90%' }}>
-            <Text style={{ flex: 1 }}>Секретный ключ</Text>
+            <Text style={{ flex: 1 }}>{I18n.t('skey')}</Text>
           </View>
           <TextInput
             editable={false}
-            placeholder="Секретный ключ"
+            placeholder={I18n.t('skey')}
             mode="outlined"
             style={styles.textInput}
             value={walletKeys.sk}
@@ -124,7 +140,7 @@ const Registration: React.FC<IProps> = (props: IProps) => {
               justifyContent: 'space-between',
             }}>
             <View style={{ width: '10%' }}>
-              <Checkbox
+              <Checkbox.Android
                 status={checked ? 'checked' : 'unchecked'}
                 onPress={() => {
                   setChecked(!checked);
@@ -140,18 +156,12 @@ const Registration: React.FC<IProps> = (props: IProps) => {
                 justifyContent: 'center',
                 alignSelf: 'center',
               }}>
-              Соглашение на обработку{' '}
+              {I18n.t('agreement')}{' '}
               <Text style={{ color: '#397AF9' }} onPress={() => setmodel(true)}>
-                персональных данных
+                {I18n.t('personal_data')}
               </Text>
             </Text>
           </View>
-          <HelperText
-            style={{ alignItems: 'flex-end' }}
-            type="error"
-            visible={validObj.chebox}>
-            Соглашение должно быть нажато!
-          </HelperText>
           <Button
             style={{
               width: '90%',
@@ -166,11 +176,11 @@ const Registration: React.FC<IProps> = (props: IProps) => {
         </View>
         <Modal isVisible={model}>
           <View style={{ backgroundColor: 'white' }}>
-            <Text>Персональе данные тут...</Text>
-            <Text>Персональе данные тут...</Text>
-            <Text>Персональе данные тут...</Text>
+            <Text>{I18n.t('personal_information')}</Text>
+            <Text>{I18n.t('personal_information')}</Text>
+            <Text>{I18n.t('personal_information')}</Text>
             <Button mode="contained" onPress={() => setmodel(false)}>
-              <Text style={styles.buttonText}>Продолжить</Text>
+              <Text style={styles.buttonText}>{I18n.t('continue')}</Text>
             </Button>
           </View>
         </Modal>

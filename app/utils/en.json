@@ -108,5 +108,13 @@
   "cart":"Cart",
   "up_to":"Up to",
   "kg":"kg",
-  "inprogress":"in progress"
+  "inprogress":"in progress",
+  "register":"Registration",
+  "generateKeys":"Generate Keys",
+  "agreement":"Agreement on the processing of",
+  "personal_data":"personal data",
+  "agreement_checked":"Agreement must be checked",
+  "generate_keys":"Please generate keys",
+  "personal_information":"Personal information here ...",
+  "continue":"Continue"
 }
