@@ -108,7 +108,7 @@ const AdressBookModal: React.FC<IState> = ({
                 </HelperText>
               </View>
               <TextInput
-                placeholder="Александр Грачев"
+                placeholder={I18n.t('aleksander_grachev')}
                 mode="outlined"
                 right={<TextInput.Icon name="lead-pencil" />}
                 onChangeText={val =>
@@ -127,7 +127,7 @@ const AdressBookModal: React.FC<IState> = ({
                 </HelperText>
               </View>
               <TextInput
-                placeholder="Максим Егоров"
+                placeholder={I18n.t('maksim_yegorov')}
                 mode="outlined"
                 right={<TextInput.Icon name="lead-pencil" />}
                 onChangeText={val =>
@@ -146,7 +146,7 @@ const AdressBookModal: React.FC<IState> = ({
                 </HelperText>
               </View>
               <TextInput
-                placeholder="Москва, ул. Леонова, д. 35, стр. 1"
+                placeholder={I18n.t('moskov_streen_adress')}
                 mode="outlined"
                 right={<TextInput.Icon name="lead-pencil" />}
                 onChangeText={val =>
@@ -165,7 +165,7 @@ const AdressBookModal: React.FC<IState> = ({
                 </HelperText>
               </View>
               <TextInput
-                placeholder="Максим Егоров"
+                placeholder={I18n.t('maksim_yegorov')}
                 mode="outlined"
                 right={<TextInput.Icon name="lead-pencil" />}
                 onChangeText={val =>

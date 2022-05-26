@@ -76,7 +76,7 @@ const DraftModal: React.FC<IState> = ({
           </View>
 
           <TextInput
-            placeholder="Москва, ул. Леонова, д. 35"
+            placeholder={I18n.t('moskov_streen_adress')}
             mode="outlined"
             onChangeText={val => seTdrafts({ ...drafts, departures: val })}
             value={drafts.departures}
@@ -84,7 +84,7 @@ const DraftModal: React.FC<IState> = ({
 
           <TextInput
             style={{ marginTop: 10 }}
-            placeholder="Москва, ул. Леонова, д. 35"
+            placeholder={I18n.t('moskov_streen_adress')}
             mode="outlined"
             onChangeText={val => seTdrafts({ ...drafts, departures2: val })}
             value={drafts.departures2}

@@ -876,7 +876,7 @@ const CalculatorScreen = props => {
                   }}
                   mode="contained">
                   <Text style={{ color: 'white', fontSize: 9 }}>
-                    Сдать в отделении
+                    {I18n.t('give_to_department')}
                   </Text>
                 </Button>
                 <Button
@@ -888,7 +888,7 @@ const CalculatorScreen = props => {
                   }}
                   mode="contained">
                   <Text style={{ color: '#000', fontSize: 9 }}>
-                    Забрать курьером
+                    {I18n.t('pick_up_by_courier')}
                   </Text>
                 </Button>
               </View>
@@ -1091,7 +1091,7 @@ const CalculatorScreen = props => {
                   }}
                   mode="contained">
                   <Text style={{ color: '#000', fontSize: 10 }}>
-                    Получить на ПВЗ
+                    {I18n.t('get_to_the_pickup_point')}
                   </Text>
                 </Button>
                 <Button
@@ -1101,7 +1101,7 @@ const CalculatorScreen = props => {
                   }}
                   mode="contained">
                   <Text style={{ color: 'white', fontSize: 10 }}>
-                    Доставка курьером
+                    {I18n.t('courier_delivery')}
                   </Text>
                 </Button>
               </View>
@@ -1185,29 +1185,31 @@ const CalculatorScreen = props => {
               displayPositiveButton={true}
               positiveButtonText={I18n.t('ok')}
               displayNegativeButton={false}
-              negativeButtonText={'CANCEL'}
+              negativeButtonText={I18n.t('cancel')}
               onPressNegativeButton={() => seTcantSaveAlert(false)}
               onPressPositiveButton={() => seTcantSaveAlert(false)}
             />
             <CustomAlert
               displayAlert={balanceAlert}
               displayAlertIcon={true}
-              alertTitleText={'Оформление заказа откланено!'}
-              alertMessageText={
-                'У вас не достаточно балансa, пожалуйста пополните баланс!'
-              }
+              alertTitleText={I18n.t('checkout_rejected')}
+              alertMessageText={I18n.t(
+                'you_dont_have_enough_balance_please_top_up_your_balance',
+              )}
               displayPositiveButton={true}
               positiveButtonText={I18n.t('ok')}
               displayNegativeButton={false}
-              negativeButtonText={'CANCEL'}
+              negativeButtonText={I18n.t('cancel')}
               onPressNegativeButton={() => seTbalanceAlert(false)}
               onPressPositiveButton={() => seTbalanceAlert(false)}
             />
             <Portal>
               <Dialog visible={modalSaveGood} onDismiss={hideDialog}>
-                <Dialog.Title>Ваш заказ был принят</Dialog.Title>
+                <Dialog.Title>
+                  {I18n.t('your_order_has_been_accepted')}
+                </Dialog.Title>
                 <Dialog.Actions>
-                  <Button onPress={hideDialog}>Хорошо</Button>
+                  <Button onPress={hideDialog}>{I18n.t('ok')}</Button>
                 </Dialog.Actions>
               </Dialog>
             </Portal>

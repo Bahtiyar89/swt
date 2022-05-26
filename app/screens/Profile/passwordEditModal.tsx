@@ -100,7 +100,7 @@ const ProfileEditModal: React.FC<IState> = ({
               style={{ alignItems: 'flex-end' }}
               type="error"
               visible={validObj.old_password}>
-              Неправельный пароль!
+              {I18n.t('wrong_password')}!
             </HelperText>
           </View>
           <TextInput
@@ -126,7 +126,7 @@ const ProfileEditModal: React.FC<IState> = ({
               style={{ alignItems: 'flex-end' }}
               type="error"
               visible={validObj.new_password}>
-              Пароли не совпадают!
+              {I18n.t('passwords_do_not_match')}!
             </HelperText>
           </View>
           <TextInput

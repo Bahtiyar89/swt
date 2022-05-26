@@ -113,7 +113,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
             <View style={styles.container}>
               <Spinner
                 visible={loading}
-                textContent={'Загружается...'}
+                textContent={I18n.t('loading')}
                 textStyle={{ color: '#3498db' }}
               />
               <View style={styles.mainHeader}>
@@ -136,7 +136,9 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                 />
                 <View style={styles.profileNameSurname}>
                   <Text>{user?.fio}</Text>
-                  <Text>city, Country</Text>
+                  <Text>
+                    {I18n.t('city')}, {I18n.t('country')}
+                  </Text>
                 </View>
               </View>
               <View style={styles.buttonMenuContainer}>
@@ -273,7 +275,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                     padding: 10,
                   }}>
                   <Text style={{ fontWeight: 'bold', textAlign: 'center' }}>
-                    {'Ваш Баланс:'}
+                    {I18n.t('your_balance')}
                   </Text>
                   <Text
                     style={{
@@ -292,7 +294,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                     mode="contained"
                     onPress={replenishBalance}>
                     <Text style={{ color: '#d9d9d9' }}>
-                      {'Пополнить баланс'}
+                      {I18n.t('replenish_the_balance')}
                     </Text>
                   </Button>
                   <View

@@ -159,7 +159,7 @@ const KeysModal: React.FC<IState> = ({ cancelPressed, model }: IState) => {
                       style={{ marginTop: 2, marginRight: 0 }}
                     />
                     <Text style={{ color: 'orange' }}>
-                      Секретный ключ (скопировать)
+                      {I18n.t('s_key_copy')}
                     </Text>
                   </View>
                   <TouchableOpacity onPress={() => copyToClipboardSK()}>
@@ -180,7 +180,7 @@ const KeysModal: React.FC<IState> = ({ cancelPressed, model }: IState) => {
                       style={{ marginTop: 2, marginRight: 0 }}
                     />
                     <Text style={{ color: 'orange' }}>
-                      Публичный ключ (скопировать)
+                      {I18n.t('p_key_copy')}
                     </Text>
                   </View>
                   <TouchableOpacity onPress={() => copyToClipboardPK()}>
@@ -197,7 +197,7 @@ const KeysModal: React.FC<IState> = ({ cancelPressed, model }: IState) => {
                 </Card.Content>
                 <Button icon="download" mode="contained" onPress={downloadKeys}>
                   <Text style={{ color: '#000', fontSize: 9 }}>
-                    Cкачать ключи (Секретный/Публичный)
+                    {I18n.t('download_keys_s_p')}
                   </Text>
                 </Button>
               </Card>

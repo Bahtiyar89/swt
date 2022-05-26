@@ -91,11 +91,17 @@ const ArchiveModal: React.FC<IState> = ({
                       color="green"
                       style={{ margin: 0 }}
                     />
-                    <Text style={{ paddingLeft: 3 }}>Вручен</Text>
+                    <Text style={{ paddingLeft: 3 }}>
+                      {I18n.t('was_given')}
+                    </Text>
                   </View>
                   <Title style={{ fontSize: 16 }}>№ 4325348723</Title>
-                  <Paragraph>Санкт-Петербург — Москва</Paragraph>
-                  <Paragraph>Полная дата доставки: 27.11.2021</Paragraph>
+                  <Paragraph>
+                    {I18n.t('st_petersburg')} — {I18n.t('moskow')}
+                  </Paragraph>
+                  <Paragraph>
+                    {I18n.t('complete_delivery_date')}: 27.11.2021
+                  </Paragraph>
                 </Card.Content>
               </Card>
 
@@ -108,11 +114,17 @@ const ArchiveModal: React.FC<IState> = ({
                       color="orange"
                       style={{ margin: 0 }}
                     />
-                    <Text style={{ paddingLeft: 3 }}>Не вручен</Text>
+                    <Text style={{ paddingLeft: 3 }}>
+                      {I18n.t('not_awarded')}
+                    </Text>
                   </View>
                   <Title style={{ fontSize: 16 }}>№ 4325348723</Title>
-                  <Paragraph>Санкт-Петербург — Москва</Paragraph>
-                  <Paragraph>Полная дата доставки: 27.11.2021</Paragraph>
+                  <Paragraph>
+                    {I18n.t('st_petersburg')} — {I18n.t('moskow')}
+                  </Paragraph>
+                  <Paragraph>
+                    {I18n.t('complete_delivery_date')}: 27.11.2021
+                  </Paragraph>
                 </Card.Content>
               </Card>
 
@@ -125,11 +137,17 @@ const ArchiveModal: React.FC<IState> = ({
                       color="orange"
                       style={{ margin: 0 }}
                     />
-                    <Text style={{ paddingLeft: 3 }}>В ожидании</Text>
+                    <Text style={{ paddingLeft: 3 }}>
+                      {I18n.t('was_given')}
+                    </Text>
                   </View>
                   <Title style={{ fontSize: 16 }}>№ 4325348723</Title>
-                  <Paragraph>Санкт-Петербург — Москва</Paragraph>
-                  <Paragraph>Полная дата доставки: 27.11.2021</Paragraph>
+                  <Paragraph>
+                    {I18n.t('st_petersburg')} — {I18n.t('moskow')}
+                  </Paragraph>
+                  <Paragraph>
+                    {I18n.t('complete_delivery_date')}: 27.11.2021
+                  </Paragraph>
                 </Card.Content>
               </Card>
 

@@ -942,7 +942,7 @@ const MainScreen = props => {
                 {approximatePrice.length < 10 ? '$' : ''}
               </Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTsizeXs(false)}>Хорошо</Button>
+                <Button onPress={() => seTsizeXs(false)}>{I18n.t('ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
@@ -950,7 +950,7 @@ const MainScreen = props => {
             <Dialog visible={notiXs} onDismiss={() => seTnotiXs(false)}>
               <Dialog.Title>notification Xs</Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTnotiXs(false)}>Хорошо</Button>
+                <Button onPress={() => seTnotiXs(false)}>{I18n.t('ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
@@ -964,7 +964,7 @@ const MainScreen = props => {
                 {approximatePrice.length < 10 ? '$' : ''}
               </Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTsizeS(false)}>Хорошо</Button>
+                <Button onPress={() => seTsizeS(false)}>{I18n.t('ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
@@ -972,7 +972,7 @@ const MainScreen = props => {
             <Dialog visible={notiS} onDismiss={() => seTnotiS(false)}>
               <Dialog.Title>notification S</Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTnotiS(false)}>Хорошо</Button>
+                <Button onPress={() => seTnotiS(false)}>{I18n.t('ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
@@ -986,7 +986,7 @@ const MainScreen = props => {
                 {approximatePrice.length < 10 ? '$' : ''}
               </Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTsizeM(false)}>Хорошо</Button>
+                <Button onPress={() => seTsizeM(false)}>{I18n.t('ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
@@ -994,7 +994,7 @@ const MainScreen = props => {
             <Dialog visible={notiM} onDismiss={() => seTnotiM(false)}>
               <Dialog.Title>notification M</Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTnotiM(false)}>Хорошо</Button>
+                <Button onPress={() => seTnotiM(false)}>{I18n.t('ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
@@ -1008,7 +1008,7 @@ const MainScreen = props => {
                 {approximatePrice.length < 10 ? '$' : ''}
               </Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTsizeL(false)}>Хорошо</Button>
+                <Button onPress={() => seTsizeL(false)}>{I18n.t('ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
@@ -1016,7 +1016,7 @@ const MainScreen = props => {
             <Dialog visible={notiL} onDismiss={() => seTnotiL(false)}>
               <Dialog.Title>notification LLL</Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTnotiL(false)}>Хорошо</Button>
+                <Button onPress={() => seTnotiL(false)}>{I18n.t('ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
@@ -1030,7 +1030,7 @@ const MainScreen = props => {
                 {approximatePrice.length < 10 ? '$' : ''}
               </Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTsizeTr(false)}>Хорошо</Button>
+                <Button onPress={() => seTsizeTr(false)}>{I18n.t('ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
@@ -1038,17 +1038,19 @@ const MainScreen = props => {
             <Dialog visible={notiTr} onDismiss={() => seTnotiTr(false)}>
               <Dialog.Title>notification TR</Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTnotiTr(false)}>Хорошо</Button>
+                <Button onPress={() => seTnotiTr(false)}>{I18n.t('ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
 
           <Portal>
             <Dialog visible={visible} onDismiss={hideDialog}>
-              <Dialog.Title>Стоит {stMain.Price} $</Dialog.Title>
+              <Dialog.Title>
+                {I18n.t('price')} {stMain.Price} $
+              </Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={hideDialog}>Еще раз</Button>
-                <Button onPress={redirectButton}>Хорошо</Button>
+                <Button onPress={hideDialog}>{I18n.t('try_again')}</Button>
+                <Button onPress={redirectButton}>{I18n.t('ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
