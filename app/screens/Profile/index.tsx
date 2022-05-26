@@ -87,14 +87,11 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
 
   const replenishBalance = () => {
     if (userBalance.balance > 0.5) {
-      toastRef.current.show(
-        'Вы не можете пополнить баланс так как у вас больше 0.5$',
-        {
-          type: 'warning',
-          duration: 4000,
-          animationType: 'zoom-in',
-        },
-      );
+      toastRef.current.show(I18n.t('you_cannot_top_up_the_balance'), {
+        type: 'warning',
+        duration: 4000,
+        animationType: 'zoom-in',
+      });
     } else {
       seTmodelBalance(false);
       addBalance(file);

@@ -143,5 +143,10 @@
   "p_key_copy":"Public key (copy)",
   "download_keys_s_p":"Download Keys (Secret/Public)",
   "wrong_password":"Wrong password",
-  "passwords_do_not_match":"Passwords do not match"
+  "passwords_do_not_match":"Passwords do not match",
+  "your_balance_will_end_soon":"Your balance will end soon. Please replenish your balance!",
+  "your_keys_have_been_successfully_saved_path_to_keys":"Your keys have been successfully saved path to keys",
+  "try_later":"try later",
+  "balance_added_successfully":"Balance added successfully",
+  "you_cannot_top_up_the_balance":"You cannot top up the balance because you have more than 0.5$"
 }

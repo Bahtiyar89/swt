@@ -155,14 +155,11 @@ const GoodsState = props => {
               payload: data,
             });
           } else if (data != 0 && data.balance < 0.5) {
-            toast.show(
-              'Ваш баланс скоро закончиться. Пополните пожалуйста свой баланс!',
-              {
-                type: 'warning',
-                duration: 3000,
-                animationType: 'zoom-in',
-              },
-            );
+            toast.show(I18n.t('your_balance_will_end_soon'), {
+              type: 'warning',
+              duration: 3000,
+              animationType: 'zoom-in',
+            });
           } else if (data.balance === 0) {
             dispatch({
               type: BALANCE_CHECK,
@@ -228,7 +225,7 @@ const GoodsState = props => {
         console.log('daaattaaa:', data);
         dispatch({ type: LOADING, payload: false });
         if (data.success) {
-          toast.show(`${1} Баланс добавлен усрешно`, {
+          toast.show(`${1} ${I18n.t('balance_added_successfully')}`, {
             type: 'success',
             duration: 6000,
             animationType: 'zoom-in',

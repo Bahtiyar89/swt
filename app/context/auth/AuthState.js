@@ -65,14 +65,11 @@ const AuthState = props => {
               payload: { data, file },
             });
           } else if (data.balance != 0 && data.balance < 0.5) {
-            toast.show(
-              'Ваш баланс скоро закончиться. Пополните пожалуйста свой баланс!',
-              {
-                type: 'warning',
-                duration: 3000,
-                animationType: 'zoom-in',
-              },
-            );
+            toast.show(I18n.t('your_balance_will_end_soon'), {
+              type: 'warning',
+              duration: 3000,
+              animationType: 'zoom-in',
+            });
           } else if (data.balance === 0) {
             dispatch({
               type: BALANCE_0,
@@ -150,7 +147,7 @@ const AuthState = props => {
               console.log(err.message);
             });
           toast.show(
-            `Ваши ключи успешно сохранены путь к ключам ${
+            `${I18n.t('your_keys_have_been_successfully_saved_path_to_keys')} ${
               I18n.t('file_saved_under_name') + path
             } `,
             {
@@ -271,11 +268,14 @@ const AuthState = props => {
         });
       })
       .catch(error => {
-        toast.show(error.response.request._response + ' попробуйте попожже', {
-          type: 'warning',
-          duration: 4000,
-          animationType: 'zoom-in',
-        });
+        toast.show(
+          error.response.request._response + ` ${I18n.t('try_later')} `,
+          {
+            type: 'warning',
+            duration: 4000,
+            animationType: 'zoom-in',
+          },
+        );
         dispatch({ type: LOADING, payload: false });
       });
   };
