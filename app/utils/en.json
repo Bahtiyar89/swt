@@ -148,5 +148,11 @@
   "your_keys_have_been_successfully_saved_path_to_keys":"Your keys have been successfully saved path to keys",
   "try_later":"try later",
   "balance_added_successfully":"Balance added successfully",
-  "you_cannot_top_up_the_balance":"You cannot top up the balance because you have more than 0.5$"
+  "you_cannot_top_up_the_balance":"You cannot top up the balance because you have more than 0.5$",
+  "the_wrong_weight":"You entered the wrong weight",
+  "dimensions":"Dimensions",
+  "length":"Length",
+  "width":"Width",
+  "cost":"cost",
+  "enter_weight_please":"Enter weight please"
 }

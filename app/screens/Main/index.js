@@ -313,7 +313,7 @@ const MainScreen = props => {
   const countOpt = async (value, fieldName) => {
     console.log('fieldName: ', fieldName);
     if (stMain.weight.length < 1) {
-      toast.show('Введите вес пожалуйста', {
+      toast.show(I18n.t('enter_weight_please'), {
         type: 'warning',
         duration: 4000,
         animationType: 'zoom-in',
@@ -331,7 +331,7 @@ const MainScreen = props => {
             sum = parseFloat(parseFloat(0.5 * 13.25) + 7.5);
             seTapproximatePrice(Number.parseFloat(sum).toFixed(1));
           } else {
-            sum = 'Вы ввели не тот вес';
+            sum = toast.show(I18n.t('the_wrong_weight'));
             seTapproximatePrice(sum);
           }
           seTsizeXs(true);
@@ -342,7 +342,7 @@ const MainScreen = props => {
             sum = parseFloat(2 * 13.25 + 7.5);
             seTapproximatePrice(Number.parseFloat(sum).toFixed(1));
           } else {
-            sum = 'Вы ввели не тот вес';
+            sum = toast.show(I18n.t('the_wrong_weight'));
             seTapproximatePrice(sum);
           }
           seTsizeXs(true);
@@ -352,7 +352,7 @@ const MainScreen = props => {
             sum = parseFloat(5 * 13.25 + 7.5);
             seTapproximatePrice(Number.parseFloat(sum).toFixed(1));
           } else {
-            sum = 'Вы ввели не тот вес';
+            sum = toast.show(I18n.t('the_wrong_weight'));
             seTapproximatePrice(sum);
           }
           seTsizeXs(true);
@@ -362,7 +362,7 @@ const MainScreen = props => {
             sum = parseFloat(12 * 13.25 + 7.5);
             seTapproximatePrice(Number.parseFloat(sum).toFixed(1));
           } else {
-            sum = 'Вы ввели не тот вес';
+            sum = toast.show(I18n.t('the_wrong_weight'));
             seTapproximatePrice(sum);
           }
           seTsizeXs(true);
@@ -372,7 +372,7 @@ const MainScreen = props => {
             sum = parseFloat(50 * 13.25 + 7.5);
             seTapproximatePrice(Number.parseFloat(sum).toFixed(1));
           } else {
-            sum = 'Вы ввели не тот вес';
+            sum = toast.show(I18n.t('the_wrong_weight'));
             seTapproximatePrice(sum);
           }
           seTsizeXs(true);
@@ -749,7 +749,7 @@ const MainScreen = props => {
               {selectedIndex === 1 && (
                 <>
                   <Text style={{ textAlign: 'left', width: '90%', margin: 10 }}>
-                    Гарбариты, cм
+                    {I18n.t('dimensions')}, cм
                   </Text>
                   <View
                     style={{
@@ -763,7 +763,7 @@ const MainScreen = props => {
                         value={dimensions.length}
                         staticLabel
                         hintTextColor={'#fff'}
-                        label={'Длина'}
+                        label={I18n.t('length')}
                         containerStyles={{
                           borderWidth: 1,
                           paddingHorizontal: 10,
@@ -805,7 +805,7 @@ const MainScreen = props => {
                         value={dimensions.width}
                         staticLabel
                         hintTextColor={'#fff'}
-                        label={'Ширина'}
+                        label={I18n.t('width')}
                         containerStyles={{
                           borderWidth: 1,
                           paddingHorizontal: 10,
@@ -937,7 +937,7 @@ const MainScreen = props => {
           <Portal>
             <Dialog visible={sizeXs} onDismiss={() => seTsizeXs(false)}>
               <Dialog.Title>
-                {approximatePrice.length < 10 ? 'Цена: ' : ''}
+                {approximatePrice.length < 10 ? `${I18n.t('cost')} ` : ''}
                 {approximatePrice}
                 {approximatePrice.length < 10 ? '$' : ''}
               </Dialog.Title>
@@ -948,7 +948,7 @@ const MainScreen = props => {
           </Portal>
           <Portal>
             <Dialog visible={notiXs} onDismiss={() => seTnotiXs(false)}>
-              <Dialog.Title>notification Xs</Dialog.Title>
+              <Dialog.Title>{I18n.t('notification')} Xs</Dialog.Title>
               <Dialog.Actions>
                 <Button onPress={() => seTnotiXs(false)}>{I18n.t('ok')}</Button>
               </Dialog.Actions>
@@ -959,7 +959,7 @@ const MainScreen = props => {
           <Portal>
             <Dialog visible={sizeS} onDismiss={() => seTsizeS(false)}>
               <Dialog.Title>
-                {approximatePrice.length < 10 ? 'Цена: ' : ''}
+                {approximatePrice.length < 10 ? `${I18n.t('cost')} ` : ''}
                 {approximatePrice}
                 {approximatePrice.length < 10 ? '$' : ''}
               </Dialog.Title>
@@ -970,7 +970,7 @@ const MainScreen = props => {
           </Portal>
           <Portal>
             <Dialog visible={notiS} onDismiss={() => seTnotiS(false)}>
-              <Dialog.Title>notification S</Dialog.Title>
+              <Dialog.Title>{I18n.t('notification')} S</Dialog.Title>
               <Dialog.Actions>
                 <Button onPress={() => seTnotiS(false)}>{I18n.t('ok')}</Button>
               </Dialog.Actions>
@@ -981,7 +981,7 @@ const MainScreen = props => {
           <Portal>
             <Dialog visible={sizeM} onDismiss={() => seTsizeM(false)}>
               <Dialog.Title>
-                {approximatePrice.length < 10 ? 'Цена: ' : ''}
+                {approximatePrice.length < 10 ? `${I18n.t('cost')} ` : ''}
                 {approximatePrice}
                 {approximatePrice.length < 10 ? '$' : ''}
               </Dialog.Title>
@@ -992,7 +992,7 @@ const MainScreen = props => {
           </Portal>
           <Portal>
             <Dialog visible={notiM} onDismiss={() => seTnotiM(false)}>
-              <Dialog.Title>notification M</Dialog.Title>
+              <Dialog.Title>{I18n.t('notification')} M</Dialog.Title>
               <Dialog.Actions>
                 <Button onPress={() => seTnotiM(false)}>{I18n.t('ok')}</Button>
               </Dialog.Actions>
@@ -1003,7 +1003,7 @@ const MainScreen = props => {
           <Portal>
             <Dialog visible={sizeL} onDismiss={() => seTsizeL(false)}>
               <Dialog.Title>
-                {approximatePrice.length < 10 ? 'Цена: ' : ''}
+                {approximatePrice.length < 10 ? `${I18n.t('cost')} ` : ''}
                 {approximatePrice}
                 {approximatePrice.length < 10 ? '$' : ''}
               </Dialog.Title>
@@ -1014,7 +1014,7 @@ const MainScreen = props => {
           </Portal>
           <Portal>
             <Dialog visible={notiL} onDismiss={() => seTnotiL(false)}>
-              <Dialog.Title>notification LLL</Dialog.Title>
+              <Dialog.Title>{I18n.t('notification')} LLL</Dialog.Title>
               <Dialog.Actions>
                 <Button onPress={() => seTnotiL(false)}>{I18n.t('ok')}</Button>
               </Dialog.Actions>
@@ -1025,7 +1025,7 @@ const MainScreen = props => {
           <Portal>
             <Dialog visible={sizeTr} onDismiss={() => seTsizeTr(false)}>
               <Dialog.Title>
-                {approximatePrice.length < 10 ? 'Цена: ' : ''}
+                {approximatePrice.length < 10 ? `${I18n.t('cost')} ` : ''}
                 {approximatePrice}
                 {approximatePrice.length < 10 ? '$' : ''}
               </Dialog.Title>
@@ -1036,7 +1036,7 @@ const MainScreen = props => {
           </Portal>
           <Portal>
             <Dialog visible={notiTr} onDismiss={() => seTnotiTr(false)}>
-              <Dialog.Title>notification TR</Dialog.Title>
+              <Dialog.Title>{I18n.t('notification')} TR</Dialog.Title>
               <Dialog.Actions>
                 <Button onPress={() => seTnotiTr(false)}>{I18n.t('ok')}</Button>
               </Dialog.Actions>

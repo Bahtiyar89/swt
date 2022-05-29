@@ -148,5 +148,11 @@
   "your_keys_have_been_successfully_saved_path_to_keys":"Ваши ключи успешно сохранены путь к ключам",
   "try_later":"попробуйте попожже",
   "balance_added_successfully":"Баланс добавлен усрешно",
-  "you_cannot_top_up_the_balance":"Вы не можете пополнить баланс так как у вас больше 0.5$"
+  "you_cannot_top_up_the_balance":"Вы не можете пополнить баланс так как у вас больше 0.5$",
+  "the_wrong_weight":"Вы ввели не тот вес",
+  "dimensions":"Габариты",
+  "length":"Длина",
+  "width":"Ширина",
+  "cost":"цена",
+  "enter_weight_please":"Введите вес пожалуйста"
 }
