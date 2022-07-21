@@ -15,11 +15,7 @@ import I18n from '../../../i18';
 //import * as loginActions from 'app/store/actions/loginActions';
 import ProfileEditModal from './profileEditModal';
 import LocalizationModal from './localizationModal';
-import PasswordEditModal from './passwordEditModal';
-import AdressBookModal from './adressBookModal';
-import DraftModal from './draftModal';
 import KeysModal from './keys';
-import ArchiveModal from './archiveModal';
 import GoodsContext from '../../context/goods/GoodsContext';
 
 interface IState {
@@ -55,10 +51,6 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
   const [model, setmodel] = useState(false);
   const [modelProfileEdit, seTmodelProfileEdit] = useState(false);
   const [modelLocalization, seTmodelLocalization] = useState(false);
-  const [modelEditPassword, seTmodelEditPassword] = useState(false);
-  const [modelAdressBook, seTmodelAdressBook] = useState(false);
-  const [modelDraft, seTmodelDraft] = useState(false);
-  const [modelArchive, seTmodelArchive] = useState(false);
   const [modelBalance, seTmodelBalance] = useState(false);
   const [modelWallet, seTmodelWallet] = useState(false);
 
@@ -155,32 +147,8 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                   contentStyle={{ flexDirection: 'row-reverse' }}>
                   {I18n.t('choose_localization')}
                 </Button>
-                <Button
-                  color="#000"
-                  onPress={() => seTmodelEditPassword(!modelEditPassword)}
-                  uppercase={false}
-                  icon="chevron-right"
-                  contentStyle={{ flexDirection: 'row-reverse' }}>
-                  {I18n.t('change_password')}
-                </Button>
-                <Button
-                  color="#000"
-                  onPress={() => seTmodelAdressBook(!modelAdressBook)}
-                  uppercase={false}
-                  icon="chevron-right"
-                  contentStyle={{ flexDirection: 'row-reverse' }}>
-                  {I18n.t('adress_book')}
-                </Button>
 
-                <Button
-                  color="#000"
-                  onPress={() => seTmodelDraft(!modelDraft)}
-                  uppercase={false}
-                  style={{}}
-                  icon="chevron-right"
-                  contentStyle={{ flexDirection: 'row-reverse' }}>
-                  {I18n.t('drafts')}
-                </Button>
+                {/*}
                 <Button
                   color="#000"
                   onPress={getBalance}
@@ -189,7 +157,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                   icon="chevron-right"
                   contentStyle={{ flexDirection: 'row-reverse' }}>
                   {I18n.t('balance')}
-                </Button>
+      </Button>*/}
                 <Button
                   color="#000"
                   onPress={() => seTmodelWallet(!modelWallet)}
@@ -199,15 +167,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                   contentStyle={{ flexDirection: 'row-reverse' }}>
                   {I18n.t('keys')}
                 </Button>
-                <Button
-                  color="#000"
-                  onPress={() => seTmodelArchive(!modelArchive)}
-                  uppercase={false}
-                  style={{}}
-                  icon="chevron-right"
-                  contentStyle={{ flexDirection: 'row-reverse' }}>
-                  {I18n.t('archive')}
-                </Button>
+
                 <Button
                   style={{ marginBottom: 10 }}
                   color="#B82424"
@@ -232,24 +192,6 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                 noPressed={() => seTmodelLocalization(false)}
               />
 
-              <PasswordEditModal
-                okPressed={modelOkPressed}
-                model={modelEditPassword}
-                noPressed={() => seTmodelEditPassword(false)}
-              />
-
-              <AdressBookModal
-                okPressed={modelOkPressed}
-                model={modelAdressBook}
-                noPressed={() => seTmodelAdressBook(false)}
-              />
-
-              <DraftModal
-                okPressed={modelOkPressed}
-                model={modelDraft}
-                noPressed={() => seTmodelDraft(false)}
-              />
-
               {modelWallet && (
                 <KeysModal
                   model={modelWallet}
@@ -257,12 +199,6 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                   themeReducer={{ isDark: false }}
                 />
               )}
-
-              <ArchiveModal
-                okPressed={modelOkPressed}
-                model={modelArchive}
-                noPressed={() => seTmodelArchive(false)}
-              />
 
               <Modal isVisible={modelBalance}>
                 <Toast placement="top" ref={toastRef} />
