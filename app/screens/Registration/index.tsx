@@ -7,7 +7,7 @@ import {
   HelperText,
   Checkbox,
 } from 'react-native-paper';
-//import { useDispatch, useSelector } from 'react-redux';
+import Spinner from 'react-native-loading-spinner-overlay';
 import Modal from 'react-native-modal';
 import basex from 'bs58-rn';
 import Sodium from 'react-native-sodium';
@@ -32,7 +32,8 @@ interface IProps {
 const Registration: React.FC<IProps> = (props: IProps) => {
   const { navigation } = props;
   const authContext = useContext(AuthContext);
-  const { register, postRegisterBalanceToCheck } = authContext;
+  const { loading, register, postRegisterBalanceToCheck, RegisterNewUser } =
+    authContext;
   const toast = useToast();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   //const id = useSelector((state: IState) => state.loginReducer.id);
@@ -53,6 +54,18 @@ const Registration: React.FC<IProps> = (props: IProps) => {
     pk: '',
   });
 
+  const elements = {
+    firstName: '',
+    lastName: '',
+    middleName: '',
+    email: '',
+    phone: '',
+    comp_st_name: '',
+    store_link: '',
+  };
+
+  const [newUser, seTnewUser] = useState({ ...elements });
+
   const submit = () => {
     if (!checked) {
       toast.show(I18n.t('agreement_checked'), {
@@ -67,7 +80,38 @@ const Registration: React.FC<IProps> = (props: IProps) => {
         animationType: 'zoom-in',
       });
     } else {
-      postRegisterBalanceToCheck(walletKeys, navigation);
+      const columns = [
+        {
+          name: 'firstName',
+          valString: newUser.firstName,
+        },
+        {
+          name: 'lastName',
+          valString: newUser.lastName,
+        },
+        {
+          name: 'middleName',
+          valString: newUser.middleName,
+        },
+        {
+          name: 'email',
+          valString: newUser.email,
+        },
+        {
+          name: 'phone',
+          valString: newUser.phone,
+        },
+        {
+          name: 'comp_st_name',
+          valString: newUser.comp_st_name,
+        },
+        {
+          name: 'store_link',
+          valString: newUser.store_link,
+        },
+      ];
+
+      postRegisterBalanceToCheck(walletKeys, navigation, columns, newUser);
     }
   };
 
@@ -88,12 +132,87 @@ const Registration: React.FC<IProps> = (props: IProps) => {
       pk: encoded_PK_Base58,
     });
   };
+  console.log('loading: ', loading);
 
   return (
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={styles.container}>
+          <Spinner
+            visible={loading}
+            textContent={'Загружается...'}
+            textStyle={{ color: '#3498db' }}
+          />
           <Text style={styles.signInText}>{I18n.t('register')}</Text>
+          {/************************************************* NAME ROW */}
+          <Text style={{ width: '90%' }}>{I18n.t('name')}</Text>
+          <TextInput
+            placeholder={'Иван'}
+            mode="outlined"
+            style={styles.textInput}
+            value={newUser.firstName}
+            onChangeText={val => seTnewUser({ ...newUser, firstName: val })}
+          />
+          {/************************************************* USERNAME ROW */}
+          <Text style={{ marginTop: 5, width: '90%' }}>
+            {I18n.t('surname')}
+          </Text>
+          <TextInput
+            placeholder={'Иванов'}
+            mode="outlined"
+            style={styles.textInput}
+            value={newUser.lastName}
+            onChangeText={val => seTnewUser({ ...newUser, lastName: val })}
+          />
+          {/************************************************* MIDDLENAME ROW */}
+          <Text style={{ marginTop: 5, width: '90%' }}>
+            {I18n.t('middlename')}
+          </Text>
+          <TextInput
+            placeholder={'Иванович'}
+            mode="outlined"
+            style={styles.textInput}
+            value={newUser.middleName}
+            onChangeText={val => seTnewUser({ ...newUser, middleName: val })}
+          />
+          <Text style={{ marginTop: 5, width: '90%' }}>{I18n.t('phone')}</Text>
+          <TextInput
+            placeholder={'+7 777 777 7789'}
+            mode="outlined"
+            style={styles.textInput}
+            value={newUser.phone}
+            onChangeText={val => seTnewUser({ ...newUser, phone: val })}
+          />
+          {/************************************************* EMAIL ROW */}
+          <Text style={{ marginTop: 5, width: '90%' }}>{I18n.t('email')}</Text>
+          <TextInput
+            placeholder={'email@express.com'}
+            mode="outlined"
+            style={styles.textInput}
+            value={newUser.email}
+            onChangeText={val => seTnewUser({ ...newUser, email: val })}
+          />
+          {/************************************************* Store ROW */}
+          <Text style={{ marginTop: 5, width: '90%' }}>
+            {'NAME STORE/ COMPANY'}
+          </Text>
+          <TextInput
+            placeholder={'Добрянка'}
+            mode="outlined"
+            style={styles.textInput}
+            value={newUser.comp_st_name}
+            onChangeText={val => seTnewUser({ ...newUser, comp_st_name: val })}
+          />
+
+          {/************************************************* Store link ROW */}
+          <Text style={{ marginTop: 5, width: '90%' }}>{'Link to store'}</Text>
+          <TextInput
+            placeholder={'linkexample.com'}
+            mode="outlined"
+            style={styles.textInput}
+            value={newUser.store_link}
+            onChangeText={val => seTnewUser({ ...newUser, store_link: val })}
+          />
           <Button
             icon="lead-pencil"
             style={{

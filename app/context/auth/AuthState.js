@@ -95,6 +95,8 @@ const AuthState = props => {
     transactionPackagedStr,
     file,
     navigation,
+    columns,
+    newUser,
   ) => {
     console.log('transactionPackagedStr', transactionPackagedStr);
     console.log('file exx', file);
@@ -133,7 +135,7 @@ const AuthState = props => {
     })
       .then(({ data }) => {
         console.log('daaattaaa:', data);
-        dispatch({ type: LOADING, payload: false });
+
         if (data.success) {
           let path =
             Platform.OS === 'ios'
@@ -156,10 +158,7 @@ const AuthState = props => {
               animationType: 'zoom-in',
             },
           );
-          dispatch({
-            type: REGISTER_SUCCESS,
-            payload: { data, navigation, file },
-          });
+          RegisterNewUser(columns, file, navigation, newUser);
         } else {
           toast.show(data.message, {
             type: 'warning',
@@ -177,7 +176,7 @@ const AuthState = props => {
         });
       });
   };
-  const transactionPack = async (file, navigation) => {
+  const transactionPack = async (file, navigation, columns, newUser) => {
     doPost('api/transaction/pack', {
       PublicKey: 'DjUaijUD1tavJyryfhngbvrJpgEdHjihtfK95yhteNWN',
       ReceiverPublicKey: file.pk,
@@ -195,6 +194,8 @@ const AuthState = props => {
             data.dataResponse.transactionPackagedStr,
             file,
             navigation,
+            columns,
+            newUser,
           );
         } else {
           dispatch({ type: LOADING, payload: false });
@@ -215,7 +216,12 @@ const AuthState = props => {
       });
   };
 
-  const postRegisterBalanceToCheck = async (file, navigation) => {
+  const postRegisterBalanceToCheck = async (
+    file,
+    navigation,
+    columns,
+    newUser,
+  ) => {
     dispatch({ type: LOADING, payload: true });
     doPost('api/Monitor/GetBalance', {
       PublicKey: file.pk,
@@ -223,7 +229,118 @@ const AuthState = props => {
     })
       .then(({ data }) => {
         if (data.success) {
-          transactionPack(file, navigation);
+          transactionPack(file, navigation, columns, newUser);
+        } else {
+          dispatch({ type: LOADING, payload: false });
+          toast.show(data.message, {
+            type: 'warning',
+            duration: 3000,
+            animationType: 'zoom-in',
+          });
+        }
+      })
+      .catch(error => {
+        dispatch({ type: LOADING, payload: false });
+        toast.show(error.message, {
+          type: 'warning',
+          duration: 3000,
+          animationType: 'zoom-in',
+        });
+      });
+  };
+
+  const trNewUserExecute = async (
+    FormData,
+    transactionPackagedStr,
+    keys,
+    navigation,
+    newUser,
+  ) => {
+    console.log('transactionPackagedStr', transactionPackagedStr);
+    console.log('keys exx', keys);
+    const ALPHABET =
+      '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+    const base58 = basex(ALPHABET);
+
+    let decodedFoBase58 = base58.decode(keys.sk);
+    const decryptedMessageFromByteArray = Base64.fromByteArray(decodedFoBase58);
+    console.log('dec', decryptedMessageFromByteArray);
+
+    let decoded = base58.decode(transactionPackagedStr);
+    const decrypted = Base64.fromByteArray(decoded);
+    console.log('dec 333', decrypted);
+
+    let dt = await Sodium.crypto_sign_detached(
+      decrypted,
+      decryptedMessageFromByteArray,
+    );
+    console.log('dt 333: ', dt);
+
+    let signature = base58.encode(Buffer.Buffer.from(dt, 'base64'));
+    console.log('signature:: ', signature);
+    doPost('api/transaction/Execute', {
+      authKey: '',
+      NetworkAlias: 'MainNet',
+      MethodApi: 'SmartMethodExecute',
+      PublicKey: keys.pk,
+      TokenPublicKey: '7C3MJA1v7d9vMus5a8rUTc1u75sDsowdMPzF3o2va866',
+      TokenMethod: 'RegNewUser',
+      TransactionSignature: signature,
+      notSaveNewState: 0,
+      Fee: 0.1,
+      contractParams: FormData,
+    })
+      .then(({ data }) => {
+        console.log('daaattaaa: register:', data);
+        dispatch({ type: LOADING, payload: false });
+        if (data.success) {
+          dispatch({
+            type: REGISTER_SUCCESS,
+            payload: { data, navigation, keys, newUser },
+          });
+        } else {
+          toast.show(data.response, {
+            type: 'warning',
+            duration: 3000,
+            animationType: 'zoom-in',
+          });
+        }
+      })
+      .catch(error => {
+        dispatch({ type: LOADING, payload: false });
+        toast.show(error.message, {
+          type: 'warning',
+          duration: 3000,
+          animationType: 'zoom-in',
+        });
+      });
+  };
+
+  const RegisterNewUser = async (formData, keys, navigation, newUser) => {
+    console.log('keys: ', keys);
+    const contract = {
+      authKey: '',
+      NetworkAlias: 'MainNet',
+      MethodApi: 'SmartMethodExecute',
+      PublicKey: keys?.pk,
+      TokenPublicKey: '7C3MJA1v7d9vMus5a8rUTc1u75sDsowdMPzF3o2va866',
+      TokenMethod: 'RegNewUser',
+      Fee: 0.1,
+      notSaveNewState: 0,
+      contractParams: formData,
+    };
+
+    doPost('api/transaction/pack', contract)
+      .then(({ data }) => {
+        console.log('pack: ', data);
+        if (data.success) {
+          trNewUserExecute(
+            formData,
+            data.dataResponse.transactionPackagedStr,
+            keys,
+            navigation,
+            newUser,
+          );
         } else {
           dispatch({ type: LOADING, payload: false });
           toast.show(data.message, {
@@ -374,6 +491,7 @@ const AuthState = props => {
         approveVarify,
         checkoutOrderMethod,
         getCheckout,
+        RegisterNewUser,
       }}>
       {props.children}
     </AuthContext.Provider>

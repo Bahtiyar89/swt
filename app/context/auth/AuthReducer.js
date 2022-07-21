@@ -76,7 +76,7 @@ export default (state, action) => {
     case CLOSE_MODAL_BALANCE:
       return { ...state, modalBalanceErr: false };
     case REGISTER_SUCCESS:
-      const { file: files, navigation } = action.payload;
+      const { file: files, navigation, newUser } = action.payload;
       console.log('fileeee: ', files);
       utility.setItemObject('wkeys', files);
       navigation.goBack();
@@ -84,13 +84,7 @@ export default (state, action) => {
         ...state,
         isSigned: true,
         loading: false,
-        user: {
-          fio: 'bahMah',
-          email: 'b@mail.ru',
-          password: '123',
-          phone_number: '123343',
-          username: 'bbb',
-        },
+        user: newUser,
       };
 
     case LOGIN_SUCCESS:

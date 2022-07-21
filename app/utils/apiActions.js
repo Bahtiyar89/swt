@@ -42,6 +42,7 @@ export const doPost = async (uri, postData, params = {}) => {
     },
     params,
   };
+  console.log('postData: ', postData);
   return await axios.post('http://176.113.80.7:62000/' + uri, postData, config);
 };
 
