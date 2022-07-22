@@ -610,6 +610,7 @@ const CalculatorScreen = props => {
             recip_street: '',
             recip_home: '',
           });
+          navigation.navigate('PaymentScreen');
         }
       }
     }

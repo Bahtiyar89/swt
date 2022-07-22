@@ -18,12 +18,7 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import { FloatingLabelInput } from 'react-native-floating-label-input';
 import { useFocusEffect } from '@react-navigation/native';
-import Sodium from 'react-native-sodium';
 import { useToast } from 'react-native-toast-notifications';
-import Base64 from 'base64-js';
-import * as encoding from 'text-encoding';
-import basex from 'bs58-rn';
-import Buffer from 'buffer';
 
 import styles from './styles';
 import I18n from '../../../i18';

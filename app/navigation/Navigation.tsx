@@ -11,40 +11,11 @@ import Home from 'app/screens/Home';
 import RestoreAccount from 'app/screens/RestoreAccount';
 import Registration from '../screens/Registration';
 import TimerController from '../components/TimerController';
+import PaymentScreen from 'app/screens/PaymentScreen';
 
 const Stack = createStackNavigator();
 const AuthStack = createStackNavigator();
 const LoggedInStack = createStackNavigator();
-
-const AuthNavigator = () => {
-  return (
-    <AuthStack.Navigator>
-      <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{
-          title: 'Профиль',
-          // When logging out, a pop animation feels intuitive
-          // You can remove this if you want the default 'push' animation
-
-          headerRight: () => <ThemeController />,
-        }}
-      />
-
-      <Stack.Screen
-        name="Registration"
-        component={Registration}
-        options={{
-          title: 'Регистрация',
-          // When logging out, a pop animation feels intuitive
-          // You can remove this if you want the default 'push' animation
-
-          headerRight: () => <ThemeController />,
-        }}
-      />
-    </AuthStack.Navigator>
-  );
-};
 
 const LoggedInNavigator = () => {
   return (
@@ -61,6 +32,14 @@ const LoggedInNavigator = () => {
           headerLeft: () => <TimerController />,
         }}
         component={Home}
+      />
+
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="PaymentScreen"
+        component={PaymentScreen}
       />
     </LoggedInStack.Navigator>
   );
