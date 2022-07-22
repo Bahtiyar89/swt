@@ -416,7 +416,6 @@ const CalculatorScreen = props => {
       const err = validation();
       if (err) {
       } else {
-        console.log('22: ', arr);
         seTstMain({
           ...stMain,
           sender_FIO:
@@ -453,15 +452,7 @@ const CalculatorScreen = props => {
         } else {
           const columns = [
             {
-              name: 'city_From',
-              valString: stMain.city_From,
-            },
-            {
-              name: 'city_To',
-              valString: stMain.city_To,
-            },
-            {
-              name: 'weight',
+              name: 'wieght',
               valString: stMain.weight,
             },
             {
@@ -469,8 +460,12 @@ const CalculatorScreen = props => {
               valString: stMain.volume,
             },
             {
-              name: 'Price',
-              valString: stMain.Price,
+              name: 'city_From',
+              valString: stMain.city_From,
+            },
+            {
+              name: 'city_To',
+              valString: stMain.city_To,
             },
             {
               name: 'sender_FIO',
@@ -552,6 +547,26 @@ const CalculatorScreen = props => {
               name: 'DescrGood',
               valString: stMain.DescrGood,
             },
+            {
+              name: 'Price',
+              valString: stMain.Price,
+            }, // not values
+            {
+              name: 'PriceGood',
+              valString: stMain.Price,
+            },
+            {
+              name: 'Measurement_L',
+              valString: stMain.volume,
+            },
+            {
+              name: 'Measurement_W',
+              valString: stMain.volume,
+            },
+            {
+              name: 'Measurement_H',
+              valString: stMain.volume,
+            },
           ];
 
           // arr.push(stMain);
@@ -620,7 +635,7 @@ const CalculatorScreen = props => {
   useEffect(() => {
     fetchFromMainScreen();
   }, [props?.route?.params, isSigned]);
-
+  console.log('stMain: ', stMain);
   return (
     <Fragment>
       {isSigned ? (

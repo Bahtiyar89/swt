@@ -85,6 +85,9 @@ const MainScreen = props => {
   ////////////////////////////////////////////// SİZE TROLLEY
   const [notiTr, seTnotiTr] = useState(false);
   const [sizeTr, seTsizeTr] = useState(false);
+  ////////////////////////////////////////////// SİZE XXL
+  const [notiXXL, seTnotiXXL] = useState(false);
+  const [sizeXXL, seTsizeXXL] = useState(false);
   const [approximatePrice, seTapproximatePrice] = useState('');
 
   const onSuccess = e => {
@@ -697,7 +700,7 @@ const MainScreen = props => {
                     </View>
                   </View>
 
-                  {/* //////////////////////////////////////////////////////////////////////// Trolley */}
+                  {/* //////////////////////////////////////////////////////////////////////// XL */}
                   <View
                     style={{
                       flexDirection: 'row',
@@ -712,14 +715,14 @@ const MainScreen = props => {
                     <View style={{ padding: 3, flexDirection: 'row' }}>
                       <TouchableOpacity onPress={() => countOpt(50, 'sizeTr')}>
                         <Image
-                          source={require('../../assets/trolley.png')} //Change your icon image here
+                          source={require('../../assets/box.png')} //Change your icon image here
                           style={{ height: 45, width: 45 }}
                         />
                       </TouchableOpacity>
 
                       <View style={{ padding: 5 }}>
                         <Text onPress={() => countOpt(50, 'sizeTr')}>
-                          {I18n.t('cart')}
+                          {'XL'}
                         </Text>
                         <Text
                           onPress={() => countOpt(50, 'sizeTr')}
@@ -733,6 +736,54 @@ const MainScreen = props => {
                         {I18n.t('up_to')} 50{I18n.t('kg')}
                       </Text>
                       <TouchableOpacity onPress={() => seTnotiTr(true)}>
+                        <Image
+                          source={require('../../assets/exclamation-mark.png')} //Change your icon image here
+                          style={{
+                            height: 25,
+                            width: 25,
+                            alignSelf: 'center',
+                          }}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+
+                  {/* //////////////////////////////////////////////////////////////////////// XXl */}
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      width: '90%',
+                      borderRadius: 5,
+                      borderWidth: 1,
+                      borderColor: '#00000088',
+                      marginTop: 10,
+                      height: 55,
+                    }}>
+                    <View style={{ padding: 3, flexDirection: 'row' }}>
+                      <TouchableOpacity onPress={() => countOpt(75, 'sizeTr')}>
+                        <Image
+                          source={require('../../assets/box.png')} //Change your icon image here
+                          style={{ height: 45, width: 45 }}
+                        />
+                      </TouchableOpacity>
+
+                      <View style={{ padding: 5 }}>
+                        <Text onPress={() => countOpt(50, 'sizeTr')}>
+                          {'XXL'}
+                        </Text>
+                        <Text
+                          onPress={() => countOpt(50, 'sizeTr')}
+                          style={{ color: '#00000088' }}>
+                          34x33x26 cм
+                        </Text>
+                      </View>
+                    </View>
+                    <View style={{ justifyContent: 'center', padding: 5 }}>
+                      <Text style={{ color: '#00000088' }}>
+                        {I18n.t('up_to')} 75{I18n.t('kg')}
+                      </Text>
+                      <TouchableOpacity onPress={() => seTnotiXXL(true)}>
                         <Image
                           source={require('../../assets/exclamation-mark.png')} //Change your icon image here
                           style={{
@@ -1039,6 +1090,32 @@ const MainScreen = props => {
               <Dialog.Title>{I18n.t('notification')} TR</Dialog.Title>
               <Dialog.Actions>
                 <Button onPress={() => seTnotiTr(false)}>{I18n.t('ok')}</Button>
+              </Dialog.Actions>
+            </Dialog>
+          </Portal>
+          {/* //////////////////////////////////////////////////////////////////////// PORTRAL TRELLOR */}
+
+          <Portal>
+            <Dialog visible={sizeXXL} onDismiss={() => seTsizeXXL(false)}>
+              <Dialog.Title>
+                {approximatePrice.length < 10 ? `${I18n.t('cost')} ` : ''}
+                {approximatePrice}
+                {approximatePrice.length < 10 ? '$' : ''}
+              </Dialog.Title>
+              <Dialog.Actions>
+                <Button onPress={() => seTsizeXXL(false)}>
+                  {I18n.t('ok')}
+                </Button>
+              </Dialog.Actions>
+            </Dialog>
+          </Portal>
+          <Portal>
+            <Dialog visible={notiXXL} onDismiss={() => seTnotiTr(false)}>
+              <Dialog.Title>{I18n.t('notification')} XXs</Dialog.Title>
+              <Dialog.Actions>
+                <Button onPress={() => seTnotiXXL(false)}>
+                  {I18n.t('ok')}
+                </Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
