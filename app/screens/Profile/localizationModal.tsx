@@ -61,6 +61,11 @@ const ProfileEditModal: React.FC<IState> = ({
       label: 'English',
       avatarSource: require('../../assets/united-kingdom.png'),
     },
+    {
+      value: 'ch',
+      label: '中國人',
+      avatarSource: require('../../assets/china.png'),
+    },
   ];
 
   const onChangeSS = (value: string) => {

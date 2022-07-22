@@ -876,37 +876,22 @@ const CalculatorScreen = props => {
                 onChangeText={val => seTstMain({ ...stMain, sender_Addr: val })}
                 value={stMain.sender_Addr}
                />*/}
-              <View
+
+              <Button
                 style={{
+                  backgroundColor: '#333333',
                   width: '90%',
-                  marginTop: 10,
-                  flex: 2,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}>
-                <Button
+                  marginTop: 20,
+                  height: 40,
+                }}
+                mode="contained">
+                <Text
                   style={{
-                    backgroundColor: '#333333',
-                    width: '48%',
-                  }}
-                  mode="contained">
-                  <Text style={{ color: 'white', fontSize: 9 }}>
-                    {I18n.t('give_to_department')}
-                  </Text>
-                </Button>
-                <Button
-                  style={{
-                    backgroundColor: '#f9f9f9',
-                    borderWidth: 2,
-                    borderColor: '#000',
-                    width: '48%',
-                  }}
-                  mode="contained">
-                  <Text style={{ color: '#000', fontSize: 9 }}>
-                    {I18n.t('pick_up_by_courier')}
-                  </Text>
-                </Button>
-              </View>
+                    color: 'white',
+                  }}>
+                  {I18n.t('give_to_department')}
+                </Text>
+              </Button>
 
               <Text style={{ width: '90%', textAlign: 'left', marginTop: 10 }}>
                 {I18n.t('reciver')}
@@ -1089,37 +1074,7 @@ const CalculatorScreen = props => {
                 onChangeText={val => seTstMain({ ...stMain, recip_Addr: val })}
                 value={stMain.recip_Addr}
              />*/}
-              <View
-                style={{
-                  width: '90%',
-                  marginTop: 10,
-                  flex: 2,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}>
-                <Button
-                  style={{
-                    backgroundColor: '#f9f9f9',
-                    borderWidth: 2,
-                    borderColor: '#000',
-                    width: '49%',
-                  }}
-                  mode="contained">
-                  <Text style={{ color: '#000', fontSize: 10 }}>
-                    {I18n.t('get_to_the_pickup_point')}
-                  </Text>
-                </Button>
-                <Button
-                  style={{
-                    width: '49%',
-                    backgroundColor: '#333333',
-                  }}
-                  mode="contained">
-                  <Text style={{ color: 'white', fontSize: 10 }}>
-                    {I18n.t('courier_delivery')}
-                  </Text>
-                </Button>
-              </View>
+
               <Validation
                 text={I18n.t('product_description')}
                 visible={validObj.DescrGood}
