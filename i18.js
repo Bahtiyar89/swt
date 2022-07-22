@@ -9,6 +9,7 @@ I18n.fallbacks = true;
 I18n.translations = {
   en: require('./app/utils/en.json'),
   ru: require('./app/utils/ru.json'),
+  ch: require('./app/utils/ch.json'),
 };
 
 export default I18n;
