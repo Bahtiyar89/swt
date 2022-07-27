@@ -17,14 +17,15 @@ import ProfileEditModal from './profileEditModal';
 import LocalizationModal from './localizationModal';
 import KeysModal from './keys';
 import GoodsContext from '../../context/goods/GoodsContext';
+import F4Context from '../../context/f4_context';
 
 interface IState {
   navigation: any;
 }
 
 const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
-  //const dispatch = useDispatch();
-  //const logout = () => dispatch(loginActions.logOut());
+  const f4Context = useContext(F4Context);
+  const { changeAppLanguage } = f4Context;
   const authContext = useContext(AuthContext);
   const { signOut, file, user, isSigned } = authContext;
 
@@ -46,6 +47,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
       });
     return () => {};
   }, []);
+  console.log(' I18n.locale: ', I18n.locale);
 
   const goToProfile = () => {};
   const [model, setmodel] = useState(false);
@@ -70,6 +72,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
   const updateLanguageStorage = () => {
     Utility.updateDeviceLanguageToStorage(lang);
     I18n.locale = lang;
+    changeAppLanguage(lang);
     seTmodelLocalization(false);
   };
 

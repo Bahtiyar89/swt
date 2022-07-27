@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useContext, useEffect } from 'react';
 import {
   View,
   Text,
@@ -24,8 +24,12 @@ import styles from './styles';
 import I18n from '../../../i18';
 import Validation from '../../components/validation';
 import Utility from '../../utils/Utility';
+import F4Context from '../../context/f4_context';
 
 const MainScreen = props => {
+  const f4Context = useContext(F4Context);
+  const { locale } = f4Context;
+
   const toast = useToast();
   const elements = {
     city_From: '',
@@ -84,6 +88,10 @@ const MainScreen = props => {
   const [notiXXL, seTnotiXXL] = useState(false);
   const [sizeXXL, seTsizeXXL] = useState(false);
   const [approximatePrice, seTapproximatePrice] = useState('');
+
+  useEffect(() => {
+    I18n.locale = locale;
+  }, [locale]);
 
   const onSuccess = e => {
     setResult(e.data);
@@ -586,7 +594,7 @@ const MainScreen = props => {
                     </View>
                     <View style={{ justifyContent: 'center', padding: 5 }}>
                       <Text style={{ color: '#00000088' }}>
-                        Д{I18n.t('up_to')}о 2{I18n.t('kg')}
+                        {I18n.t('up_to')} 2{I18n.t('kg')}
                       </Text>
                       <TouchableOpacity onPress={() => seTnotiS(true)}>
                         <Image

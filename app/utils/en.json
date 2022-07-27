@@ -148,5 +148,6 @@
   "length":"Length",
   "width":"Width",
   "cost":"cost",
-  "enter_weight_please":"Enter weight please"
+  "enter_weight_please":"Enter weight please",
+  "price_good":"Price good"
 }

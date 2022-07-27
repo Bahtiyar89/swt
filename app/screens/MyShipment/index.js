@@ -4,6 +4,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Button, IconButton, Card, Title, Paragraph } from 'react-native-paper';
 import AuthContext from '../../context/auth/AuthContext';
 import GoodsContext from '../../context/goods/GoodsContext';
+import F4Context from '../../context/f4_context';
 import Login from '../Login';
 import I18n from '../../../i18';
 import utility from '../../utils/Utility';
@@ -11,12 +12,14 @@ import utility from '../../utils/Utility';
 const MyShipmentsScreen = props => {
   const { navigation } = props;
   const authContext = useContext(AuthContext);
+  const f4Context = useContext(F4Context);
+
   const { isSigned, getCheckout, calculateArray } = authContext;
+  const { locale } = f4Context;
   const [state, seTstate] = useState([]);
 
   const fetchUser = async () => {
     await utility.getItemObject('calculator').then(t => {
-      console.log('tttttt: ', t);
       if (t) {
         seTstate(t);
       }
@@ -28,6 +31,7 @@ const MyShipmentsScreen = props => {
       // Do something when the screen is focused
       // fetchUser();
       fetchUser();
+      I18n.locale = locale;
       return () => {
         // Do something when the screen is unfocused
         // Useful for cleanup functions

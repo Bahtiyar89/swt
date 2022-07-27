@@ -2,7 +2,8 @@ import I18n from 'react-native-i18n';
 import Utility from './app/utils/Utility';
 
 Utility.getDeviceLanguageFromStorage().then(lang => {
-  I18n.locale = lang;
+  console.log('hhhh', lang);
+  return (I18n.locale = lang);
 });
 
 I18n.fallbacks = true;

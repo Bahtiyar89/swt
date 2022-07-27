@@ -16,6 +16,7 @@ export const CLOSE_MODAL_BALANCE = 'CLOSE_MODAL_BALANCE';
 // F4
 export const F4_POST_SUCC_BALANCE = 'F4_POST_SUCC_BALANCE';
 export const F4_POST_BALANCE = 'F4_POST_BALANCE';
+export const APP_LANGUAGE = 'APP_LANGUAGE';
 //personels
 export const USERS_ALL = 'USERS_ALL';
 export const SAVE_USER = 'SAVE_USER';

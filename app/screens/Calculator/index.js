@@ -60,6 +60,7 @@ const CalculatorScreen = props => {
     weight: '',
     volume: '',
     Price: '',
+    price_good: '',
   };
 
   const [stMain, seTstMain] = useState({ ...elements });
@@ -548,12 +549,12 @@ const CalculatorScreen = props => {
               valString: stMain.DescrGood,
             },
             {
-              name: 'Price',
+              name: 'Price', //cost
               valString: stMain.Price,
             }, // not values
             {
-              name: 'PriceGood',
-              valString: stMain.Price,
+              name: 'PriceGood', //note человек сам входит
+              valString: stMain.price_good,
             },
             {
               name: 'Measurement_L',
@@ -1100,6 +1101,18 @@ const CalculatorScreen = props => {
                 mode="outlined"
                 style={{ width: '90%' }}
                 onChangeText={val => seTstMain({ ...stMain, LinkOnGood: val })}
+                value={stMain.LinkOnGood}
+              />
+              <Validation
+                text={I18n.t('price_good')}
+                visible={validObj.LinkOnGood}
+                errText={I18n.t('field_not_be_empty')}
+              />
+              <TextInput
+                label={I18n.t('price_good')}
+                mode="outlined"
+                style={{ width: '90%' }}
+                onChangeText={val => seTstMain({ ...stMain, price_good: val })}
                 value={stMain.LinkOnGood}
               />
               <View
