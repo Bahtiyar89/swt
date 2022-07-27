@@ -71,12 +71,12 @@ const ProfileEditModal: React.FC<IState> = ({
   const onChangeSS = (value: string) => {
     onChangeLanguage(value);
   };
+  console.log('lang: ', lang);
 
   return (
     <>
       <Modal isVisible={model}>
         <View style={styles.modelContainer}>
-          <Text>{}</Text>
           <Text style={styles.modelHeaderText}>
             {I18n.t('choose_localization')}
           </Text>
@@ -109,7 +109,9 @@ const ProfileEditModal: React.FC<IState> = ({
             <Text style={{ flex: 1, marginTop: 8 }}>
               {lang == 'ru'
                 ? I18n.t('by_default_language_russian')
-                : I18n.t('by_default_language_english')}
+                : lang == 'en'
+                ? I18n.t('by_default_language_english')
+                : I18n.t('by_default_language_china')}
             </Text>
           </View>
 

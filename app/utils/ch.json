@@ -13,6 +13,7 @@
     "incorrect_username": "账户名有误，请检查",
     "by_default_language_russian": "俄文是预设语言", 
     "by_default_language_english": "中文是预设语言",
+    "by_default_language_china": "中文是预设语言",
     "choose_default_language": "预设语言没选择",
     "track_order": "查件",
     "order_number": "运单号",

@@ -13,6 +13,7 @@ import MaskInput from 'react-native-mask-input';
 
 import AuthContext from '../../context/auth/AuthContext';
 import GoodsContext from '../../context/goods/GoodsContext';
+import F4Context from '../../context/f4_context';
 import I18n from '../../../i18';
 import Login from '../Login';
 import utility from '../../utils/Utility';
@@ -20,6 +21,8 @@ import Validation from '../../components/validation';
 import CustomAlert from '../../components/customAlert';
 
 const CalculatorScreen = props => {
+  const f4Context = useContext(F4Context);
+  const { locale } = f4Context;
   const { navigation } = props;
   const maskDigits = [
     '+',
@@ -157,22 +160,17 @@ const CalculatorScreen = props => {
   useEffect(() => {
     encrypData();
   }, [file]);
-
+  console.log('locale: 4', locale);
   useFocusEffect(
-    React.useCallback(
-      () => {
-        // Do something when the screen is focused
-        fetchCalculator();
-
-        return () => {
-          // Do something when the screen is unfocused
-          // Useful for cleanup functions
-        };
-      },
-      [
-        /*user, good*/
-      ],
-    ),
+    React.useCallback(() => {
+      // Do something when the screen is focused
+      fetchCalculator();
+      I18n.locale = locale;
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+      };
+    }, [locale]),
   );
 
   const validation = () => {

@@ -25,7 +25,7 @@ interface IState {
 
 const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
   const f4Context = useContext(F4Context);
-  const { changeAppLanguage } = f4Context;
+  const { changeAppLanguage, locale } = f4Context;
   const authContext = useContext(AuthContext);
   const { signOut, file, user, isSigned } = authContext;
 
@@ -35,19 +35,11 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
   const [lang, seTlang] = useState('');
 
   useEffect(() => {
-    Utility.getDeviceLanguageFromStorage()
-      .then(lang => {
-        console.log('lang:: ', lang);
-
-        I18n.locale = lang;
-        seTlang(lang);
-      })
-      .catch(_ => {
-        console.log('err ', 'lang');
-      });
+    seTlang(locale);
+    I18n.locale = locale;
     return () => {};
-  }, []);
-  console.log(' I18n.locale: ', I18n.locale);
+  }, [locale]);
+  console.log(' I18n.locale: profile', I18n.locale);
 
   const goToProfile = () => {};
   const [model, setmodel] = useState(false);
@@ -70,7 +62,6 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
   };
 
   const updateLanguageStorage = () => {
-    Utility.updateDeviceLanguageToStorage(lang);
     I18n.locale = lang;
     changeAppLanguage(lang);
     seTmodelLocalization(false);
@@ -91,10 +82,6 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
       seTmodelBalance(false);
       addBalance(file);
     }
-  };
-  const getBalance = () => {
-    postBalanceToCheck(file);
-    seTmodelBalance(!modelBalance);
   };
 
   return (

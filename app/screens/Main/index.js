@@ -89,10 +89,6 @@ const MainScreen = props => {
   const [sizeXXL, seTsizeXXL] = useState(false);
   const [approximatePrice, seTapproximatePrice] = useState('');
 
-  useEffect(() => {
-    I18n.locale = locale;
-  }, [locale]);
-
   const onSuccess = e => {
     setResult(e.data);
     setScan(false);
@@ -260,23 +256,19 @@ const MainScreen = props => {
     return err;
   };
   const [seperatior, seTseperatior] = useState('');
+
   useFocusEffect(
     useCallback(() => {
-      Utility.getDeviceLanguageFromStorage()
-        .then(lang => {
-          if (lang == 'ru') {
-            seTseperatior('.');
-          } else {
-            seTseperatior(',');
-          }
-        })
-        .catch(_ => {
-          console.log('err ', 'lang');
-        });
+      I18n.locale = locale;
+      if (locale == 'ru') {
+        seTseperatior('.');
+      } else {
+        seTseperatior(',');
+      }
       return () => {};
-    }, []),
+    }, [locale]),
   );
-
+  console.log('locale: main', locale);
   const onExchangeRateInputChange = async (value, fieldName) => {
     switch (fieldName) {
       case 'weight':
