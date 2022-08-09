@@ -150,5 +150,10 @@
   "width":"Width",
   "cost":"cost",
   "enter_weight_please":"Enter weight please",
-  "price_good":"Price good"
+  "price_good":"Price good",
+  "like_smartphone":"Like a smartphone box: jewelry, toy, gadget",
+  "little_size":"Small box, about the size of a shoebox",
+  "medium_size":"Medium size box, about the size of three boxes of shoes",
+  "l_size":"Big box, like a microwave",
+  "xl_size":"Enlarged box, like from a vacuum cleaner"
 }

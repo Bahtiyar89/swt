@@ -25,6 +25,8 @@ import I18n from '../../../i18';
 import Validation from '../../components/validation';
 import Utility from '../../utils/Utility';
 import F4Context from '../../context/f4_context';
+import CustomNotify from 'app/components/CustomNotify';
+import CustomDialog from 'app/components/CustomDialog';
 
 const MainScreen = props => {
   const f4Context = useContext(F4Context);
@@ -84,9 +86,10 @@ const MainScreen = props => {
   ////////////////////////////////////////////// SİZE TROLLEY
   const [notiTr, seTnotiTr] = useState(false);
   const [sizeTr, seTsizeTr] = useState(false);
-  ////////////////////////////////////////////// SİZE XXL
-  const [notiXXL, seTnotiXXL] = useState(false);
-  const [sizeXXL, seTsizeXXL] = useState(false);
+  ////////////////////////////////////////////// SİZE XL
+  const [notiXL, seTnotiXL] = useState(false);
+  const [sizeXL, seTsizeXL] = useState(false);
+
   const [approximatePrice, seTapproximatePrice] = useState('');
 
   const onSuccess = e => {
@@ -363,7 +366,7 @@ const MainScreen = props => {
             sum = toast.show(I18n.t('the_wrong_weight'));
             seTapproximatePrice(sum);
           }
-          seTsizeXs(true);
+          seTsizeL(true);
           break;
         case 'sizeTr':
           if (stMain.weight.replace(',', '.') <= 50) {
@@ -384,10 +387,28 @@ const MainScreen = props => {
       if (fieldName === 'sizeL') {
         seTsizeL(true);
       }
-      if (fieldName === 'sizeTr') {
-        seTsizeTr(true);
-      }
     }
+  };
+
+  const setXSRedirect = val => {
+    seTsizeXs(val);
+    props.navigation.navigate('Calculator', stMain);
+  };
+  const setsizeSRedirect = val => {
+    seTsizeS(val);
+    props.navigation.navigate('Calculator', stMain);
+  };
+  const setsizeMRedirect = val => {
+    seTsizeM(val);
+    props.navigation.navigate('Calculator', stMain);
+  };
+  const setsizeLRedirect = val => {
+    seTsizeL(val);
+    props.navigation.navigate('Calculator', stMain);
+  };
+  const setsizeXLRedirect = val => {
+    seTsizeXL(val);
+    props.navigation.navigate('Calculator', stMain);
   };
   return (
     <SafeAreaView>
@@ -722,63 +743,15 @@ const MainScreen = props => {
                         <Text
                           onPress={() => countOpt(50, 'sizeTr')}
                           style={{ color: '#00000088' }}>
-                          34x33x26 cм
+                          36x40x61 cм
                         </Text>
                       </View>
                     </View>
                     <View style={{ justifyContent: 'center', padding: 5 }}>
                       <Text style={{ color: '#00000088' }}>
-                        {I18n.t('up_to')} 50{I18n.t('kg')}
+                        {I18n.t('up_to')} 31{I18n.t('kg')}
                       </Text>
-                      <TouchableOpacity onPress={() => seTnotiTr(true)}>
-                        <Image
-                          source={require('../../assets/exclamation-mark.png')} //Change your icon image here
-                          style={{
-                            height: 25,
-                            width: 25,
-                            alignSelf: 'center',
-                          }}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-
-                  {/* //////////////////////////////////////////////////////////////////////// XXl */}
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      width: '90%',
-                      borderRadius: 5,
-                      borderWidth: 1,
-                      borderColor: '#00000088',
-                      marginTop: 10,
-                      height: 55,
-                    }}>
-                    <View style={{ padding: 3, flexDirection: 'row' }}>
-                      <TouchableOpacity onPress={() => countOpt(75, 'sizeTr')}>
-                        <Image
-                          source={require('../../assets/box.png')} //Change your icon image here
-                          style={{ height: 45, width: 45 }}
-                        />
-                      </TouchableOpacity>
-
-                      <View style={{ padding: 5 }}>
-                        <Text onPress={() => countOpt(50, 'sizeTr')}>
-                          {'XXL'}
-                        </Text>
-                        <Text
-                          onPress={() => countOpt(50, 'sizeTr')}
-                          style={{ color: '#00000088' }}>
-                          34x33x26 cм
-                        </Text>
-                      </View>
-                    </View>
-                    <View style={{ justifyContent: 'center', padding: 5 }}>
-                      <Text style={{ color: '#00000088' }}>
-                        {I18n.t('up_to')} 75{I18n.t('kg')}
-                      </Text>
-                      <TouchableOpacity onPress={() => seTnotiXXL(true)}>
+                      <TouchableOpacity onPress={() => seTnotiXL(true)}>
                         <Image
                           source={require('../../assets/exclamation-mark.png')} //Change your icon image here
                           style={{
@@ -980,140 +953,71 @@ const MainScreen = props => {
           )}
 
           {/* //////////////////////////////////////////////////////////////////////// PORTRAL XS */}
-          <Portal>
-            <Dialog visible={sizeXs} onDismiss={() => seTsizeXs(false)}>
-              <Dialog.Title>
-                {approximatePrice.length < 10 ? `${I18n.t('cost')} ` : ''}
-                {approximatePrice}
-                {approximatePrice.length < 10 ? '$' : ''}
-              </Dialog.Title>
-              <Dialog.Actions>
-                <Button onPress={() => seTsizeXs(false)}>{I18n.t('ok')}</Button>
-              </Dialog.Actions>
-            </Dialog>
-          </Portal>
-          <Portal>
-            <Dialog visible={notiXs} onDismiss={() => seTnotiXs(false)}>
-              <Dialog.Title>{I18n.t('notification')} Xs</Dialog.Title>
-              <Dialog.Actions>
-                <Button onPress={() => seTnotiXs(false)}>{I18n.t('ok')}</Button>
-              </Dialog.Actions>
-            </Dialog>
-          </Portal>
+
+          <CustomDialog
+            visible={sizeXs}
+            title={approximatePrice}
+            setvisible={val => setXSRedirect(val)}
+          />
+          <CustomNotify
+            visible={notiXs}
+            title={I18n.t('like_smartphone')}
+            setvisible={val => seTnotiXs(val)}
+          />
+
           {/* //////////////////////////////////////////////////////////////////////// PORTRAL S */}
 
-          <Portal>
-            <Dialog visible={sizeS} onDismiss={() => seTsizeS(false)}>
-              <Dialog.Title>
-                {approximatePrice.length < 10 ? `${I18n.t('cost')} ` : ''}
-                {approximatePrice}
-                {approximatePrice.length < 10 ? '$' : ''}
-              </Dialog.Title>
-              <Dialog.Actions>
-                <Button onPress={() => seTsizeS(false)}>{I18n.t('ok')}</Button>
-              </Dialog.Actions>
-            </Dialog>
-          </Portal>
-          <Portal>
-            <Dialog visible={notiS} onDismiss={() => seTnotiS(false)}>
-              <Dialog.Title>{I18n.t('notification')} S</Dialog.Title>
-              <Dialog.Actions>
-                <Button onPress={() => seTnotiS(false)}>{I18n.t('ok')}</Button>
-              </Dialog.Actions>
-            </Dialog>
-          </Portal>
+          <CustomDialog
+            visible={sizeS}
+            title={approximatePrice}
+            setvisible={val => setsizeSRedirect(val)}
+          />
+
+          <CustomNotify
+            visible={notiS}
+            title={I18n.t('little_size')}
+            setvisible={val => seTnotiS(val)}
+          />
           {/* //////////////////////////////////////////////////////////////////////// PORTRAL M */}
 
-          <Portal>
-            <Dialog visible={sizeM} onDismiss={() => seTsizeM(false)}>
-              <Dialog.Title>
-                {approximatePrice.length < 10 ? `${I18n.t('cost')} ` : ''}
-                {approximatePrice}
-                {approximatePrice.length < 10 ? '$' : ''}
-              </Dialog.Title>
-              <Dialog.Actions>
-                <Button onPress={() => seTsizeM(false)}>{I18n.t('ok')}</Button>
-              </Dialog.Actions>
-            </Dialog>
-          </Portal>
-          <Portal>
-            <Dialog visible={notiM} onDismiss={() => seTnotiM(false)}>
-              <Dialog.Title>{I18n.t('notification')} M</Dialog.Title>
-              <Dialog.Actions>
-                <Button onPress={() => seTnotiM(false)}>{I18n.t('ok')}</Button>
-              </Dialog.Actions>
-            </Dialog>
-          </Portal>
+          <CustomDialog
+            visible={sizeM}
+            title={approximatePrice}
+            setvisible={val => setsizeMRedirect(val)}
+          />
+
+          <CustomNotify
+            visible={notiM}
+            title={I18n.t('medium_size')}
+            setvisible={val => seTnotiM(val)}
+          />
+
           {/* //////////////////////////////////////////////////////////////////////// PORTRAL L */}
+          <CustomDialog
+            visible={sizeL}
+            title={approximatePrice}
+            setvisible={val => setsizeLRedirect(val)}
+          />
 
-          <Portal>
-            <Dialog visible={sizeL} onDismiss={() => seTsizeL(false)}>
-              <Dialog.Title>
-                {approximatePrice.length < 10 ? `${I18n.t('cost')} ` : ''}
-                {approximatePrice}
-                {approximatePrice.length < 10 ? '$' : ''}
-              </Dialog.Title>
-              <Dialog.Actions>
-                <Button onPress={() => seTsizeL(false)}>{I18n.t('ok')}</Button>
-              </Dialog.Actions>
-            </Dialog>
-          </Portal>
-          <Portal>
-            <Dialog visible={notiL} onDismiss={() => seTnotiL(false)}>
-              <Dialog.Title>{I18n.t('notification')} LLL</Dialog.Title>
-              <Dialog.Actions>
-                <Button onPress={() => seTnotiL(false)}>{I18n.t('ok')}</Button>
-              </Dialog.Actions>
-            </Dialog>
-          </Portal>
+          <CustomNotify
+            visible={notiL}
+            title={I18n.t('l_size')}
+            setvisible={val => seTnotiL(val)}
+          />
+
           {/* //////////////////////////////////////////////////////////////////////// PORTRAL TRELLOR */}
 
-          <Portal>
-            <Dialog visible={sizeTr} onDismiss={() => seTsizeTr(false)}>
-              <Dialog.Title>
-                {approximatePrice.length < 10 ? `${I18n.t('cost')} ` : ''}
-                {approximatePrice}
-                {approximatePrice.length < 10 ? '$' : ''}
-              </Dialog.Title>
-              <Dialog.Actions>
-                <Button onPress={() => seTsizeTr(false)}>{I18n.t('ok')}</Button>
-              </Dialog.Actions>
-            </Dialog>
-          </Portal>
-          <Portal>
-            <Dialog visible={notiTr} onDismiss={() => seTnotiTr(false)}>
-              <Dialog.Title>{I18n.t('notification')} TR</Dialog.Title>
-              <Dialog.Actions>
-                <Button onPress={() => seTnotiTr(false)}>{I18n.t('ok')}</Button>
-              </Dialog.Actions>
-            </Dialog>
-          </Portal>
-          {/* //////////////////////////////////////////////////////////////////////// PORTRAL TRELLOR */}
+          <CustomDialog
+            visible={sizeXL}
+            title={approximatePrice}
+            setvisible={val => setsizeXLRedirect(val)}
+          />
 
-          <Portal>
-            <Dialog visible={sizeXXL} onDismiss={() => seTsizeXXL(false)}>
-              <Dialog.Title>
-                {approximatePrice.length < 10 ? `${I18n.t('cost')} ` : ''}
-                {approximatePrice}
-                {approximatePrice.length < 10 ? '$' : ''}
-              </Dialog.Title>
-              <Dialog.Actions>
-                <Button onPress={() => seTsizeXXL(false)}>
-                  {I18n.t('ok')}
-                </Button>
-              </Dialog.Actions>
-            </Dialog>
-          </Portal>
-          <Portal>
-            <Dialog visible={notiXXL} onDismiss={() => seTnotiTr(false)}>
-              <Dialog.Title>{I18n.t('notification')} XXs</Dialog.Title>
-              <Dialog.Actions>
-                <Button onPress={() => seTnotiXXL(false)}>
-                  {I18n.t('ok')}
-                </Button>
-              </Dialog.Actions>
-            </Dialog>
-          </Portal>
+          <CustomNotify
+            visible={notiXL}
+            title={I18n.t('xl_size')}
+            setvisible={val => seTnotiXL(val)}
+          />
 
           <Portal>
             <Dialog visible={visible} onDismiss={hideDialog}>
