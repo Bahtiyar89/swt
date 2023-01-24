@@ -2,6 +2,7 @@ package com.swt;
 
 import com.facebook.react.ReactActivity;
 import com.rnfs.RNFSPackage;
+import android.os.Bundle;
 
 public class MainActivity extends ReactActivity {
 
@@ -12,5 +13,10 @@ public class MainActivity extends ReactActivity {
   @Override
   protected String getMainComponentName() {
     return "swt";
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(null);
   }
 }

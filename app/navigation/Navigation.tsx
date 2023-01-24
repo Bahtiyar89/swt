@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { View, Button, StatusBar } from 'react-native';
 import { NavigationContainer, Theme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ThemeController from '../components/ThemeController';
 import AuthContext from '../context/auth/AuthContext';
 
@@ -13,9 +13,9 @@ import Registration from '../screens/Registration';
 import TimerController from '../components/TimerController';
 import PaymentScreen from 'app/screens/PaymentScreen';
 
-const Stack = createStackNavigator();
-const AuthStack = createStackNavigator();
-const LoggedInStack = createStackNavigator();
+const Stack = createNativeStackNavigator();
+const AuthStack = createNativeStackNavigator();
+const LoggedInStack = createNativeStackNavigator();
 
 const LoggedInNavigator = () => {
   return (
@@ -57,7 +57,7 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
     <NavigationContainer theme={theme}>
       <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
 
-      <Stack.Navigator headerMode="none">
+      <Stack.Navigator>
         <Stack.Screen name="Home" component={LoggedInNavigator} />
         <Stack.Screen
           name="Login"

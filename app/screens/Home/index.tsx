@@ -1,24 +1,18 @@
 import React, { Fragment } from 'react';
-import { View, Text, Image } from 'react-native';
-import { Button, Portal, FAB, DefaultTheme } from 'react-native-paper';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { Image } from 'react-native';
 
 import { useDispatch } from 'react-redux';
 import * as loginActions from 'app/store/actions/loginActions';
-import {
-  createBottomTabNavigator,
-  BottomTabBar,
-} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import MainScreen from '../Main';
 import CalculatorScreen from '../Calculator';
 import MyShipmentsScreen from '../MyShipment';
 import ChatScreen from '../Chat';
 import ProfileScreen from '../Profile';
-import styles from './styles';
 import I18n from '../../../i18';
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
@@ -26,12 +20,7 @@ const Home: React.FC = () => {
 
   return (
     <Fragment>
-      <Tab.Navigator
-        style={{ width: 'auto' }}
-        shifting={true}
-        sceneAnimationEnabled={false}
-        initialRouteName="Home"
-        barStyle={{ backgroundColor: '#f9f9f9' }}>
+      <Tab.Navigator initialRouteName="Home">
         <Tab.Screen
           name="Home"
           component={MainScreen}
