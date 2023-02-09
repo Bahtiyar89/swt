@@ -25,6 +25,7 @@ const Home: React.FC = () => {
           name="Home"
           component={MainScreen}
           options={{
+            headerShown: false,
             tabBarLabel: I18n.t('TabNav.main'),
             tabBarIcon: () => (
               <Image
@@ -38,6 +39,7 @@ const Home: React.FC = () => {
           name="Calculator"
           component={CalculatorScreen}
           options={{
+            headerShown: false,
             tabBarLabel: I18n.t('TabNav.calculator'),
             tabBarIcon: () => (
               <Image
@@ -51,6 +53,7 @@ const Home: React.FC = () => {
           name="MyShipments"
           component={MyShipmentsScreen}
           options={{
+            headerShown: false,
             tabBarLabel: I18n.t('TabNav.shipments'),
             tabBarIcon: () => (
               <Image
@@ -64,6 +67,7 @@ const Home: React.FC = () => {
           name="ChatScreen"
           component={ChatScreen}
           options={{
+            headerShown: false,
             tabBarLabel: I18n.t('TabNav.chat'),
             tabBarIcon: () => (
               <Image
@@ -77,6 +81,7 @@ const Home: React.FC = () => {
           name="Profilecreen"
           component={ProfileScreen}
           options={{
+            headerShown: false,
             tabBarLabel: I18n.t('TabNav.profile'),
             tabBarIcon: () => (
               <Image

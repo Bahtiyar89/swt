@@ -58,15 +58,16 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
       <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
 
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={LoggedInNavigator} />
+        <Stack.Screen
+          name="Home"
+          options={{ headerShown: false }}
+          component={LoggedInNavigator}
+        />
         <Stack.Screen
           name="Login"
           component={Login}
           options={{
             title: 'Профиль',
-            // When logging out, a pop animation feels intuitive
-            // You can remove this if you want the default 'push' animation
-
             headerRight: () => <ThemeController />,
           }}
         />
@@ -75,9 +76,6 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
           component={Registration}
           options={{
             title: 'Регистрация',
-            // When logging out, a pop animation feels intuitive
-            // You can remove this if you want the default 'push' animation
-
             headerRight: () => <ThemeController />,
           }}
         />
@@ -86,26 +84,9 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
           component={RestoreAccount}
           options={{
             title: 'Восстановить',
-            // When logging out, a pop animation feels intuitive
-            // You can remove this if you want the default 'push' animation
-
             headerRight: () => <ThemeController />,
           }}
         />
-        {/* isSigned ? (
-          <Stack.Screen name="Home" component={LoggedInNavigator} />
-        ) : (
-          <Stack.Screen
-            name="Login"
-            component={AuthNavigator}
-            options={{
-              // When logging out, a pop animation feels intuitive
-              // You can remove this if you want the default 'push' animation
-              animationTypeForReplace: isSigned ? 'push' : 'pop',
-              headerRight: () => <ThemeController />,
-            }}
-          />
-          )*/}
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -7,26 +7,23 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
-import {
-  Button,
-  TextInput,
-  Dialog,
-  Portal,
-  Paragraph,
-} from 'react-native-paper';
+import { Button, TextInput, Dialog, Portal } from 'react-native-paper';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import { FloatingLabelInput } from 'react-native-floating-label-input';
 import { useFocusEffect } from '@react-navigation/native';
 import { useToast } from 'react-native-toast-notifications';
+import { useTranslation } from 'react-i18next';
 
 import styles from './styles';
 import I18n from '../../../i18';
 import Validation from '../../components/validation';
 import Utility from '../../utils/Utility';
+import CustomBox from '../../components/CustomBox';
 
 const MainScreen = props => {
   const toast = useToast();
+  const { t } = useTranslation();
   const elements = {
     city_From: '',
     city_To: '',
@@ -214,7 +211,7 @@ const MainScreen = props => {
     }
     if (dimensions.length.length < 1) {
       err = true;
-      toast.show(I18n.t('you_did_not_specify_the_length_of_the_item'), {
+      toast.show(t('t:you_did_not_specify_the_length_of_the_item'), {
         type: 'warning',
         duration: 4000,
         animationType: 'zoom-in',
@@ -223,7 +220,7 @@ const MainScreen = props => {
     }
     if (dimensions.width.length < 1) {
       err = true;
-      toast.show(I18n.t('you_did_not_specify_the_width_of_the_item'), {
+      toast.show(t('t:you_did_not_specify_the_width_of_the_item'), {
         type: 'warning',
         duration: 4000,
         animationType: 'zoom-in',
@@ -232,7 +229,7 @@ const MainScreen = props => {
     }
     if (dimensions.height.length < 1) {
       err = true;
-      toast.show(I18n.t('you_did_not_specify_the_height_of_the_item'), {
+      toast.show(t('t:you_did_not_specify_the_height_of_the_item'), {
         type: 'warning',
         duration: 4000,
         animationType: 'zoom-in',
@@ -311,7 +308,7 @@ const MainScreen = props => {
   const countOpt = async (value, fieldName) => {
     console.log('fieldName: ', fieldName);
     if (stMain.weight.length < 1) {
-      toast.show(I18n.t('enter_weight_please'), {
+      toast.show(t('t:enter_weight_please'), {
         type: 'warning',
         duration: 4000,
         animationType: 'zoom-in',
@@ -329,7 +326,7 @@ const MainScreen = props => {
             sum = parseFloat(parseFloat(0.5 * 13.25) + 7.5);
             seTapproximatePrice(Number.parseFloat(sum).toFixed(1));
           } else {
-            sum = toast.show(I18n.t('the_wrong_weight'));
+            sum = toast.show(t('t:the_wrong_weight'));
             seTapproximatePrice(sum);
           }
           seTsizeXs(true);
@@ -340,7 +337,7 @@ const MainScreen = props => {
             sum = parseFloat(2 * 13.25 + 7.5);
             seTapproximatePrice(Number.parseFloat(sum).toFixed(1));
           } else {
-            sum = toast.show(I18n.t('the_wrong_weight'));
+            sum = toast.show(t('t:the_wrong_weight'));
             seTapproximatePrice(sum);
           }
           seTsizeXs(true);
@@ -350,7 +347,7 @@ const MainScreen = props => {
             sum = parseFloat(5 * 13.25 + 7.5);
             seTapproximatePrice(Number.parseFloat(sum).toFixed(1));
           } else {
-            sum = toast.show(I18n.t('the_wrong_weight'));
+            sum = toast.show(t('t:the_wrong_weight'));
             seTapproximatePrice(sum);
           }
           seTsizeXs(true);
@@ -360,7 +357,7 @@ const MainScreen = props => {
             sum = parseFloat(12 * 13.25 + 7.5);
             seTapproximatePrice(Number.parseFloat(sum).toFixed(1));
           } else {
-            sum = toast.show(I18n.t('the_wrong_weight'));
+            sum = toast.show(t('t:the_wrong_weight'));
             seTapproximatePrice(sum);
           }
           seTsizeXs(true);
@@ -370,7 +367,7 @@ const MainScreen = props => {
             sum = parseFloat(50 * 13.25 + 7.5);
             seTapproximatePrice(Number.parseFloat(sum).toFixed(1));
           } else {
-            sum = toast.show(I18n.t('the_wrong_weight'));
+            sum = toast.show(t('t:the_wrong_weight'));
             seTapproximatePrice(sum);
           }
           seTsizeXs(true);
@@ -389,67 +386,70 @@ const MainScreen = props => {
       }
     }
   };
+  const setNotificationSize = param => {
+    if (param == 'seTnotiXs') {
+      seTnotiXs(true);
+    } else if (param == 'seTnotiS') {
+      seTnotiS(true);
+    } else if (param == 'seTnotiM') {
+      seTnotiM(true);
+    } else if (param == 'seTnotiL') {
+      seTnotiL(true);
+    } else if (param == 'seTnotiTr') {
+      seTnotiL(true);
+    } else {
+      seTnotiXXL(true);
+    }
+  };
   return (
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={styles.container}>
           {!scan && (
             <>
-              <Text style={styles.headerText}>
-                {I18n.t('TabNav.shipments')}
-              </Text>
+              <Text style={styles.headerText}>{t('t:shipments')}</Text>
 
-              <Text style={styles.textparagraph}>{I18n.t('track_order')}</Text>
+              <Text style={styles.textparagraph}>{t('t:track_order')}</Text>
               <TextInput
-                label={I18n.t('order_number')}
+                label={t('t:order_number')}
                 mode="outlined"
                 right={<TextInput.Icon name="barcode" onPress={startScan} />}
                 style={styles.textInput}
                 value={result}
               />
               <Text style={styles.textparagraph}>
-                + {I18n.t('track_by_number')}
+                + {t('t:track_by_number')}
               </Text>
-              <Text style={styles.headerLowerText}>
-                {I18n.t('TabNav.calculator')}
-              </Text>
+              <Text style={styles.headerLowerText}>{t('t:calculator')}</Text>
               <Validation
-                text={I18n.t('from')}
+                text={t('t:from')}
                 visible={validObj.city_From}
-                errText={I18n.t('field_not_be_empty')}
+                errText={t('t:field_not_be_empty')}
               />
               <TextInput
-                label={I18n.t('city')}
+                label={t('t:city')}
                 mode="outlined"
                 value={stMain.city_From}
                 style={styles.textInput}
                 onChangeText={val => seTstMain({ ...stMain, city_From: val })}
               />
               <Validation
-                text={I18n.t('to')}
+                text={t('t:to')}
                 visible={validObj.city_To}
-                errText={I18n.t('field_not_be_empty')}
+                errText={t('field_not_be_empty')}
               />
               <TextInput
-                label={I18n.t('city')}
+                label={t('t:city')}
                 mode="outlined"
                 value={stMain.city_To}
                 style={styles.textInput}
                 onChangeText={val => seTstMain({ ...stMain, city_To: val })}
               />
               <Validation
-                text={I18n.t('weight_kg')}
+                text={t('t:weight_kg')}
                 visible={validObj.weight}
-                errText={I18n.t('field_not_be_empty')}
+                errText={t('field_not_be_empty')}
               />
-              {/* <TextInput
-                label={I18n.t('weight')}
-                mode="outlined"
-                value={stMain.weight}
-                style={styles.textInput}
-                keyboardType="decimal-pad"
-                onChangeText={value => onExchangeRateInputChange(value)}
-             />*/}
               <View style={{ marginTop: 0, width: '90%' }}>
                 <FloatingLabelInput
                   value={stMain.weight}
@@ -457,7 +457,7 @@ const MainScreen = props => {
                     stMain.weight.length > 0 || labelWeight ? true : false
                   }
                   hintTextColor={'#fff'}
-                  label={I18n.t('weight')}
+                  label={t('t:weight')}
                   containerStyles={{
                     borderWidth: 1,
                     paddingHorizontal: 10,
@@ -495,7 +495,7 @@ const MainScreen = props => {
               </View>
 
               <SegmentedControlTab
-                values={[I18n.t('about'), I18n.t('exactly')]}
+                values={[t('t:about'), t('t:exactly')]}
                 selectedIndex={selectedIndex}
                 onTabPress={val => seTselectedIndex(val)}
                 tabsContainerStyle={{
@@ -505,245 +505,79 @@ const MainScreen = props => {
                   marginTop: 10,
                 }}
               />
+
               {selectedIndex === 0 && (
                 <>
                   {/* //////////////////////////////////////////////////////////////////////// XS */}
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      width: '90%',
-                      borderRadius: 5,
-                      borderWidth: 1,
-                      borderColor: '#00000088',
-                      marginTop: 10,
-                      height: 55,
-                    }}>
-                    <View style={{ padding: 3, flexDirection: 'row' }}>
-                      <TouchableOpacity onPress={() => countOpt(0.5, 'sizeXs')}>
-                        <Image
-                          source={require('../../assets/box.png')} //Change your icon image here
-                          style={{ height: 45, width: 45 }}
-                        />
-                      </TouchableOpacity>
-                      <View style={{ padding: 5 }}>
-                        <Text onPress={() => countOpt(0.5, 'sizeXs')}>
-                          {I18n.t('size') + ' XS'}
-                        </Text>
-                        <Text
-                          onPress={() => countOpt(0.5, 'sizeXs')}
-                          style={{ color: '#00000088' }}>
-                          17x12x9 cм
-                        </Text>
-                      </View>
-                    </View>
-                    <View style={{ justifyContent: 'center' }}>
-                      <Text style={{ color: '#00000088', marginRight: 3 }}>
-                        {I18n.t('up_to')} 0.5{I18n.t('kg')}
-                      </Text>
-                      <TouchableOpacity onPress={() => seTnotiXs(true)}>
-                        <Image
-                          source={require('../../assets/exclamation-mark.png')} //Change your icon image here
-                          style={{
-                            height: 25,
-                            width: 25,
-                            alignSelf: 'center',
-                          }}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
+                  <CustomBox
+                    countOptHandler={countOpt}
+                    setNotificationSize={setNotificationSize}
+                    setNotificationSizeText={'seTnotiXs'}
+                    image={require('../../assets/box.png')}
+                    boxSizeText={' XS'}
+                    countOptSizeText={'sizeXs'}
+                    size={'17x12x9'}
+                    kg={0.5}
+                  />
                   {/* //////////////////////////////////////////////////////////////////////// S */}
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      width: '90%',
-                      borderRadius: 5,
-                      borderWidth: 1,
-                      borderColor: '#00000088',
-                      marginTop: 10,
-                      height: 55,
-                    }}>
-                    <View style={{ padding: 3, flexDirection: 'row' }}>
-                      <TouchableOpacity onPress={() => countOpt(2, 'sizeS')}>
-                        <Image
-                          source={require('../../assets/box.png')} //Change your icon image here
-                          style={{ height: 45, width: 45 }}
-                        />
-                      </TouchableOpacity>
-
-                      <View style={{ padding: 5 }}>
-                        <Text onPress={() => countOpt(2, 'sizeS')}>
-                          {I18n.t('size') + ' S'}
-                        </Text>
-                        <Text
-                          onPress={() => countOpt(2, 'sizeS')}
-                          style={{ color: '#00000088' }}>
-                          21x20x11 cм
-                        </Text>
-                      </View>
-                    </View>
-                    <View style={{ justifyContent: 'center', padding: 5 }}>
-                      <Text style={{ color: '#00000088' }}>
-                        Д{I18n.t('up_to')}о 2{I18n.t('kg')}
-                      </Text>
-                      <TouchableOpacity onPress={() => seTnotiS(true)}>
-                        <Image
-                          source={require('../../assets/exclamation-mark.png')} //Change your icon image here
-                          style={{
-                            height: 25,
-                            width: 25,
-                            alignSelf: 'center',
-                          }}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
+                  <CustomBox
+                    countOptHandler={countOpt}
+                    setNotificationSize={setNotificationSize}
+                    setNotificationSizeText={'seTnotiXs'}
+                    image={require('../../assets/box.png')}
+                    boxSizeText={' S'}
+                    countOptSizeText={'seTnotiS'}
+                    size={'21x20x11'}
+                    kg={2}
+                  />
 
                   {/* //////////////////////////////////////////////////////////////////////// M */}
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      width: '90%',
-                      borderRadius: 5,
-                      borderWidth: 1,
-                      borderColor: '#00000088',
-                      marginTop: 10,
-                      height: 55,
-                    }}>
-                    <View style={{ padding: 3, flexDirection: 'row' }}>
-                      <TouchableOpacity onPress={() => countOpt(5, 'sizeM')}>
-                        <Image
-                          source={require('../../assets/box.png')} //Change your icon image here
-                          style={{ height: 45, width: 45 }}
-                        />
-                      </TouchableOpacity>
-                      <View style={{ padding: 5 }}>
-                        <Text onPress={() => countOpt(5, 'sizeM')}>
-                          {I18n.t('size') + ' M'}
-                        </Text>
-                        <Text
-                          onPress={() => countOpt(5, 'sizeM')}
-                          style={{ color: '#00000088' }}>
-                          33x25x15 cм
-                        </Text>
-                      </View>
-                    </View>
-                    <View style={{ justifyContent: 'center', padding: 5 }}>
-                      <Text style={{ color: '#00000088' }}>
-                        {I18n.t('up_to')} 5{I18n.t('kg')}
-                      </Text>
-                      <TouchableOpacity onPress={() => seTnotiM(true)}>
-                        <Image
-                          source={require('../../assets/exclamation-mark.png')} //Change your icon image here
-                          style={{
-                            height: 25,
-                            width: 25,
-                            alignSelf: 'center',
-                          }}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
+                  <CustomBox
+                    countOptHandler={countOpt}
+                    setNotificationSize={setNotificationSize}
+                    setNotificationSizeText={'seTnotiM'}
+                    image={require('../../assets/box.png')}
+                    boxSizeText={' M'}
+                    countOptSizeText={'sizeM'}
+                    size={'33x25x15'}
+                    kg={5}
+                  />
 
                   {/* //////////////////////////////////////////////////////////////////////// L */}
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      width: '90%',
-                      borderRadius: 5,
-                      borderWidth: 1,
-                      borderColor: '#00000088',
-                      marginTop: 10,
-                      height: 55,
-                    }}>
-                    <View style={{ padding: 3, flexDirection: 'row' }}>
-                      <TouchableOpacity onPress={() => countOpt(12, 'sizeL')}>
-                        <Image
-                          source={require('../../assets/box.png')} //Change your icon image here
-                          style={{ height: 45, width: 45 }}
-                        />
-                      </TouchableOpacity>
-                      <View style={{ padding: 5 }}>
-                        <Text onPress={() => countOpt(12, 'sizeL')}>
-                          {I18n.t('size') + ' L'}
-                        </Text>
-                        <Text
-                          onPress={() => countOpt(12, 'sizeL')}
-                          style={{ color: '#00000088' }}>
-                          34x33x26 cм
-                        </Text>
-                      </View>
-                    </View>
-                    <View style={{ justifyContent: 'center', padding: 5 }}>
-                      <Text style={{ color: '#00000088' }}>
-                        {I18n.t('up_to')} 12{I18n.t('kg')}
-                      </Text>
-                      <TouchableOpacity onPress={() => seTnotiL(true)}>
-                        <Image
-                          source={require('../../assets/exclamation-mark.png')} //Change your icon image here
-                          style={{
-                            height: 25,
-                            width: 25,
-                            alignSelf: 'center',
-                          }}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
+                  <CustomBox
+                    countOptHandler={countOpt}
+                    setNotificationSize={setNotificationSize}
+                    setNotificationSizeText={'seTnotiL'}
+                    image={require('../../assets/box.png')}
+                    boxSizeText={' L'}
+                    countOptSizeText={'sizeL'}
+                    size={'34x33x26'}
+                    kg={12}
+                  />
 
                   {/* //////////////////////////////////////////////////////////////////////// XL */}
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      width: '90%',
-                      borderRadius: 5,
-                      borderWidth: 1,
-                      borderColor: '#00000088',
-                      marginTop: 10,
-                      height: 55,
-                    }}>
-                    <View style={{ padding: 3, flexDirection: 'row' }}>
-                      <TouchableOpacity onPress={() => countOpt(50, 'sizeTr')}>
-                        <Image
-                          source={require('../../assets/box.png')} //Change your icon image here
-                          style={{ height: 45, width: 45 }}
-                        />
-                      </TouchableOpacity>
-
-                      <View style={{ padding: 5 }}>
-                        <Text onPress={() => countOpt(50, 'sizeTr')}>
-                          {'XL'}
-                        </Text>
-                        <Text
-                          onPress={() => countOpt(50, 'sizeTr')}
-                          style={{ color: '#00000088' }}>
-                          34x33x26 cм
-                        </Text>
-                      </View>
-                    </View>
-                    <View style={{ justifyContent: 'center', padding: 5 }}>
-                      <Text style={{ color: '#00000088' }}>
-                        {I18n.t('up_to')} 50{I18n.t('kg')}
-                      </Text>
-                      <TouchableOpacity onPress={() => seTnotiTr(true)}>
-                        <Image
-                          source={require('../../assets/exclamation-mark.png')} //Change your icon image here
-                          style={{
-                            height: 25,
-                            width: 25,
-                            alignSelf: 'center',
-                          }}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
+                  <CustomBox
+                    countOptHandler={countOpt}
+                    setNotificationSize={setNotificationSize}
+                    setNotificationSizeText={'seTnotiTr'}
+                    image={require('../../assets/box.png')}
+                    boxSizeText={' XL'}
+                    countOptSizeText={'sizeTr'}
+                    size={'34x33x26'}
+                    kg={50}
+                  />
 
                   {/* //////////////////////////////////////////////////////////////////////// XXl */}
+                  <CustomBox
+                    countOptHandler={countOpt}
+                    setNotificationSize={setNotificationSize}
+                    setNotificationSizeText={'seTnotiXXL'}
+                    image={require('../../assets/box.png')}
+                    boxSizeText={' XXL'}
+                    countOptSizeText={'sizeTr'}
+                    size={'34x33x26'}
+                    kg={75}
+                  />
                   <View
                     style={{
                       flexDirection: 'row',
@@ -776,7 +610,7 @@ const MainScreen = props => {
                     </View>
                     <View style={{ justifyContent: 'center', padding: 5 }}>
                       <Text style={{ color: '#00000088' }}>
-                        {I18n.t('up_to')} 75{I18n.t('kg')}
+                        {t('t:up_to')} 75{t('t:kg')}
                       </Text>
                       <TouchableOpacity onPress={() => seTnotiXXL(true)}>
                         <Image
@@ -795,7 +629,7 @@ const MainScreen = props => {
               {selectedIndex === 1 && (
                 <>
                   <Text style={{ textAlign: 'left', width: '90%', margin: 10 }}>
-                    {I18n.t('dimensions')}, cм
+                    {t('t:dimensions')}, cм
                   </Text>
                   <View
                     style={{
@@ -809,7 +643,7 @@ const MainScreen = props => {
                         value={dimensions.length}
                         staticLabel
                         hintTextColor={'#fff'}
-                        label={I18n.t('length')}
+                        label={t('t:length')}
                         containerStyles={{
                           borderWidth: 1,
                           paddingHorizontal: 10,
@@ -851,7 +685,7 @@ const MainScreen = props => {
                         value={dimensions.width}
                         staticLabel
                         hintTextColor={'#fff'}
-                        label={I18n.t('width')}
+                        label={t('t:width')}
                         containerStyles={{
                           borderWidth: 1,
                           paddingHorizontal: 10,
@@ -932,30 +766,16 @@ const MainScreen = props => {
                   </View>
                 </>
               )}
-              {/*
-              <Validation
-                text={I18n.t('capacity_m3')}
-                visible={validObj.volume}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                label={I18n.t('capacity')}
-                mode="outlined"
-                value={stMain.volume}
-                style={styles.textInput}
-                keyboardType="decimal-pad"
-                onChangeText={val => seTstMain({ ...stMain, volume: val })}
-              />
-              */}
+
               <Button onPress={() => onButtonCalculate()} style={styles.button}>
-                <Text style={styles.buttonText}>{I18n.t('сalculate')}</Text>
+                <Text style={styles.buttonText}>{t('t:сalculate')}</Text>
               </Button>
             </>
           )}
           {scan && (
             <View style={styles.sectionContainer}>
               <TouchableOpacity onPress={() => setScan(false)}>
-                <Text>{I18n.t('close_scan')}</Text>
+                <Text>{t('t:close_scan')}</Text>
               </TouchableOpacity>
               <QRCodeScanner
                 reactivate={true}
@@ -963,16 +783,14 @@ const MainScreen = props => {
                 onRead={onSuccess}
                 topContent={
                   <Text style={styles.centerText}>
-                    {I18n.t('scan_your_qr_code')}
+                    {t('t:scan_your_qr_code')}
                   </Text>
                 }
                 bottomContent={
                   <TouchableOpacity
                     style={styles.buttonTouchable}
                     onPress={() => setScan(false)}>
-                    <Text style={styles.buttonText}>
-                      {I18n.t('cancel_scan')}
-                    </Text>
+                    <Text style={styles.buttonText}>{t('t:cancel_scan')}</Text>
                   </TouchableOpacity>
                 }
               />
@@ -983,20 +801,20 @@ const MainScreen = props => {
           <Portal>
             <Dialog visible={sizeXs} onDismiss={() => seTsizeXs(false)}>
               <Dialog.Title>
-                {approximatePrice.length < 10 ? `${I18n.t('cost')} ` : ''}
+                {approximatePrice.length < 10 ? `${t('t:cost')} ` : ''}
                 {approximatePrice}
                 {approximatePrice.length < 10 ? '$' : ''}
               </Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTsizeXs(false)}>{I18n.t('ok')}</Button>
+                <Button onPress={() => seTsizeXs(false)}>{t('t:ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
           <Portal>
             <Dialog visible={notiXs} onDismiss={() => seTnotiXs(false)}>
-              <Dialog.Title>{I18n.t('notification')} Xs</Dialog.Title>
+              <Dialog.Title>{t('t:notification')} Xs</Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTnotiXs(false)}>{I18n.t('ok')}</Button>
+                <Button onPress={() => seTnotiXs(false)}>{t('t:ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
@@ -1005,20 +823,20 @@ const MainScreen = props => {
           <Portal>
             <Dialog visible={sizeS} onDismiss={() => seTsizeS(false)}>
               <Dialog.Title>
-                {approximatePrice.length < 10 ? `${I18n.t('cost')} ` : ''}
+                {approximatePrice.length < 10 ? `${t('t:cost')} ` : ''}
                 {approximatePrice}
                 {approximatePrice.length < 10 ? '$' : ''}
               </Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTsizeS(false)}>{I18n.t('ok')}</Button>
+                <Button onPress={() => seTsizeS(false)}>{t('t:ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
           <Portal>
             <Dialog visible={notiS} onDismiss={() => seTnotiS(false)}>
-              <Dialog.Title>{I18n.t('notification')} S</Dialog.Title>
+              <Dialog.Title>{t('t:notification')} S</Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTnotiS(false)}>{I18n.t('ok')}</Button>
+                <Button onPress={() => seTnotiS(false)}>{t('t:ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
@@ -1027,20 +845,20 @@ const MainScreen = props => {
           <Portal>
             <Dialog visible={sizeM} onDismiss={() => seTsizeM(false)}>
               <Dialog.Title>
-                {approximatePrice.length < 10 ? `${I18n.t('cost')} ` : ''}
+                {approximatePrice.length < 10 ? `${t('t:cost')} ` : ''}
                 {approximatePrice}
                 {approximatePrice.length < 10 ? '$' : ''}
               </Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTsizeM(false)}>{I18n.t('ok')}</Button>
+                <Button onPress={() => seTsizeM(false)}>{t('t:ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
           <Portal>
             <Dialog visible={notiM} onDismiss={() => seTnotiM(false)}>
-              <Dialog.Title>{I18n.t('notification')} M</Dialog.Title>
+              <Dialog.Title>{t('t:notification')} M</Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTnotiM(false)}>{I18n.t('ok')}</Button>
+                <Button onPress={() => seTnotiM(false)}>{t('t:ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
@@ -1049,20 +867,20 @@ const MainScreen = props => {
           <Portal>
             <Dialog visible={sizeL} onDismiss={() => seTsizeL(false)}>
               <Dialog.Title>
-                {approximatePrice.length < 10 ? `${I18n.t('cost')} ` : ''}
+                {approximatePrice.length < 10 ? `${t('t:cost')} ` : ''}
                 {approximatePrice}
                 {approximatePrice.length < 10 ? '$' : ''}
               </Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTsizeL(false)}>{I18n.t('ok')}</Button>
+                <Button onPress={() => seTsizeL(false)}>{t('t:ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
           <Portal>
             <Dialog visible={notiL} onDismiss={() => seTnotiL(false)}>
-              <Dialog.Title>{I18n.t('notification')} LLL</Dialog.Title>
+              <Dialog.Title>{t('t:notification')} LLL</Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTnotiL(false)}>{I18n.t('ok')}</Button>
+                <Button onPress={() => seTnotiL(false)}>{t('t:ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
@@ -1071,20 +889,20 @@ const MainScreen = props => {
           <Portal>
             <Dialog visible={sizeTr} onDismiss={() => seTsizeTr(false)}>
               <Dialog.Title>
-                {approximatePrice.length < 10 ? `${I18n.t('cost')} ` : ''}
+                {approximatePrice.length < 10 ? `${t('t:cost')} ` : ''}
                 {approximatePrice}
                 {approximatePrice.length < 10 ? '$' : ''}
               </Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTsizeTr(false)}>{I18n.t('ok')}</Button>
+                <Button onPress={() => seTsizeTr(false)}>{t('t:ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
           <Portal>
             <Dialog visible={notiTr} onDismiss={() => seTnotiTr(false)}>
-              <Dialog.Title>{I18n.t('notification')} TR</Dialog.Title>
+              <Dialog.Title>{t('t:notification')} TR</Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTnotiTr(false)}>{I18n.t('ok')}</Button>
+                <Button onPress={() => seTnotiTr(false)}>{t('t:ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
@@ -1093,24 +911,20 @@ const MainScreen = props => {
           <Portal>
             <Dialog visible={sizeXXL} onDismiss={() => seTsizeXXL(false)}>
               <Dialog.Title>
-                {approximatePrice.length < 10 ? `${I18n.t('cost')} ` : ''}
+                {approximatePrice.length < 10 ? `${t('t:cost')} ` : ''}
                 {approximatePrice}
                 {approximatePrice.length < 10 ? '$' : ''}
               </Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTsizeXXL(false)}>
-                  {I18n.t('ok')}
-                </Button>
+                <Button onPress={() => seTsizeXXL(false)}>{t('t:ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
           <Portal>
             <Dialog visible={notiXXL} onDismiss={() => seTnotiTr(false)}>
-              <Dialog.Title>{I18n.t('notification')} XXs</Dialog.Title>
+              <Dialog.Title>{t('t:notification')} XXs</Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={() => seTnotiXXL(false)}>
-                  {I18n.t('ok')}
-                </Button>
+                <Button onPress={() => seTnotiXXL(false)}>{t('t:ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>
@@ -1118,11 +932,11 @@ const MainScreen = props => {
           <Portal>
             <Dialog visible={visible} onDismiss={hideDialog}>
               <Dialog.Title>
-                {I18n.t('price')} {stMain.Price} $
+                {t('t:price')} {stMain.Price} $
               </Dialog.Title>
               <Dialog.Actions>
-                <Button onPress={hideDialog}>{I18n.t('try_again')}</Button>
-                <Button onPress={redirectButton}>{I18n.t('ok')}</Button>
+                <Button onPress={hideDialog}>{t('t:try_again')}</Button>
+                <Button onPress={redirectButton}>{t('t:ok')}</Button>
               </Dialog.Actions>
             </Dialog>
           </Portal>

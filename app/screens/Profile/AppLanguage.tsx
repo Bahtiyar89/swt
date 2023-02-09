@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import { Button, HelperText, Checkbox } from 'react-native-paper';
 import Modal from 'react-native-modal';
 import { Dropdown } from 'sharingan-rn-modal-dropdown';
+import { useTranslation } from 'react-i18next';
 
 import styles from './styles';
 import I18n from '../../../i18';
@@ -15,13 +16,14 @@ interface IState {
   noPressed: () => void;
 }
 
-const ProfileEditModal: React.FC<IState> = ({
+const AppLanguage: React.FC<IState> = ({
   onChangeLanguage,
   okPressed,
   noPressed,
   model,
   lang,
 }: IState) => {
+  const { t } = useTranslation();
   const validationElements = {
     checkBox: false,
   };
@@ -78,10 +80,10 @@ const ProfileEditModal: React.FC<IState> = ({
         <View style={styles.modelContainer}>
           <Text>{}</Text>
           <Text style={styles.modelHeaderText}>
-            {I18n.t('choose_localization')}
+            {t('t:choose_localization')}
           </Text>
           <View style={styles.modelTextAndError}>
-            <Text style={{ flex: 1 }}>{I18n.t('language')}</Text>
+            <Text style={{ flex: 1 }}>{t('t:language')}</Text>
           </View>
           <View style={{ height: 80 }}>
             <Dropdown
@@ -95,7 +97,7 @@ const ProfileEditModal: React.FC<IState> = ({
           </View>
 
           <HelperText type="error" visible={validObj.checkBox}>
-            {I18n.t('choose_default_language')}
+            {t('t:choose_default_language')}
           </HelperText>
 
           <View style={{ flexDirection: 'row', width: '100%' }}>
@@ -108,17 +110,17 @@ const ProfileEditModal: React.FC<IState> = ({
             />
             <Text style={{ flex: 1, marginTop: 8 }}>
               {lang == 'ru'
-                ? I18n.t('by_default_language_russian')
-                : I18n.t('by_default_language_english')}
+                ? t('t:by_default_language_russian')
+                : t('t:by_default_language_english')}
             </Text>
           </View>
 
           <View style={styles.modelYesNo}>
             <Button onPress={() => noPressed()}>
-              <Text style={styles.modelButtonNoColor}>{I18n.t('no')}</Text>
+              <Text style={styles.modelButtonNoColor}>{t('t:no')}</Text>
             </Button>
             <Button onPress={() => onButtonPressed()}>
-              <Text style={styles.modelButtonYesColor}>{I18n.t('yes')}</Text>
+              <Text style={styles.modelButtonYesColor}>{t('t:yes')}</Text>
             </Button>
           </View>
         </View>
@@ -127,4 +129,4 @@ const ProfileEditModal: React.FC<IState> = ({
   );
 };
 
-export default ProfileEditModal;
+export default AppLanguage;

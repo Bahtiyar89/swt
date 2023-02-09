@@ -17,10 +17,12 @@ import {
   CombinedDefaultTheme,
   CombinedDarkTheme,
 } from 'app/config/theme-config';
-import Navigator from 'app/navigation';
+import { NavigationContainer } from '@react-navigation/native';
 import configureStore from 'app/store';
 import { IThemeState } from 'app/models/reducers/theme';
 import Navigation from './navigation/Navigation';
+import MainScreens from './navigation/MainScreens';
+import './utils/translations/DCSLocalize';
 
 const { persistor, store } = configureStore();
 
@@ -47,7 +49,11 @@ const EntryPoint: React.FC = () => {
         <AuthState>
           <GoodsState>
             <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
-              <RootNavigation />
+              <PaperProvider>
+                <NavigationContainer>
+                  <MainScreens />
+                </NavigationContainer>
+              </PaperProvider>
             </PersistGate>
           </GoodsState>
         </AuthState>

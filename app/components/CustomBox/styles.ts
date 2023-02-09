@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     paddingTop: '2%',
   },
   signInText: { color: '#768192' },
-
+  imageSize: { height: 45, width: 45 },
   headerLowerText: {
     width: '90%',
     paddingTop: '5%',
@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   textInput: { width: '90%' },
+  box: { padding: 3, flexDirection: 'row' },
   button: {
     marginTop: 10,
     width: '90%',

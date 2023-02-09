@@ -8,7 +8,6 @@ import {
   Dialog,
   Portal,
 } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 import DocumentPicker, {
   DirectoryPickerResponse,
@@ -18,17 +17,13 @@ import DocumentPicker, {
 } from 'react-native-document-picker';
 import { useToast } from 'react-native-toast-notifications';
 import RNFS from 'react-native-fs';
-import Modal from 'react-native-modal';
 
-import * as loginActions from 'app/store/actions/loginActions';
-import styles from './styles';
 import { ILoginState } from 'app/models/reducers/login';
-import NavigationService from 'app/navigation/NavigationService';
 import { IThemeState } from 'app/models/reducers/theme';
 import AuthContext from '../../context/auth/AuthContext';
 import I18n from '../../../i18';
 import Validation from '../../components/validation';
-import { doGet, doPost } from '../../utils/apiActions';
+import styles from './styles';
 
 interface IState {
   loginReducer: ILoginState;
@@ -86,7 +81,6 @@ const Login: React.FC<IProps> = (props: IProps) => {
   const onRegistration = () => navigation.navigate('Registration');
   const onRestoreAccount = () => navigation.navigate('RestoreAccount');
 
-  const isDark = useSelector((state: IState) => state.themeReducer.isDark);
   const authContext = useContext(AuthContext);
   const {
     signin,

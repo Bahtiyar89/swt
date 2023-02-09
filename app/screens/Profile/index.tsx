@@ -5,6 +5,7 @@ import { Button, Avatar, IconButton, Badge } from 'react-native-paper';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Modal from 'react-native-modal';
 import Toast from 'react-native-toast-notifications';
+import { useTranslation } from 'react-i18next';
 
 import AuthContext from '../../context/auth/AuthContext';
 import Login from '../Login';
@@ -14,7 +15,7 @@ import I18n from '../../../i18';
 
 //import * as loginActions from 'app/store/actions/loginActions';
 import ProfileEditModal from './profileEditModal';
-import LocalizationModal from './localizationModal';
+import AppLanguage from './AppLanguage';
 import KeysModal from './keys';
 import GoodsContext from '../../context/goods/GoodsContext';
 
@@ -27,25 +28,11 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
   //const logout = () => dispatch(loginActions.logOut());
   const authContext = useContext(AuthContext);
   const { signOut, file, user, isSigned } = authContext;
-
+  const { t, i18n } = useTranslation();
   const goodsContext = useContext(GoodsContext);
   const { postBalanceToCheck, addBalance, userBalance, loading } = goodsContext;
   const toastRef = useRef<any>();
   const [lang, seTlang] = useState('');
-
-  useEffect(() => {
-    Utility.getDeviceLanguageFromStorage()
-      .then(lang => {
-        console.log('lang:: ', lang);
-
-        I18n.locale = lang;
-        seTlang(lang);
-      })
-      .catch(_ => {
-        console.log('err ', 'lang');
-      });
-    return () => {};
-  }, []);
 
   const goToProfile = () => {};
   const [model, setmodel] = useState(false);
@@ -69,17 +56,13 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
 
   const updateLanguageStorage = () => {
     Utility.updateDeviceLanguageToStorage(lang);
-    I18n.locale = lang;
     seTmodelLocalization(false);
-  };
-
-  const onChangeLanguage = (language: string) => {
-    seTlang(language);
+    return i18n.changeLanguage(lang);
   };
 
   const replenishBalance = () => {
     if (userBalance.balance > 0.5) {
-      toastRef.current.show(I18n.t('you_cannot_top_up_the_balance'), {
+      toastRef.current.show(t('t:you_cannot_top_up_the_balance'), {
         type: 'warning',
         duration: 4000,
         animationType: 'zoom-in',
@@ -94,6 +77,11 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
     seTmodelBalance(!modelBalance);
   };
 
+  const setLanguage = (code: any) => {
+    seTlang(code);
+    //return i18n.changeLanguage(code);
+  };
+
   return (
     <>
       {isSigned ? (
@@ -102,13 +90,11 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
             <View style={styles.container}>
               <Spinner
                 visible={loading}
-                textContent={I18n.t('loading')}
+                textContent={t('t:loading')}
                 textStyle={{ color: '#3498db' }}
               />
               <View style={styles.mainHeader}>
-                <Text style={styles.profileHeaderText}>
-                  {I18n.t('profile')}
-                </Text>
+                <Text style={styles.profileHeaderText}>{t('t:profile')}</Text>
                 <View>
                   <IconButton
                     icon="bell-outline"
@@ -126,7 +112,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                 <View style={styles.profileNameSurname}>
                   <Text>{user?.fio}</Text>
                   <Text>
-                    {I18n.t('city')}, {I18n.t('country')}
+                    {t('t:city')}, {t('t:country')}
                   </Text>
                 </View>
               </View>
@@ -137,7 +123,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                   uppercase={false}
                   icon="chevron-right"
                   contentStyle={{ flexDirection: 'row-reverse' }}>
-                  {I18n.t('profile_edit')}
+                  {t('t:profile_edit')}
                 </Button>
                 <Button
                   color="#000"
@@ -145,7 +131,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                   uppercase={false}
                   icon="chevron-right"
                   contentStyle={{ flexDirection: 'row-reverse' }}>
-                  {I18n.t('choose_localization')}
+                  {t('t:choose_localization')}
                 </Button>
 
                 {/*}
@@ -156,7 +142,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                   style={{}}
                   icon="chevron-right"
                   contentStyle={{ flexDirection: 'row-reverse' }}>
-                  {I18n.t('balance')}
+                  {t('t:balance')}
       </Button>*/}
                 <Button
                   color="#000"
@@ -165,7 +151,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                   style={{}}
                   icon="chevron-right"
                   contentStyle={{ flexDirection: 'row-reverse' }}>
-                  {I18n.t('keys')}
+                  {t('t:keys')}
                 </Button>
 
                 <Button
@@ -175,7 +161,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                   uppercase={false}
                   icon="chevron-right"
                   contentStyle={{ flexDirection: 'row-reverse' }}>
-                  {I18n.t('logout')}
+                  {t('t:logout')}
                 </Button>
               </View>
               <ProfileEditModal
@@ -184,9 +170,9 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                 noPressed={() => seTmodelProfileEdit(false)}
               />
 
-              <LocalizationModal
+              <AppLanguage
                 okPressed={updateLanguageStorage}
-                onChangeLanguage={onChangeLanguage}
+                onChangeLanguage={setLanguage}
                 model={modelLocalization}
                 lang={lang}
                 noPressed={() => seTmodelLocalization(false)}
@@ -208,7 +194,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                     padding: 10,
                   }}>
                   <Text style={{ fontWeight: 'bold', textAlign: 'center' }}>
-                    {I18n.t('your_balance')}
+                    {t('t:your_balance')}
                   </Text>
                   <Text
                     style={{
@@ -227,7 +213,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                     mode="contained"
                     onPress={replenishBalance}>
                     <Text style={{ color: '#d9d9d9' }}>
-                      {I18n.t('replenish_the_balance')}
+                      {t('t:replenish_the_balance')}
                     </Text>
                   </Button>
                   <View
@@ -237,7 +223,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                       justifyContent: 'flex-end',
                     }}>
                     <Button onPress={() => seTmodelBalance(false)}>
-                      <Text>{I18n.t('discard')}</Text>
+                      <Text>{t('t:discard')}</Text>
                     </Button>
                   </View>
                 </View>
@@ -250,7 +236,7 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                     padding: 10,
                   }}>
                   <Text style={{ fontWeight: 'bold', textAlign: 'center' }}>
-                    {I18n.t('want_logout')}
+                    {t('t:want_logout')}
                   </Text>
                   <View
                     style={{
@@ -258,10 +244,10 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
                       justifyContent: 'flex-end',
                     }}>
                     <Button onPress={() => setmodel(false)}>
-                      <Text>{I18n.t('no')}</Text>
+                      <Text>{t('t:no')}</Text>
                     </Button>
                     <Button onPress={modelLogOutPressed}>
-                      <Text style={{ color: 'red' }}>{I18n.t('yes')}</Text>
+                      <Text style={{ color: 'red' }}>{t('t:yes')}</Text>
                     </Button>
                   </View>
                 </View>

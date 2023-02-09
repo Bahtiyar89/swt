@@ -10,6 +10,7 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import MaskInput from 'react-native-mask-input';
+import { useTranslation } from 'react-i18next';
 
 import AuthContext from '../../context/auth/AuthContext';
 import GoodsContext from '../../context/goods/GoodsContext';
@@ -18,8 +19,12 @@ import Login from '../Login';
 import utility from '../../utils/Utility';
 import Validation from '../../components/validation';
 import CustomAlert from '../../components/customAlert';
+import styles from './styles';
+import CustomInput from 'app/components/CustomInput';
+import CustomInputPhoneNumber from 'app/components/CustomInputPhoneNumber';
 
 const CalculatorScreen = props => {
+  const { t } = useTranslation();
   const { navigation } = props;
   const maskDigits = [
     '+',
@@ -83,7 +88,7 @@ const CalculatorScreen = props => {
 
   const authContext = useContext(AuthContext);
   const goodsContext = useContext(GoodsContext);
-  const { user, isSigned, file } = authContext;
+  const { isSigned, file } = authContext;
   const {
     postBalanceToCheck,
     userBalance,
@@ -93,7 +98,9 @@ const CalculatorScreen = props => {
     modalSaveGoodHide,
   } = goodsContext;
   const [checked, setChecked] = useState(true);
-
+  const [maskedPhoneNumber, setMaskedPhoneNumber] = useState('');
+  const [maskedPhoneNumberReceiver, setMaskedPhoneNumberReceiver] =
+    useState('');
   const validationElements = {
     sender_name: false,
     sender_surname: false,
@@ -647,105 +654,64 @@ const CalculatorScreen = props => {
               textContent={'Загружается...'}
               textStyle={{ color: '#3498db' }}
             />
-            <View
-              style={{
-                flex: 1,
-                alignItems: 'center',
-              }}>
-              <Text
-                style={{
-                  color: '#000000',
-                  fontWeight: 'bold',
-                  fontSize: 28,
-                }}>
-                {I18n.t('TabNav.calculator')}
-              </Text>
-              <View
-                style={{
-                  width: '90%',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}>
-                <Text>{I18n.t('departure_country')}</Text>
-                <Text>{I18n.t('destination_country')}</Text>
+            <View style={styles.header}>
+              <Text style={styles.calc}>{t('t:calculator')}</Text>
+              <View style={styles.countries}>
+                <Text>{t('t:departure_country')}</Text>
+                <Text>{t('t:destination_country')}</Text>
               </View>
 
-              <View
-                style={{
-                  width: '90%',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}>
-                <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
-                  {stMain.city_From}
-                </Text>
-                <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
-                  {stMain.city_To}
-                </Text>
+              <View style={styles.fromTo}>
+                <Text style={styles.fromToText}>{stMain.city_From}</Text>
+                <Text style={styles.fromToText}>{stMain.city_To}</Text>
               </View>
 
-              <Text style={{ width: '90%', marginTop: 10 }}>
-                {I18n.t('sender')}
+              <Text style={{ width: '100%', marginTop: 10 }}>
+                {t('t:sender')}
               </Text>
-
-              <Validation
-                text={I18n.t('name')}
+              <CustomInput
+                valtext={t('t:name')}
                 visible={validObj.sender_name}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                label={I18n.t('name')}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val =>
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:name')}
+                value={fioAdress.sender_name}
+                onChangeInput={val =>
                   seTfioAdress({ ...fioAdress, sender_name: val })
                 }
-                value={fioAdress.sender_name}
               />
-
-              <Validation
-                text={I18n.t('surname')}
+              <CustomInput
+                valtext={t('t:surname')}
                 visible={validObj.sender_surname}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                label={I18n.t('surname')}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val =>
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:surname')}
+                value={fioAdress.sender_surname}
+                onChangeInput={val =>
                   seTfioAdress({ ...fioAdress, sender_surname: val })
                 }
-                value={fioAdress.sender_surname}
               />
-
-              <Validation
-                text={I18n.t('middlename')}
+              <CustomInput
+                valtext={t('t:middlename')}
                 visible={validObj.sender_middlename}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                label={I18n.t('middlename')}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val =>
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:middlename')}
+                value={fioAdress.sender_middlename}
+                onChangeInput={val =>
                   seTfioAdress({ ...fioAdress, sender_middlename: val })
                 }
-                value={fioAdress.sender_middlename}
               />
 
-              {/*
-              <TextInput
-                label={'Иванов Иван Иванович'}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val => seTstMain({ ...stMain, sender_FIO: val })}
-                value={stMain.sender_FIO}
+              <CustomInputPhoneNumber
+                labelText={t('t:phone')}
+                onChangeInput={val => setMaskedPhoneNumber(val)}
+                inputText={maskedPhoneNumber}
+                inputType="numeric"
+                mask={true}
               />
-*/}
+
               <Validation
-                text={I18n.t('phone')}
+                text={t('t:phone')}
                 visible={validObj.sender_Tel}
-                errText={I18n.t('field_not_be_empty')}
+                errText={t('t:field_not_be_empty')}
               />
 
               <TextInput
@@ -767,191 +733,136 @@ const CalculatorScreen = props => {
                 }}
               />
 
-              <Validation
-                text={I18n.t('pasport')}
+              <CustomInput
+                valtext={t('t:pasport')}
                 visible={validObj.sender_DocID}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                mode="outlined"
-                onChangeText={val =>
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:pasport')}
+                value={stMain.sender_DocID}
+                onChangeInput={val =>
                   seTstMain({ ...stMain, sender_DocID: val })
                 }
-                value={stMain.sender_DocID}
-                placeholder="3220 231245"
-                style={{ width: '90%' }}
               />
-
-              <Validation
-                text={I18n.t('inn')}
+              <CustomInput
+                valtext={t('t:inn')}
                 visible={validObj.sender_INN}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                mode="outlined"
-                onChangeText={val => seTstMain({ ...stMain, sender_INN: val })}
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:inn')}
                 value={stMain.sender_INN}
-                placeholder="322043253234231245"
-                style={{ width: '90%' }}
+                onChangeInput={val => seTstMain({ ...stMain, sender_INN: val })}
               />
-
-              <Validation
-                text={I18n.t('email')}
+              <CustomInput
+                valtext={t('t:email')}
                 visible={validObj.sender_EMail}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                label={'maksim@mail.ru'}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val =>
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:email')}
+                value={stMain.sender_EMail}
+                onChangeInput={val =>
                   seTstMain({ ...stMain, sender_EMail: val })
                 }
-                value={stMain.sender_EMail}
               />
-
-              <Validation
-                text={I18n.t('index')}
+              <CustomInput
+                valtext={t('t:index')}
                 visible={validObj.sender_index}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                label={I18n.t('index')}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val =>
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:index')}
+                value={fioAdress.sender_index}
+                onChangeInput={val =>
                   seTfioAdress({ ...fioAdress, sender_index: val })
                 }
-                value={fioAdress.sender_index}
               />
-
-              <Validation
-                text={I18n.t('town')}
-                visible={validObj.sender_town}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                label={I18n.t('town')}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val =>
+              <CustomInput
+                valtext={t('t:town')}
+                visible={validObj.sender_index}
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:town')}
+                value={fioAdress.sender_town}
+                onChangeInput={val =>
                   seTfioAdress({ ...fioAdress, sender_town: val })
                 }
-                value={fioAdress.sender_town}
               />
-
-              <Validation
-                text={I18n.t('street')}
+              <CustomInput
+                valtext={t('t:street')}
                 visible={validObj.sender_street}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                label={I18n.t('street')}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val =>
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:street')}
+                value={fioAdress.sender_street}
+                onChangeInput={val =>
                   seTfioAdress({ ...fioAdress, sender_street: val })
                 }
-                value={fioAdress.sender_street}
               />
-
-              <Validation
-                text={I18n.t('home')}
+              <CustomInput
+                valtext={t('t:home')}
                 visible={validObj.sender_home}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                label={I18n.t('home')}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val =>
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:home')}
+                value={fioAdress.sender_home}
+                onChangeInput={val =>
                   seTfioAdress({ ...fioAdress, sender_home: val })
                 }
-                value={fioAdress.sender_home}
               />
-              {/*
-              <TextInput
-                label={'Москва, ул. Леонова, д. 35'}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val => seTstMain({ ...stMain, sender_Addr: val })}
-                value={stMain.sender_Addr}
-               />*/}
 
-              <Button
-                style={{
-                  backgroundColor: '#333333',
-                  width: '90%',
-                  marginTop: 20,
-                  height: 40,
-                }}
-                mode="contained">
-                <Text
-                  style={{
-                    color: 'white',
-                  }}>
-                  {I18n.t('give_to_department')}
+              <Button style={styles.giveToDep} mode="contained">
+                <Text style={{ color: 'white' }}>
+                  {t('t:give_to_department')}
                 </Text>
               </Button>
 
-              <Text style={{ width: '90%', textAlign: 'left', marginTop: 10 }}>
-                {I18n.t('reciver')}
-              </Text>
-              <Validation
-                text={I18n.t('name')}
+              <Text style={styles.receiver}>{t('t:reciver')}</Text>
+
+              <CustomInput
+                valtext={t('t:name')}
                 visible={validObj.recip_name}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                label={I18n.t('name')}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val =>
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:name')}
+                value={fioAdress.recip_name}
+                onChangeInput={val =>
                   seTfioAdress({ ...fioAdress, recip_name: val })
                 }
-                value={fioAdress.recip_name}
+              />
+              <CustomInput
+                valtext={t('t:surname')}
+                visible={validObj.recip_surname}
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:surname')}
+                value={fioAdress.recip_surname}
+                onChangeInput={val =>
+                  seTfioAdress({ ...fioAdress, recip_surname: val })
+                }
+              />
+              <CustomInput
+                valtext={t('t:middlename')}
+                visible={validObj.recip_surname}
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:middlename')}
+                value={fioAdress.recip_middlename}
+                onChangeInput={val =>
+                  seTfioAdress({ ...fioAdress, recip_middlename: val })
+                }
+              />
+              <CustomInput
+                valtext={t('t:middlename')}
+                visible={validObj.recip_surname}
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:middlename')}
+                value={fioAdress.recip_middlename}
+                onChangeInput={val =>
+                  seTfioAdress({ ...fioAdress, recip_middlename: val })
+                }
+              />
+
+              <CustomInputPhoneNumber
+                labelText={t('t:phone')}
+                onChangeInput={val => setMaskedPhoneNumberReceiver(val)}
+                inputText={maskedPhoneNumberReceiver}
+                inputType="numeric"
+                mask={true}
               />
 
               <Validation
-                text={I18n.t('surname')}
-                visible={validObj.recip_surname}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                label={I18n.t('surname')}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val =>
-                  seTfioAdress({ ...fioAdress, recip_surname: val })
-                }
-                value={fioAdress.recip_surname}
-              />
-              <Validation
-                text={I18n.t('middlename')}
-                visible={validObj.recip_middlename}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                label={I18n.t('middlename')}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val =>
-                  seTfioAdress({ ...fioAdress, recip_middlename: val })
-                }
-                value={fioAdress.recip_middlename}
-              />
-              {/*<TextInput
-                label={'Иванов Иван Иванович'}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val => seTstMain({ ...stMain, recip_FIO: val })}
-                value={stMain.recip_FIO}
-              />
-            */}
-              <Validation
-                text={I18n.t('phone')}
+                text={t('t:phone')}
                 visible={validObj.recip_Tel}
-                errText={I18n.t('field_not_be_empty')}
+                errText={t('t:field_not_be_empty')}
               />
               <TextInput
                 style={{ width: '90%' }}
@@ -972,165 +883,104 @@ const CalculatorScreen = props => {
                 }}
               />
 
-              <Validation
-                text={I18n.t('pasport')}
-                visible={validObj.recip_DocID}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                mode="outlined"
-                onChangeText={val => seTstMain({ ...stMain, recip_DocID: val })}
+              <CustomInput
+                valtext={t('t:pasport')}
+                visible={validObj.recip_surname}
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:pasport')}
                 value={stMain.recip_DocID}
-                placeholder="A0123824"
-                style={{ width: '90%' }}
+                onChangeInput={val =>
+                  seTstMain({ ...stMain, recip_DocID: val })
+                }
               />
-              <Validation
-                text={I18n.t('inn')}
+              <CustomInput
+                valtext={t('t:inn')}
                 visible={validObj.recip_INN}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                mode="outlined"
-                onChangeText={val => seTstMain({ ...stMain, recip_INN: val })}
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:inn')}
                 value={stMain.recip_INN}
-                placeholder="2222222222"
-                style={{ width: '90%' }}
+                onChangeInput={val => seTstMain({ ...stMain, recip_INN: val })}
               />
-              <Validation
-                text={I18n.t('email')}
+              <CustomInput
+                valtext={t('t:email')}
                 visible={validObj.recip_EMail}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                label={'maksim@mail.ru'}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val => seTstMain({ ...stMain, recip_EMail: val })}
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:email')}
                 value={stMain.recip_EMail}
+                onChangeInput={val =>
+                  seTstMain({ ...stMain, recip_EMail: val })
+                }
               />
-
-              <Validation
-                text={I18n.t('index')}
+              <CustomInput
+                valtext={t('t:index')}
                 visible={validObj.recip_index}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                label={I18n.t('index')}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val =>
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:index')}
+                value={fioAdress.recip_EMail}
+                onChangeInput={val =>
                   seTfioAdress({ ...fioAdress, recip_index: val })
                 }
-                value={fioAdress.recip_index}
               />
-
-              <Validation
-                text={I18n.t('town')}
+              <CustomInput
+                valtext={t('t:town')}
                 visible={validObj.recip_town}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                label={I18n.t('town')}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val =>
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:town')}
+                value={fioAdress.recip_town}
+                onChangeInput={val =>
                   seTfioAdress({ ...fioAdress, recip_town: val })
                 }
-                value={fioAdress.recip_town}
               />
-
-              <Validation
-                text={I18n.t('street')}
+              <CustomInput
+                valtext={t('t:street')}
                 visible={validObj.recip_street}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                label={I18n.t('street')}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val =>
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:street')}
+                value={fioAdress.recip_street}
+                onChangeInput={val =>
                   seTfioAdress({ ...fioAdress, recip_street: val })
                 }
-                value={fioAdress.recip_street}
               />
-
-              <Validation
-                text={I18n.t('home')}
+              <CustomInput
+                valtext={t('t:home')}
                 visible={validObj.recip_home}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                label={I18n.t('home')}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val =>
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:home')}
+                value={fioAdress.recip_home}
+                onChangeInput={val =>
                   seTfioAdress({ ...fioAdress, recip_home: val })
                 }
-                value={fioAdress.recip_home}
               />
-              {/* <TextInput
-                label={'Москва, ул. Леонова, д. 35'}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val => seTstMain({ ...stMain, recip_Addr: val })}
-                value={stMain.recip_Addr}
-             />*/}
-
-              <Validation
-                text={I18n.t('product_description')}
-                visible={validObj.DescrGood}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                label={'description'}
-                onChangeText={val => seTstMain({ ...stMain, DescrGood: val })}
+              <CustomInput
+                valtext={t('t:product_description')}
+                visible={validObj.recip_home}
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:product_description')}
                 value={stMain.DescrGood}
-                numberOfLines={3}
-                mode="outlined"
-                multiline={false}
-                style={{ width: '90%' }}
+                onChangeInput={val => seTstMain({ ...stMain, DescrGood: val })}
               />
-              <Validation
-                text={I18n.t('link_web')}
+              <CustomInput
+                valtext={t('t:link_web')}
                 visible={validObj.LinkOnGood}
-                errText={I18n.t('field_not_be_empty')}
-              />
-              <TextInput
-                label={'lamoda.ru/krossy'}
-                mode="outlined"
-                style={{ width: '90%' }}
-                onChangeText={val => seTstMain({ ...stMain, LinkOnGood: val })}
+                valErrText={t('t:field_not_be_empty')}
+                inputLabel={t('t:link_web')}
                 value={stMain.LinkOnGood}
+                onChangeInput={val => seTstMain({ ...stMain, LinkOnGood: val })}
               />
-              <View
-                style={{
-                  width: '90%',
-                  marginTop: 10,
-                  flex: 2,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}>
-                <Text>{I18n.t('transportation_cost')}</Text>
+
+              <View style={styles.priceWrapper}>
+                <Text>{t('t:transportation_cost')}</Text>
                 <Text>{stMain.Price} $.</Text>
               </View>
               <Button
-                style={{
-                  width: '90%',
-                  marginTop: 20,
-                  backgroundColor: '#333333',
-                }}
+                style={styles.oform}
                 mode="contained"
                 onPress={() => onButtonPressed()}>
-                <Text style={{ width: '90%', color: '#f9f9f9' }}>
-                  {I18n.t('checkout')}
-                </Text>
+                <Text style={{ color: '#f9f9f9' }}>{t('t:checkout')}</Text>
               </Button>
-              <Text
-                style={{ width: '90%', paddingTop: '2%', color: '#979797' }}>
-                {I18n.t('insure_your_package')}
-              </Text>
+              <Text style={styles.ensureTxt}>{t('t:insure_your_package')}</Text>
 
-              <View style={{ flexDirection: 'row', width: '95%' }}>
+              <View style={{ flexDirection: 'row', width: '100%' }}>
                 <Checkbox.Android
                   status={checked ? 'checked' : 'unchecked'}
                   onPress={() => {
@@ -1139,13 +989,13 @@ const CalculatorScreen = props => {
                   color={'#397AF9'}
                 />
                 <Text style={{ flex: 1, margin: 8, color: '#979797' }}>
-                  {I18n.t('cargo_insurance')}
+                  {t('t:cargo_insurance')}
                 </Text>
               </View>
 
               <Text
-                style={{ width: '90%', color: '#979797', marginBottom: 10 }}>
-                {I18n.t('info_text')}
+                style={{ width: '100%', color: '#979797', marginBottom: 10 }}>
+                {t('t:info_text')}
               </Text>
             </View>
             <CustomAlert
@@ -1154,33 +1004,33 @@ const CalculatorScreen = props => {
               alertTitleText={'Оформление заказа откланено!'}
               alertMessageText={'Вы не заполнили форму в главном экране!'}
               displayPositiveButton={true}
-              positiveButtonText={I18n.t('ok')}
+              positiveButtonText={t('t:ok')}
               displayNegativeButton={false}
-              negativeButtonText={I18n.t('cancel')}
+              negativeButtonText={t('t:cancel')}
               onPressNegativeButton={() => seTcantSaveAlert(false)}
               onPressPositiveButton={() => seTcantSaveAlert(false)}
             />
             <CustomAlert
               displayAlert={balanceAlert}
               displayAlertIcon={true}
-              alertTitleText={I18n.t('checkout_rejected')}
+              alertTitleText={t('t:checkout_rejected')}
               alertMessageText={I18n.t(
                 'you_dont_have_enough_balance_please_top_up_your_balance',
               )}
               displayPositiveButton={true}
-              positiveButtonText={I18n.t('ok')}
+              positiveButtonText={t('t:ok')}
               displayNegativeButton={false}
-              negativeButtonText={I18n.t('cancel')}
+              negativeButtonText={t('t:cancel')}
               onPressNegativeButton={() => seTbalanceAlert(false)}
               onPressPositiveButton={() => seTbalanceAlert(false)}
             />
             <Portal>
               <Dialog visible={modalSaveGood} onDismiss={hideDialog}>
                 <Dialog.Title>
-                  {I18n.t('your_order_has_been_accepted')}
+                  {t('t:your_order_has_been_accepted')}
                 </Dialog.Title>
                 <Dialog.Actions>
-                  <Button onPress={hideDialog}>{I18n.t('ok')}</Button>
+                  <Button onPress={hideDialog}>{t('t:ok')}</Button>
                 </Dialog.Actions>
               </Dialog>
             </Portal>
