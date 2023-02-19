@@ -5930,11 +5930,6 @@ react-native-localize@^2.2.4:
   resolved "https://registry.yarnpkg.com/react-native-localize/-/react-native-localize-2.2.4.tgz#3bc46ade48499ab9df61bf17a9b66633a5ba9bb9"
   integrity sha512-gVmbyAEQQnBQ8vKlAQchFfIISeId3qT6Lc7LHmKF39nsYWX9KN4PHuG6Hk+7gduMI6IHKeZGKcLsOdh6wvN6cg==
 
-react-native-mask-input@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/react-native-mask-input/-/react-native-mask-input-1.1.1.tgz#a75c39e53885eb7f9d8f09da19afab5184c494ad"
-  integrity sha512-euvDIj5XX13IxPzujYtrrwG5qZOnsQDd2N71FwQ2Q7nkw9YkpsP/MObCZePgQlXGBLnhRphvUQE+0amAClQC4Q==
-
 react-native-modal@^11.5.6:
   version "11.10.0"
   resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-11.10.0.tgz#94a6d3a2428ba5228cfb4dc174cacea79c871591"

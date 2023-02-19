@@ -158,4 +158,11 @@ export default {
   width: 'Width',
   cost: 'cost',
   enter_weight_please: 'Enter weight please',
+  wentlogin: 'Went to Login Screen',
+  loading: 'Loading...',
+  notRegistered: 'You are not Registered!',
+  repeat: 'Repeat it again!',
+  repeatWrong: 'Repeat it again something wrong!',
+  attached_succesfull: 'Your file has been successfully attached!',
+  attache_again: 'Reattach something wrong!',
 };

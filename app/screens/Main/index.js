@@ -421,11 +421,14 @@ const MainScreen = props => {
                 + {t('t:track_by_number')}
               </Text>
               <Text style={styles.headerLowerText}>{t('t:calculator')}</Text>
-              <Validation
-                text={t('t:from')}
-                visible={validObj.city_From}
-                errText={t('t:field_not_be_empty')}
-              />
+              <View style={{ width: '90%' }}>
+                <Validation
+                  text={t('t:from')}
+                  visible={validObj.city_From}
+                  errText={t('t:field_not_be_empty')}
+                />
+              </View>
+
               <TextInput
                 label={t('t:city')}
                 mode="outlined"
@@ -433,11 +436,14 @@ const MainScreen = props => {
                 style={styles.textInput}
                 onChangeText={val => seTstMain({ ...stMain, city_From: val })}
               />
-              <Validation
-                text={t('t:to')}
-                visible={validObj.city_To}
-                errText={t('field_not_be_empty')}
-              />
+              <View style={{ width: '90%' }}>
+                <Validation
+                  text={t('t:to')}
+                  visible={validObj.city_To}
+                  errText={t('field_not_be_empty')}
+                />
+              </View>
+
               <TextInput
                 label={t('t:city')}
                 mode="outlined"
@@ -445,11 +451,14 @@ const MainScreen = props => {
                 style={styles.textInput}
                 onChangeText={val => seTstMain({ ...stMain, city_To: val })}
               />
-              <Validation
-                text={t('t:weight_kg')}
-                visible={validObj.weight}
-                errText={t('field_not_be_empty')}
-              />
+              <View style={{ width: '90%' }}>
+                <Validation
+                  text={t('t:weight_kg')}
+                  visible={validObj.weight}
+                  errText={t('field_not_be_empty')}
+                />
+              </View>
+
               <View style={{ marginTop: 0, width: '90%' }}>
                 <FloatingLabelInput
                   value={stMain.weight}

@@ -36,7 +36,6 @@
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-loading-spinner-overlay": "^2.0.0",
     "react-native-localize": "^2.2.4",
-    "react-native-mask-input": "^1.1.1",
     "react-native-modal": "^13.0.0",
     "react-native-paper": "^4.8.1",
     "react-native-permissions": "^3.0.6",

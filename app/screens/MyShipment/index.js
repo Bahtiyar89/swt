@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useContext } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { SafeAreaView, View, Text, FlatList } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { Button, Card, Title, Paragraph } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
@@ -36,11 +36,11 @@ const MyShipmentsScreen = props => {
       };
     }, []),
   );
-  console.log('shipment:2 ', Object.values(state));
+
   let fullDate = new Date(new Date().getTime() + 14 * 24 * 60 * 60 * 1000);
 
   return (
-    <Fragment>
+    <SafeAreaView style={{ flex: 1 }}>
       {isSigned ? (
         <View style={styles.container}>
           <Text style={styles.mysendings}>{t('t:my_sendings')}</Text>
@@ -90,7 +90,7 @@ const MyShipmentsScreen = props => {
       ) : (
         <Login navigation={navigation} />
       )}
-    </Fragment>
+    </SafeAreaView>
   );
 };
 

@@ -155,4 +155,11 @@ export default {
   width: 'Ширина',
   cost: 'цена',
   enter_weight_please: 'Введите вес пожалуйста',
+  wentlogin: 'Перейти в страницу логин',
+  loading: 'Загружается...',
+  notRegistered: 'Вы не зарегистрировались!',
+  repeat: 'Повторить еще раз!',
+  repeatWrong: 'Повторите заново что то не так!',
+  attached_succesfull: 'Ваш файл успешно прикреплен!',
+  attache_again: 'Прикрепите заново что то не так!',
 };

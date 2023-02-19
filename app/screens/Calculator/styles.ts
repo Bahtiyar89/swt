@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: '90%',
   },
+  send: { marginTop: 10, fontSize: 16 },
   calc: {
     color: '#000000',
     fontWeight: 'bold',
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     height: 40,
   },
-  receiver: { width: '90%', textAlign: 'left', marginTop: 10 },
+  receiver: { fontSize: 20, marginTop: 10 },
   priceWrapper: {
     width: '100%',
     marginTop: 10,

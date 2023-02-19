@@ -154,4 +154,11 @@ export default {
   width: '宽度',
   cost: '运费',
   enter_weight_please: '请输入重量',
+  wentlogin: '轉到登錄屏幕',
+  loading: '加載中...',
+  notRegistered: '您還沒有註冊!',
+  repeat: '再重複一遍!',
+  repeatWrong: '重複錯誤!',
+  attached_succesfull: '您的文件已成功附加!',
+  attache_again: '重裝錯了！',
 };

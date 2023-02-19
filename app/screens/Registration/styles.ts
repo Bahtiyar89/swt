@@ -1,3 +1,4 @@
+import Colors from 'app/utils/Сolors';
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -57,6 +58,33 @@ const styles = StyleSheet.create({
   modelYesNo: { flexDirection: 'row', justifyContent: 'flex-end' },
   modelButtonNoColor: { color: 'black' },
   modelButtonYesColor: { color: '#397AF9' },
+  title: { marginTop: 5, width: '90%' },
+  pencil: {
+    width: '90%',
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  generate: { textAlign: 'center', color: '#000' },
+  keys: { marginTop: 5, flexDirection: 'row', width: '90%' },
+  check: {
+    marginTop: 10,
+    flexDirection: 'row',
+    width: '90%',
+    justifyContent: 'space-between',
+  },
+  checkButton: {
+    width: '90%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  checkText: { color: Colors.black },
+  regButton: {
+    width: '90%',
+    marginTop: 20,
+    marginBottom: 30,
+    backgroundColor: '#333333',
+  },
 });
 
 export default styles;

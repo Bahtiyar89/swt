@@ -1,15 +1,8 @@
 import React, { useEffect, Fragment, useContext, useState } from 'react';
 import { View, Text, SafeAreaView, ScrollView } from 'react-native';
-import {
-  Button,
-  TextInput,
-  Checkbox,
-  Portal,
-  Dialog,
-} from 'react-native-paper';
+import { Button, Checkbox, Portal, Dialog } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 import Spinner from 'react-native-loading-spinner-overlay';
-import MaskInput from 'react-native-mask-input';
 import { useTranslation } from 'react-i18next';
 
 import AuthContext from '../../context/auth/AuthContext';
@@ -17,11 +10,10 @@ import GoodsContext from '../../context/goods/GoodsContext';
 import I18n from '../../../i18';
 import Login from '../Login';
 import utility from '../../utils/Utility';
-import Validation from '../../components/validation';
 import CustomAlert from '../../components/customAlert';
-import styles from './styles';
 import CustomInput from 'app/components/CustomInput';
 import CustomInputPhoneNumber from 'app/components/CustomInputPhoneNumber';
+import styles from './styles';
 
 const CalculatorScreen = props => {
   const { t } = useTranslation();
@@ -644,6 +636,17 @@ const CalculatorScreen = props => {
     fetchFromMainScreen();
   }, [props?.route?.params, isSigned]);
   console.log('stMain: ', stMain);
+
+  const phoneNumSend = val => {
+    let unmasked = val.replace(/[+, ]/g, '');
+    setMaskedPhoneNumber(val);
+    seTstMain({ ...stMain, sender_Tel: unmasked });
+  };
+  const phoneNumReceiver = val => {
+    let unmasked = val.replace(/[+, ]/g, '');
+    setMaskedPhoneNumberReceiver(val);
+    seTstMain({ ...stMain, recip_Tel: unmasked });
+  };
   return (
     <Fragment>
       {isSigned ? (
@@ -666,9 +669,7 @@ const CalculatorScreen = props => {
                 <Text style={styles.fromToText}>{stMain.city_To}</Text>
               </View>
 
-              <Text style={{ width: '100%', marginTop: 10 }}>
-                {t('t:sender')}
-              </Text>
+              <Text style={styles.send}>{t('t:sender')}</Text>
               <CustomInput
                 valtext={t('t:name')}
                 visible={validObj.sender_name}
@@ -702,35 +703,10 @@ const CalculatorScreen = props => {
 
               <CustomInputPhoneNumber
                 labelText={t('t:phone')}
-                onChangeInput={val => setMaskedPhoneNumber(val)}
+                onChangeInput={val => phoneNumSend(val)}
                 inputText={maskedPhoneNumber}
                 inputType="numeric"
                 mask={true}
-              />
-
-              <Validation
-                text={t('t:phone')}
-                visible={validObj.sender_Tel}
-                errText={t('t:field_not_be_empty')}
-              />
-
-              <TextInput
-                style={{ width: '90%' }}
-                mode="outlined"
-                value={stMain.sender_Tel}
-                render={props => {
-                  return (
-                    <MaskInput
-                      style={{ paddingLeft: 10 }}
-                      onChangeText={(masked, unmasked) => {
-                        seTstMain({ ...stMain, sender_Tel: unmasked });
-                      }}
-                      keyboardType="decimal-pad"
-                      value={props.value}
-                      mask={maskDigits}
-                    />
-                  );
-                }}
               />
 
               <CustomInput
@@ -853,34 +829,10 @@ const CalculatorScreen = props => {
 
               <CustomInputPhoneNumber
                 labelText={t('t:phone')}
-                onChangeInput={val => setMaskedPhoneNumberReceiver(val)}
+                onChangeInput={val => phoneNumReceiver(val)}
                 inputText={maskedPhoneNumberReceiver}
                 inputType="numeric"
                 mask={true}
-              />
-
-              <Validation
-                text={t('t:phone')}
-                visible={validObj.recip_Tel}
-                errText={t('t:field_not_be_empty')}
-              />
-              <TextInput
-                style={{ width: '90%' }}
-                mode="outlined"
-                value={stMain.recip_Tel}
-                render={props => {
-                  return (
-                    <MaskInput
-                      style={{ paddingLeft: 10 }}
-                      onChangeText={(masked, unmasked) => {
-                        seTstMain({ ...stMain, recip_Tel: unmasked });
-                      }}
-                      keyboardType="number-pad"
-                      value={props.value}
-                      mask={maskDigits}
-                    />
-                  );
-                }}
               />
 
               <CustomInput

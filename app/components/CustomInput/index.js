@@ -1,20 +1,25 @@
 import React from 'react';
 import { TextInput } from 'react-native-paper';
-import { useTranslation } from 'react-i18next';
 
 import Validation from '../validation';
-import styles from './styles';
 import { View } from 'react-native';
 
 const CustomInput = props => {
-  const { t } = useTranslation();
-  const { valtext, visible, valErrText, inputLabel, onChangeInput, value } =
-    props;
+  const {
+    valtext,
+    visible,
+    valErrText,
+    inputLabel,
+    onChangeInput,
+    value,
+    placeholder,
+  } = props;
 
   return (
     <View style={{ width: '100%' }}>
       <Validation text={valtext} visible={visible} errText={valErrText} />
       <TextInput
+        placeholder={placeholder ? placeholder : ''}
         label={''}
         mode="outlined"
         onChangeText={val => onChangeInput(val)}
