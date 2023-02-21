@@ -123,35 +123,18 @@ const KeysModal: React.FC<IState> = ({ cancelPressed, model }: IState) => {
   const downloadKeys = async () => {
     await utility.getItemObject('wkeys').then(keys => {
       if (keys) {
-        var path = RNFS.DocumentDirectoryPath + '/test.txt';
-        RNFS.writeFile(path, 'This is a content from Waldo', 'utf8')
-          .then(() => console.log('FILE WRITTEN!'))
-          .catch(err => console.log(err.message));
-        /* var path1 = RNFS.DocumentDirectoryPath + '/keys.txt';
-        console.log('path1: ', path1);
-        RNFS.writeFile(path1, JSON.stringify(keys), 'utf8')
-          .then(success => {
-            console.log('success:: ', success);
+        var path = RNFS.DocumentDirectoryPath + '/keys.txt';
+        console.log('path: ', path);
 
-            seTfilePath(path1.substring(path1.indexOf('A')));
-            seTdisplayAlert(true);
-          })
-          .catch(err => {
-            console.log(err.message);
-          });
-        /*
-        let path =
-          Platform.OS === 'ios'
-            ? RNFS.MainBundlePath + '/keys.txt'
-            : RNFS.ExternalDirectoryPath + '/keys.txt';
         RNFS.writeFile(path, JSON.stringify(keys), 'utf8')
-          .then(success => {
-            seTfilePath(path.substring(path.indexOf('A')));
-            seTdisplayAlert(true);
-          })
-          .catch(err => {
-            console.log(err.message);
-          });*/
+          .then(() =>
+            toastRef.current.show('Успешно сохранено', {
+              type: 'success',
+              duration: 4000,
+              animationType: 'zoom-in',
+            }),
+          )
+          .catch(err => console.log(err.message));
       } else {
         console.log('else', keys);
       }

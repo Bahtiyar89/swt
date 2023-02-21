@@ -161,4 +161,5 @@ export default {
   repeatWrong: '重複錯誤!',
   attached_succesfull: '您的文件已成功附加!',
   attache_again: '重裝錯了！',
+  downloaded_keys: '密鑰下載成功!',
 };

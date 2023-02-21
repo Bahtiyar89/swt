@@ -162,4 +162,5 @@ export default {
   repeatWrong: 'Повторите заново что то не так!',
   attached_succesfull: 'Ваш файл успешно прикреплен!',
   attache_again: 'Прикрепите заново что то не так!',
+  downloaded_keys: 'Успехно скачено ключи!',
 };

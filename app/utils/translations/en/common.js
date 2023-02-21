@@ -165,4 +165,5 @@ export default {
   repeatWrong: 'Repeat it again something wrong!',
   attached_succesfull: 'Your file has been successfully attached!',
   attache_again: 'Reattach something wrong!',
+  downloaded_keys: 'Successfully downloaded keys!',
 };
