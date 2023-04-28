@@ -3,6 +3,7 @@ import { SafeAreaView, View, Text, FlatList } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { Button, Card, Title, Paragraph } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 import AuthContext from '../../context/auth/AuthContext';
 import Login from '../Login';
@@ -92,6 +93,14 @@ const MyShipmentsScreen = props => {
       )}
     </SafeAreaView>
   );
+};
+
+MyShipmentsScreen.propTypes = {
+  navigation: PropTypes.object,
+};
+
+MyShipmentsScreen.defaultProps = {
+  navigation: {},
 };
 
 export default MyShipmentsScreen;

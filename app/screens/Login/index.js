@@ -11,6 +11,7 @@ import DocumentPicker, {
 import { useToast } from 'react-native-toast-notifications';
 import RNFS from 'react-native-fs';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 import AuthContext from '../../context/auth/AuthContext';
 import Registration from '../Registration';
@@ -207,6 +208,14 @@ const Login = props => {
       />
     </SafeAreaView>
   );
+};
+
+Login.propTypes = {
+  navigation: PropTypes.object,
+};
+
+Login.defaultProps = {
+  navigation: {},
 };
 
 export default Login;

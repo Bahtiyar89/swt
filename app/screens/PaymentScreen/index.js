@@ -3,6 +3,7 @@ import { SafeAreaView, View, Text, Pressable } from 'react-native';
 import { Avatar, Button } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import PropTypes from 'prop-types';
 
 import styles from './styles';
 import QrCodeModal from './qrCodeModal';
@@ -137,6 +138,14 @@ const PaymentScreen = ({ navigation }) => {
       </KeyboardAwareScrollView>
     </Fragment>
   );
+};
+
+PaymentScreen.propTypes = {
+  navigation: PropTypes.object,
+};
+
+PaymentScreen.defaultProps = {
+  navigation: {},
 };
 
 export default PaymentScreen;

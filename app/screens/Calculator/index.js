@@ -4,6 +4,7 @@ import { Button, Checkbox, Portal, Dialog } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 import AuthContext from '../../context/auth/AuthContext';
 import GoodsContext from '../../context/goods/GoodsContext';
@@ -993,6 +994,14 @@ const CalculatorScreen = props => {
       )}
     </Fragment>
   );
+};
+
+CalculatorScreen.propTypes = {
+  navigation: PropTypes.object,
+};
+
+CalculatorScreen.defaultProps = {
+  navigation: {},
 };
 
 export default CalculatorScreen;

@@ -13,7 +13,6 @@ export default function QrCodeModal({ navigation, visible, hideModal }) {
   };
   const [replenish, seTreplenish] = useState('');
   const [send, seTsend] = useState('');
-
   return (
     <Portal>
       <Modal

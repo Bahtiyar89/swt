@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {  View } from 'react-native';
+import { View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import DocumentPicker, {
   DirectoryPickerResponse,
@@ -9,8 +9,9 @@ import DocumentPicker, {
 } from 'react-native-document-picker';
 import RNFS from 'react-native-fs';
 import { useToast } from 'react-native-toast-notifications';
+import PropTypes from 'prop-types';
 
-import I18n from '../../../i18'; 
+import I18n from '../../../i18';
 import styles from './styles';
 import AuthContext from '../../context/auth/AuthContext';
 
@@ -21,14 +22,14 @@ interface IProps {
 const RestoreAccount: React.FC<IProps> = (props: IProps) => {
   const { navigation } = props;
   const authContext = useContext(AuthContext);
-  const {  postRegisterBalanceToCheck } = authContext;
+  const { postRegisterBalanceToCheck } = authContext;
   const toast = useToast();
   //const goBack = () => NavigationService.goBack();
   const [result, setResult] =
     useState<
       Array<DocumentPickerResponse> | DirectoryPickerResponse | undefined | null
     >();
-  const [path, seTpath] = useState(''); 
+  const [path, seTpath] = useState('');
 
   useEffect(() => {
     if (result instanceof Array) {
@@ -56,10 +57,9 @@ const RestoreAccount: React.FC<IProps> = (props: IProps) => {
     }
   };
 
-  
   const readFile = async () => {
-    const file = await RNFS.readFile(path, 'utf8'); 
-   postRegisterBalanceToCheck(JSON.parse(file), navigation); 
+    const file = await RNFS.readFile(path, 'utf8');
+    postRegisterBalanceToCheck(JSON.parse(file), navigation);
   };
 
   return (
@@ -101,6 +101,14 @@ const RestoreAccount: React.FC<IProps> = (props: IProps) => {
       </Button>
     </View>
   );
+};
+
+RestoreAccount.propTypes = {
+  navigation: PropTypes.object,
+};
+
+RestoreAccount.defaultProps = {
+  navigation: {},
 };
 
 export default RestoreAccount;

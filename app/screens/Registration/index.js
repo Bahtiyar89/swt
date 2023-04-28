@@ -13,6 +13,8 @@ import {
   HelperText,
   Checkbox,
 } from 'react-native-paper';
+
+import PropTypes from 'prop-types';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Modal from 'react-native-modal';
 import basex from 'bs58-rn';
@@ -277,4 +279,18 @@ const Registration = props => {
   );
 };
 
+Registration.propTypes = {
+  setVisible: PropTypes.object,
+};
+
+Registration.defaultProps = {
+  setVisible: {},
+};
+Registration.propTypes = {
+  isVisible: PropTypes.object,
+};
+
+Registration.defaultProps = {
+  isVisible: {},
+};
 export default Registration;

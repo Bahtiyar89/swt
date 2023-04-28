@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { View, Text, Image } from 'react-native';
+import PropTypes from 'prop-types';
 
 import AuthContext from '../../context/auth/AuthContext';
 import Login from '../Login';
@@ -22,6 +23,14 @@ const ChatScreen = props => {
       )}
     </>
   );
+};
+
+ChatScreen.propTypes = {
+  navigation: PropTypes.object,
+};
+
+ChatScreen.defaultProps = {
+  navigation: {},
 };
 
 export default ChatScreen;

@@ -12,6 +12,7 @@ import Login from '../Login';
 import styles from './styles';
 import Utility from '../../utils/Utility';
 import I18n from '../../../i18';
+import PropTypes from 'prop-types';
 
 //import * as loginActions from 'app/store/actions/loginActions';
 import ProfileEditModal from './profileEditModal';
@@ -260,6 +261,14 @@ const ProfileScreen: React.FC<IState> = ({ navigation }: IState) => {
       )}
     </>
   );
+};
+
+ProfileScreen.propTypes = {
+  navigation: PropTypes.object,
+};
+
+ProfileScreen.defaultProps = {
+  navigation: {},
 };
 
 export default ProfileScreen;
